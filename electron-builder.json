@@ -1,0 +1,11 @@
+{
+    "extends": null,
+    "appId": "com.example.electron-starter-kit",
+    "directories": {
+        "output": "build"
+    },
+    "files": ["./dist/**/*", "!node_modules/**/*"],
+    "win": {
+        "target": ["zip", "dir"]
+    }
+}
