@@ -1,6 +1,7 @@
 {
     "extends": null,
-    "appId": "com.example.electron-starter-kit",
+    "productName": "NetWorthViewer",
+    "appId": "com.ankursheel.NetWorthViewer",
     "directories": {
         "output": "build"
     },
