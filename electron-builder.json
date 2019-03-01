@@ -5,7 +5,9 @@
     "directories": {
         "output": "build"
     },
-    "files": ["./dist/**/*", "!node_modules/**/*"],
+    "files": [
+        "./dist/**/*"
+    ],
     "win": {
         "target": ["zip", "dir"]
     }

@@ -4,18 +4,43 @@
     "main": "./dist/main.bundle.js",
     "author": "Ankur Sheel <ankur.sheel@gmail.com>",
     "license": "MIT",
+    "description": "A app to view networth changes",
+    "private": true,
+    "repository": "github.com:AnkurSheel/Poseidon.git",
+    "keywords": [
+        "electron",
+        "typescript",
+        "react",
+        "webpack",
+        "sqlite3"
+    ],
+    "scripts": {
+        "start": "electron .",
+        "watch": "webpack --watch --config ./config/webpack.dev.js --progress --colours",
+        "dev": "webpack --config ./config/webpack.dev.js --progress --colours",
+        "prod": "rimraf dist && webpack --config ./config/webpack.prod.js --progress --colours",
+        "build": "yarn prod && electron-builder . --config ./electron-builder.json",
+        "postinstall": "electron-builder install-app-deps ",
+        "publish": "electron-builder --publish"
+    },
+    "build": {
+        "npmRebuild": "true"
+    },
     "dependencies": {
         "react": "^16.8.2",
-        "react-dom": "^16.8.2"
+        "react-dom": "^16.8.2",
+        "sqlite3": "^4.0.6"
     },
     "devDependencies": {
         "@types/react": "^16.8.3",
         "@types/react-dom": "^16.8.2",
+        "@types/sqlite3": "^3.1.4",
         "css-loader": "^2.1.0",
-        "electron": "^4.0.5",
+        "electron": "4.0.3",
         "electron-builder": "^20.38.5",
         "html-webpack-plugin": "^3.2.0",
         "mini-css-extract-plugin": "^0.5.0",
+        "node-gyp": "^3.8.0",
         "node-sass": "^4.11.0",
         "optimize-css-assets-webpack-plugin": "^5.0.1",
         "rimraf": "^2.6.3",
@@ -29,12 +54,5 @@
         "webpack-cli": "^3.2.3",
         "webpack-merge": "^4.2.1",
         "webpack-notifier": "^1.7.0"
-    },
-    "scripts": {
-        "start": "electron .",
-        "watch": "webpack --watch --config ./config/webpack.dev.js --progress --colours",
-        "dev": "rimraf dist && webpack --config ./config/webpack.dev.js --progress --colours",
-        "prod": "rimraf dist && webpack --config ./config/webpack.prod.js --progress --colours",
-        "rebuild": "yarn prod && electron-builder . --config ./electron-builder.json"
     }
 }

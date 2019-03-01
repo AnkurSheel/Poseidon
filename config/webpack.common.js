@@ -27,6 +27,7 @@ let baseMainConfig = {
         ],
     },
     plugins: [new WebpackNotifierPlugin({ title: "Poseidon" })],
+    externals: { sqlite3: "commonjs sqlite3" },
 };
 
 let baseRendererConfig = {
