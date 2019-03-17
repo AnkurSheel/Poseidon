@@ -2,6 +2,16 @@ var HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
 var WebpackNotifierPlugin = require("webpack-notifier");
 
+var fs = require("fs");
+const nodeModules = {};
+fs.readdirSync("node_modules")
+    .filter(x => {
+        return [".bin"].indexOf(x) === -1;
+    })
+    .forEach(mod => {
+        nodeModules[mod] = `commonjs ${mod}`;
+    });
+
 let rootFolder = path.resolve(__dirname, "../");
 
 let baseMainConfig = {
@@ -26,8 +36,9 @@ let baseMainConfig = {
             },
         ],
     },
+    devtool: "source-map",
     plugins: [new WebpackNotifierPlugin({ title: "Poseidon" })],
-    externals: { sqlite3: "commonjs sqlite3" },
+    externals: [nodeModules],
 };
 
 let baseRendererConfig = {

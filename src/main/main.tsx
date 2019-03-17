@@ -1,7 +1,7 @@
 import { app, BrowserWindow } from "electron";
 import * as path from "path";
-import { Database } from "sqlite3";
 import * as url from "url";
+import { Database } from "./database";
 
 let mainWindow: Electron.BrowserWindow;
 
@@ -20,7 +20,8 @@ function createWindow(): void {
         }),
     );
 
-    const db = new Database(path.join(__dirname, "temp.db"));
+    const db = new Database();
+    db.migrateDatabase();
 
     mainWindow.on("closed", () => {
         mainWindow = null;
