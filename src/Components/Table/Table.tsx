@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Details } from "../../renderer/Details";
+import { Details } from "../../types/Details";
 import "./table.scss";
 
 interface IProp {

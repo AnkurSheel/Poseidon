@@ -3,7 +3,7 @@ import * as moment from "moment";
 import * as React from "react";
 import { Table } from "../Components/Table/Table";
 import { Database } from "../main/database";
-import { Details } from "./Details";
+import { Details, Type } from "../types/Details";
 
 export interface IState {
     details: Details[];
