@@ -1,8 +1,8 @@
 var HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
 var WebpackNotifierPlugin = require("webpack-notifier");
-
 var fs = require("fs");
+
 const nodeModules = {};
 fs.readdirSync("node_modules")
     .filter(x => {

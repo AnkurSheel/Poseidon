@@ -5,9 +5,8 @@
     "directories": {
         "output": "build"
     },
-    "files": [
-        "./dist/**/*"
-    ],
+    "files": ["./dist/**/*"],
+    "extraFiles": "migrations/*",
     "win": {
         "target": ["zip", "dir"]
     }
