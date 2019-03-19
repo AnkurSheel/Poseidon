@@ -20,7 +20,7 @@
         "dev": "rimraf dist && webpack --config ./config/webpack.dev.js --progress --colours",
         "prod": "rimraf dist && webpack --config ./config/webpack.prod.js --progress --colours",
         "build": "yarn prod && electron-builder . --config ./electron-builder.json",
-        "updateDeps": "electron-rebuild -f -w sqlite3",
+        "postinstall": "electron-rebuild -f -w sqlite3",
         "publish": "electron-builder --publish"
     },
     "build": {
