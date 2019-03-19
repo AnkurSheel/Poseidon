@@ -78,6 +78,7 @@ let baseRendererConfig = {
         }),
     ],
     devtool: "source-map",
+    externals: [nodeModules],
 };
 
 module.exports = { baseMainConfig, baseRendererConfig };
