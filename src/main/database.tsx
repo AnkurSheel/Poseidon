@@ -2,7 +2,7 @@ const config = require("../../knexfile.js");
 const env = "development";
 import * as knex from "knex";
 import * as moment from "moment";
-import { Details, Type } from "../types/Details";
+import { Details, Type } from "../Components/detailsTable/Details";
 
 export class Database {
     public migrateDatabase(): void {

@@ -5,6 +5,7 @@ export enum Type {
     Asset,
     Debt,
 }
+
 export class Details {
     public id: number;
     public name: string;
