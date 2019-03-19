@@ -13,7 +13,7 @@ export class Table extends React.Component<IProp, {}> {
     }
     public render() {
         if (!this.props.details) {
-            return "";
+            return <div>No data</div>;
         }
         return (
             <table className={this.props.className}>
