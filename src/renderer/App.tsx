@@ -9,12 +9,18 @@ export interface IState {
     details: Details[];
 }
 export class App extends React.Component<{}, IState> {
+    private db: Database;
+
     constructor(props: Readonly<{}>) {
         super(props);
         this.state = { details: null };
+        this.db = new Database();
     }
     public async componentDidMount() {
-        await this.fetchEntries();
+        const details: Details[] = await this.db.getIndividualDetails();
+        await this.getTotals();
+
+        this.setState({ details });
     }
     public render() {
         return (
@@ -23,21 +29,10 @@ export class App extends React.Component<{}, IState> {
             </div>
         );
     }
-    private async fetchEntries() {
-        const db = new Database();
-        const entries: any = await db.getEntries();
-        let i: number = 0;
-        const details: Details[] = entries.map(
-            (e: any): Details => {
-                return {
-                    id: i++,
-                    name: e.name,
-                    date: moment(e.date, "YYYY-MM-DD"),
-                    amount: e.amount,
-                    type: e.type,
-                };
-            },
-        );
-        this.setState({ details });
+    private async getTotals() {
+        const assets: any = await this.db.getTotals(Type.Asset);
+        console.log(assets);
+        const debts: any = await this.db.getTotals(Type.Debt);
+        console.log(debts);
     }
 }
