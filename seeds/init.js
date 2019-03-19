@@ -21,7 +21,7 @@ exports.seed = function(knex, Promise) {
                     date: "2019-03-01",
                     name: "Credit Card",
                     type: "Debt",
-                    amount: 200,
+                    amount: -200,
                 },
                 {
                     date: "2019-04-01",
@@ -39,7 +39,7 @@ exports.seed = function(knex, Promise) {
                     date: "2019-04-01",
                     name: "Credit Card",
                     type: "Debt",
-                    amount: 100,
+                    amount: -100,
                 },
             ]);
         });
