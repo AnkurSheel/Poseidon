@@ -10,6 +10,7 @@ module.exports = {
             directory: "./seeds",
         },
         useNullAsDefault: true,
+        debug: true,
     },
 
     staging: {
