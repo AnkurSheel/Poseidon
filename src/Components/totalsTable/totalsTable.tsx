@@ -1,33 +1,33 @@
 import * as React from "react";
 import { Database } from "../../main/database";
 import "../table.scss";
-import { Details } from "./Details";
+import { Totals } from "./totals";
 
-interface IDetailsTableProp {}
+interface ITotalTableProp {}
 
-interface IDetailsTableState {
-    details: Details[];
+interface ITotalTableState {
+    totals: Totals[];
 }
 
-export class DetailsTable extends React.Component<
-    IDetailsTableProp,
-    IDetailsTableState
+export class TotalsTable extends React.Component<
+    ITotalTableProp,
+    ITotalTableState
 > {
     private db: Database;
 
-    constructor(props: IDetailsTableProp) {
+    constructor(props: ITotalTableProp) {
         super(props);
-        this.state = { details: null };
+        this.state = { totals: null };
         this.db = new Database();
     }
 
     public async componentDidMount() {
-        const details: Details[] = await this.db.getIndividualDetails();
-        this.setState({ details });
+        const totals: Totals[] = await this.db.getTotals();
+        this.setState({ totals });
     }
 
     public render() {
-        if (!this.state.details) {
+        if (!this.state.totals) {
             return <div>No data</div>;
         }
         return (
@@ -35,18 +35,18 @@ export class DetailsTable extends React.Component<
                 <thead>
                     <tr>
                         <th>Date</th>
-                        <th>Name</th>
-                        <th>Amount</th>
-                        <th>Type</th>
+                        <th>Asset</th>
+                        <th>Debt</th>
+                        <th>Total</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {this.state.details.map(d => (
+                    {this.state.totals.map(d => (
                         <tr key={d.id}>
                             <td>{d.date.format("MMM YYYY")}</td>
-                            <td>{d.name}</td>
-                            <td>{d.amount}</td>
-                            <td>{d.type}</td>
+                            <td>{d.asset}</td>
+                            <td>{d.debt}</td>
+                            <td>{d.total}</td>
                         </tr>
                     ))}
                 </tbody>

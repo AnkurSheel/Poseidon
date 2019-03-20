@@ -3,6 +3,7 @@ const env = "development";
 import * as knex from "knex";
 import * as moment from "moment";
 import { Details, Type } from "../Components/detailsTable/Details";
+import { Totals } from "../Components/totalsTable/totals";
 
 export class Database {
     public migrateDatabase(): void {
@@ -24,7 +25,7 @@ export class Database {
                 return {
                     id: i++,
                     name: e.name,
-                    date: moment(e.date, "YYYY-MM-DD"),
+                    date: moment(e.date, "YYYY-MM"),
                     amount: e.amount,
                     type: e.type,
                 };
@@ -32,14 +33,46 @@ export class Database {
         );
     }
 
-    public getTotals(type: Type): any {
+    public async getTotals(): Promise<Totals[]> {
         const client = knex(config[env]);
-        return client
-            .from("networth")
-            .select("date")
-            .groupBy("date")
+
+        const assetsSubquery = client
             .sum("amount")
-            .where({ type: Type[type] })
+            .from("networth as B")
+            .where({ type: "Asset" })
+            .whereRaw("?? = ??", ["A.date", "B.date"])
+            .as("assets");
+
+        const debtsSubquery = client
+            .sum("amount")
+            .from("networth as B")
+            .where({ type: "Debt" })
+            .whereRaw("?? = ??", ["A.date", "B.date"])
+            .as("debts");
+
+        const totalsSubquery = client
+            .sum("amount")
+            .from("networth as B")
+            .whereRaw("?? = ??", ["A.date", "B.date"])
+            .as("totals");
+
+        const assets = await client
+            .select("date", assetsSubquery, debtsSubquery, totalsSubquery)
+            .from("networth as A")
+            .groupBy("date")
             .orderBy("date", "desc");
+
+        let i: number = 0;
+        return assets.map(
+            (e: any): Totals => {
+                return {
+                    id: i++,
+                    date: moment(e.date, "YYYY-MM"),
+                    asset: e.assets,
+                    debt: e.debts,
+                    total: e.totals,
+                };
+            },
+        );
     }
 }

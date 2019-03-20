@@ -1,7 +1,8 @@
 import * as React from "react";
-import { Route } from "react-router";
+import { Route, Switch } from "react-router";
 import { Link } from "react-router-dom";
 import { DetailsTable } from "../Components/detailsTable/detailsTable";
+import { TotalsTable } from "../Components/totalsTable/totalsTable";
 
 export class Routes extends React.Component {
     public render() {
@@ -9,10 +10,16 @@ export class Routes extends React.Component {
             <div>
                 <ul>
                     <li>
-                        <Link to="/">Table</Link>
+                        <Link to="/">Total Details</Link>
+                    </li>
+                    <li>
+                        <Link to="/details">Individual Details</Link>
                     </li>
                 </ul>
-                <Route path="/" component={DetailsTable} />
+                <Switch>
+                    <Route exact path="/" component={TotalsTable} />
+                    <Route path="/details" component={DetailsTable} />
+                </Switch>
             </div>
         );
     }
