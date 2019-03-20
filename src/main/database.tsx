@@ -36,25 +36,37 @@ export class Database {
     public async getTotals(): Promise<Totals[]> {
         const client = knex(config[env]);
 
-        const assetsSubquery = client
-            .sum("amount")
-            .from("networth as B")
-            .where({ type: "Asset" })
-            .whereRaw("?? = ??", ["A.date", "B.date"])
-            .as("assets");
+        const filterByType = (type: Type) => {
+            return (query: knex.QueryBuilder) =>
+                query.where({ type: `${Type[type]}` });
+        };
 
-        const debtsSubquery = client
-            .sum("amount")
-            .from("networth as B")
-            .where({ type: "Debt" })
-            .whereRaw("?? = ??", ["A.date", "B.date"])
-            .as("debts");
+        const filterByDate = () => {
+            return (query: knex.QueryBuilder) =>
+                query.whereRaw("?? = ??", ["A.date", "B.date"]);
+        };
 
-        const totalsSubquery = client
-            .sum("amount")
-            .from("networth as B")
-            .whereRaw("?? = ??", ["A.date", "B.date"])
-            .as("totals");
+        const applyAssetFilter = filterByType(Type.Asset);
+        const applyDebtFilter = filterByType(Type.Debt);
+
+        const applyDateFilter = filterByDate();
+
+        const baseQuery = (as: string) => {
+            return client
+                .sum("amount")
+                .from("networth as B")
+                .as(`${as}`);
+        };
+
+        const assetsSubquery = applyDateFilter(
+            applyAssetFilter(baseQuery("assets")),
+        );
+
+        const debtsSubquery = applyDateFilter(
+            applyDebtFilter(baseQuery("debts")),
+        );
+
+        const totalsSubquery = applyDateFilter(baseQuery("totals"));
 
         const assets = await client
             .select("date", assetsSubquery, debtsSubquery, totalsSubquery)
