@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import { BrowserRouter as Router, Link, Route } from "react-router-dom";
+import { HashRouter as Router, Link, Route } from "react-router-dom";
 import { Routes } from "./routes";
 import "./style.scss";
 
