@@ -9,10 +9,7 @@ interface IDetailsTableState {
     details: Details[];
 }
 
-export class DetailsTable extends React.Component<
-    IDetailsTableProp,
-    IDetailsTableState
-> {
+export class DetailsTable extends React.Component<IDetailsTableProp, IDetailsTableState> {
     private db: Database;
 
     constructor(props: IDetailsTableProp) {

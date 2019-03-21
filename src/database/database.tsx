@@ -49,13 +49,9 @@ export class Database {
                 .as(`${alias}`);
         };
 
-        const assetsSubquery = this.dbHelper.filterByDate(
-            this.dbHelper.filterByType(baseQuery("assets"), Type.Asset),
-        );
+        const assetsSubquery = this.dbHelper.filterByDate(this.dbHelper.filterByType(baseQuery("assets"), Type.Asset));
 
-        const debtsSubquery = this.dbHelper.filterByDate(
-            this.dbHelper.filterByType(baseQuery("debts"), Type.Debt),
-        );
+        const debtsSubquery = this.dbHelper.filterByDate(this.dbHelper.filterByType(baseQuery("debts"), Type.Debt));
 
         const totalsSubquery = this.dbHelper.filterByDate(baseQuery("totals"));
 

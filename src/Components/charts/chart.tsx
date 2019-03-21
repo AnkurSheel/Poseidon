@@ -27,6 +27,7 @@ export class Chart extends React.Component<IChartProp, IChartState> {
         if (!this.state.totals) {
             return <div>No data</div>;
         }
+
         const data = this.state.totals
             .map(t => {
                 return {

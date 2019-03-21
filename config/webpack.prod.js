@@ -28,7 +28,4 @@ let rendererConfig = {
     ],
 };
 
-module.exports = [
-    merge.smart(mainConfig, baseMainConfig),
-    merge.smart(rendererConfig, baseRendererConfig),
-];
+module.exports = [merge.smart(mainConfig, baseMainConfig), merge.smart(rendererConfig, baseRendererConfig)];

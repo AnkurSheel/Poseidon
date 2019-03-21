@@ -9,10 +9,7 @@ interface IMonthlyTableState {
     totals: Totals[];
 }
 
-export class MonthlyTable extends React.Component<
-    IMonthlyTableProp,
-    IMonthlyTableState
-> {
+export class MonthlyTable extends React.Component<IMonthlyTableProp, IMonthlyTableState> {
     private db: Database;
 
     constructor(props: IMonthlyTableProp) {
