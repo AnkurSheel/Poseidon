@@ -26,7 +26,7 @@ export class Database {
                     id: i++,
                     name: e.name,
                     date: moment(e.date, "YYYY-MM"),
-                    amount: e.amount,
+                    amount: e.amount.toFixed(2),
                     type: e.type,
                 };
             },
@@ -80,9 +80,9 @@ export class Database {
                 return {
                     id: i++,
                     date: moment(e.date, "YYYY-MM"),
-                    asset: e.assets,
-                    debt: e.debts,
-                    total: e.totals,
+                    asset: e.assets.toFixed(2),
+                    debt: e.debts.toFixed(2),
+                    total: e.totals.toFixed(2),
                 };
             },
         );
