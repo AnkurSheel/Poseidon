@@ -2,7 +2,7 @@ import * as React from "react";
 import { Route, Switch } from "react-router";
 import { Link } from "react-router-dom";
 import { DetailsTable } from "../Components/detailsTable/detailsTable";
-import { TotalsTable } from "../Components/totalsTable/totalsTable";
+import { MonthlyTable } from "../Components/monthlyTable/monthlyTable";
 
 export class Routes extends React.Component {
     public render() {
@@ -17,7 +17,7 @@ export class Routes extends React.Component {
                     </li>
                 </ul>
                 <Switch>
-                    <Route exact path="/" component={TotalsTable} />
+                    <Route exact path="/" component={MonthlyTable} />
                     <Route path="/details" component={DetailsTable} />
                 </Switch>
             </div>

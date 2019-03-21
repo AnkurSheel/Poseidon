@@ -3,9 +3,15 @@ const env = "development";
 import * as knex from "knex";
 import * as moment from "moment";
 import { Details, Type } from "../Components/detailsTable/Details";
-import { Totals } from "../Components/totalsTable/totals";
+import { Totals } from "../Components/monthlyTable/totals";
+import { DatabaseHelpers } from "./helpers";
 
 export class Database {
+    public dbHelper: DatabaseHelpers;
+    constructor() {
+        this.dbHelper = new DatabaseHelpers();
+    }
+
     public migrateDatabase(): void {
         const client = knex(config[env]);
         client.migrate.latest(config);
@@ -36,37 +42,22 @@ export class Database {
     public async getTotals(): Promise<Totals[]> {
         const client = knex(config[env]);
 
-        const filterByType = (type: Type) => {
-            return (query: knex.QueryBuilder) =>
-                query.where({ type: `${Type[type]}` });
-        };
-
-        const filterByDate = () => {
-            return (query: knex.QueryBuilder) =>
-                query.whereRaw("?? = ??", ["A.date", "B.date"]);
-        };
-
-        const applyAssetFilter = filterByType(Type.Asset);
-        const applyDebtFilter = filterByType(Type.Debt);
-
-        const applyDateFilter = filterByDate();
-
-        const baseQuery = (as: string) => {
+        const baseQuery = (alias: string) => {
             return client
                 .sum("amount")
                 .from("networth as B")
-                .as(`${as}`);
+                .as(`${alias}`);
         };
 
-        const assetsSubquery = applyDateFilter(
-            applyAssetFilter(baseQuery("assets")),
+        const assetsSubquery = this.dbHelper.filterByDate(
+            this.dbHelper.filterByType(baseQuery("assets"), Type.Asset),
         );
 
-        const debtsSubquery = applyDateFilter(
-            applyDebtFilter(baseQuery("debts")),
+        const debtsSubquery = this.dbHelper.filterByDate(
+            this.dbHelper.filterByType(baseQuery("debts"), Type.Debt),
         );
 
-        const totalsSubquery = applyDateFilter(baseQuery("totals"));
+        const totalsSubquery = this.dbHelper.filterByDate(baseQuery("totals"));
 
         const assets = await client
             .select("date", assetsSubquery, debtsSubquery, totalsSubquery)
@@ -80,8 +71,8 @@ export class Database {
                 return {
                     id: i++,
                     date: moment(e.date, "YYYY-MM"),
-                    asset: e.assets.toFixed(2),
-                    debt: e.debts.toFixed(2),
+                    asset: e.assets ? e.assets.toFixed(2) : 0,
+                    debt: e.debts ? e.debts.toFixed(2) : 0,
                     total: e.totals.toFixed(2),
                 };
             },

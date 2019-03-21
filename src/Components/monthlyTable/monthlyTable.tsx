@@ -1,21 +1,21 @@
 import * as React from "react";
-import { Database } from "../../main/database";
+import { Database } from "../../database/database";
 import "../table.scss";
 import { Totals } from "./totals";
 
-interface ITotalTableProp {}
+interface IMonthlyTableProp {}
 
-interface ITotalTableState {
+interface IMonthlyTableState {
     totals: Totals[];
 }
 
-export class TotalsTable extends React.Component<
-    ITotalTableProp,
-    ITotalTableState
+export class MonthlyTable extends React.Component<
+    IMonthlyTableProp,
+    IMonthlyTableState
 > {
     private db: Database;
 
-    constructor(props: ITotalTableProp) {
+    constructor(props: IMonthlyTableProp) {
         super(props);
         this.state = { totals: null };
         this.db = new Database();

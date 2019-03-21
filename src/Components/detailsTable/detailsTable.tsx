@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Database } from "../../main/database";
+import { Database } from "../../database/database";
 import "../table.scss";
 import { Details } from "./Details";
 

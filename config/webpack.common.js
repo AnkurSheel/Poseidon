@@ -15,7 +15,7 @@ fs.readdirSync("node_modules")
 let rootFolder = path.resolve(__dirname, "../");
 
 let baseMainConfig = {
-    entry: path.resolve(rootFolder, "src/main/main.tsx"),
+    entry: path.resolve(rootFolder, "src/main.tsx"),
     target: "electron-main",
     output: {
         filename: "main.bundle.js",
@@ -42,7 +42,7 @@ let baseMainConfig = {
 };
 
 let baseRendererConfig = {
-    entry: path.resolve(rootFolder, "src/renderer/renderer.tsx"),
+    entry: path.resolve(rootFolder, "src/index.tsx"),
     target: "electron-renderer",
     output: {
         filename: "renderer.bundle.js",
@@ -74,7 +74,7 @@ let baseRendererConfig = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: path.resolve(rootFolder, "src/renderer/index.html"),
+            template: path.resolve(rootFolder, "src/index.html"),
         }),
     ],
     devtool: "source-map",
