@@ -1,19 +1,22 @@
 import * as React from "react";
 import { Route, Switch } from "react-router";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { DetailsTable } from "../Components/detailsTable/detailsTable";
 import { MonthlyTable } from "../Components/monthlyTable/monthlyTable";
+import "./routes.scss";
 
 export class Routes extends React.Component {
     public render() {
         return (
             <div>
-                <ul>
+                <ul className="header">
                     <li>
-                        <Link to="/">Total Details</Link>
+                        <NavLink exact to="/">
+                            Total Details
+                        </NavLink>
                     </li>
                     <li>
-                        <Link to="/details">Individual Details</Link>
+                        <NavLink to="/details">Individual Details</NavLink>
                     </li>
                 </ul>
                 <Switch>
@@ -23,11 +26,4 @@ export class Routes extends React.Component {
             </div>
         );
     }
-
-    // private async getTotals() {
-    //     const assets: any = await this.db.getTotals(Type.Asset);
-    //     console.log(assets);
-    //     const debts: any = await this.db.getTotals(Type.Debt);
-    //     console.log(debts);
-    // }
 }
