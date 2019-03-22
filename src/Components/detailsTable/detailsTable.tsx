@@ -1,6 +1,7 @@
 import * as React from "react";
+import ReactTable from "react-table";
+import "react-table/react-table.css";
 import { Database } from "../../database/database";
-import "../table.scss";
 import { Details } from "./Details";
 
 interface IDetailsTableProp {}
@@ -27,27 +28,38 @@ export class DetailsTable extends React.Component<IDetailsTableProp, IDetailsTab
         if (!this.state.details) {
             return <div>No data</div>;
         }
+        const data = this.state.details.map(d => {
+            return {
+                date: d.date.format("MMM YYYY"),
+                name: d.name,
+                type: d.type,
+                amount: d.amount,
+            };
+        });
+
+        console.log(data);
+        const columns = [
+            {
+                Header: "Date",
+                accessor: "date",
+            },
+            {
+                Header: "Name",
+                accessor: "name",
+            },
+            {
+                Header: "Amount",
+                accessor: "amount",
+            },
+            {
+                Header: "Type",
+                accessor: "type",
+            },
+        ];
         return (
-            <table className="m-table">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Name</th>
-                        <th>Amount</th>
-                        <th>Type</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {this.state.details.map(d => (
-                        <tr key={d.id}>
-                            <td>{d.date.format("MMM YYYY")}</td>
-                            <td>{d.name}</td>
-                            <td>{d.amount}</td>
-                            <td>{d.type}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+            <div>
+                <ReactTable data={data} columns={columns} />
+            </div>
         );
     }
 }

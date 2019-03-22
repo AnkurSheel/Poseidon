@@ -1,6 +1,7 @@
 import * as React from "react";
+import ReactTable from "react-table";
+import "react-table/react-table.css";
 import { Database } from "../../database/database";
-import "../table.scss";
 import { Totals } from "./totals";
 
 interface IMonthlyTableProp {}
@@ -27,27 +28,37 @@ export class MonthlyTable extends React.Component<IMonthlyTableProp, IMonthlyTab
         if (!this.state.totals) {
             return <div>No data</div>;
         }
+        const data = this.state.totals.map(t => {
+            return {
+                date: t.date.format("MMM YYYY"),
+                asset: t.asset,
+                debt: t.debt,
+                total: t.total,
+            };
+        });
+
+        const columns = [
+            {
+                Header: "Date",
+                accessor: "date",
+            },
+            {
+                Header: "Asset",
+                accessor: "asset",
+            },
+            {
+                Header: "Debt",
+                accessor: "debt",
+            },
+            {
+                Header: "Net Worth",
+                accessor: "total",
+            },
+        ];
         return (
-            <table className="m-table">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Asset</th>
-                        <th>Debt</th>
-                        <th>Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {this.state.totals.map(d => (
-                        <tr key={d.id}>
-                            <td>{d.date.format("MMM YYYY")}</td>
-                            <td>{d.asset}</td>
-                            <td>{d.debt}</td>
-                            <td>{d.total}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+            <div>
+                <ReactTable data={data} columns={columns} />
+            </div>
         );
     }
 }
