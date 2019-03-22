@@ -2,9 +2,9 @@ const config = require("../../knexfile.js");
 const env = "development";
 import * as knex from "knex";
 import * as moment from "moment";
-import { Details, Type } from "../Components/detailsTable/Details";
-import { Totals } from "../Components/monthlyTable/totals";
-import { DatabaseHelpers } from "./helpers";
+import { Details, Type } from "../types/details";
+import { Totals } from "../types/totals";
+import { DatabaseHelpers } from "./database-helpers";
 
 export class Database {
     public dbHelper: DatabaseHelpers;

@@ -1,5 +1,5 @@
 import * as knex from "knex";
-import { Type } from "../Components/detailsTable/Details";
+import { Type } from "../types/details";
 
 export class DatabaseHelpers {
     public filterByType = (query: knex.QueryBuilder, type: Type) => {

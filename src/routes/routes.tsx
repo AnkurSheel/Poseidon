@@ -1,9 +1,9 @@
 import * as React from "react";
 import { Route, Switch } from "react-router";
 import { NavLink } from "react-router-dom";
-import { Chart } from "../Components/charts/chart";
-import { DetailsTable } from "../Components/detailsTable/detailsTable";
-import { MonthlyTable } from "../Components/monthlyTable/monthlyTable";
+import { IndividualDetailsMain } from "../pages/individual-details/individual-details-main";
+import { MonthlyChartMain } from "../pages/monthly-chart/monthly-chart-main";
+import { MonthlyDetailsMain } from "../pages/monthly-details/monthly-details-main";
 import "./routes.scss";
 
 export class Routes extends React.Component {
@@ -24,9 +24,9 @@ export class Routes extends React.Component {
                     </li>
                 </ul>
                 <Switch>
-                    <Route exact path="/" component={Chart} />
-                    <Route path="/monthly" component={MonthlyTable} />
-                    <Route path="/details" component={DetailsTable} />
+                    <Route exact path="/" component={MonthlyChartMain} />
+                    <Route path="/monthly" component={MonthlyDetailsMain} />
+                    <Route path="/details" component={IndividualDetailsMain} />
                 </Switch>
             </div>
         );

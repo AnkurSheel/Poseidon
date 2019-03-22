@@ -2,7 +2,7 @@ import { app, BrowserWindow } from "electron";
 import { ipcMain } from "electron";
 import * as path from "path";
 import * as url from "url";
-import { Database } from "./database/database";
+import { Database } from "./shared/database";
 
 let mainWindow: Electron.BrowserWindow;
 

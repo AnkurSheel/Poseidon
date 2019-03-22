@@ -1,19 +1,19 @@
 import * as React from "react";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
-import { Database } from "../../database/database";
-import { Details } from "./Details";
+import { Details } from "../../types/details";
+import { Database } from "../../shared/database";
 
-interface IDetailsTableProp {}
+interface IIndividualDetailsMainProp {}
 
-interface IDetailsTableState {
+interface IIndividualDetailsMainState {
     details: Details[];
 }
 
-export class DetailsTable extends React.Component<IDetailsTableProp, IDetailsTableState> {
+export class IndividualDetailsMain extends React.Component<IIndividualDetailsMainProp, IIndividualDetailsMainState> {
     private db: Database;
 
-    constructor(props: IDetailsTableProp) {
+    constructor(props: IIndividualDetailsMainProp) {
         super(props);
         this.state = { details: null };
         this.db = new Database();

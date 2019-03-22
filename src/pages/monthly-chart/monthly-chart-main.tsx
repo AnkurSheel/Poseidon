@@ -1,18 +1,18 @@
 import * as React from "react";
 import { Bar, CartesianGrid, ComposedChart, Legend, Line, Tooltip, XAxis, YAxis } from "recharts";
-import { Database } from "../../database/database";
-import { Totals } from "../monthlyTable/totals";
+import { Database } from "../../shared/database";
+import { Totals } from "../../types/totals";
 
-interface IChartProp {}
+interface IMonthlyChartMainProps {}
 
-interface IChartState {
+interface IMonthlyChartMainState {
     totals: Totals[];
 }
 
-export class Chart extends React.Component<IChartProp, IChartState> {
+export class MonthlyChartMain extends React.Component<IMonthlyChartMainProps, IMonthlyChartMainState> {
     private db: Database;
 
-    constructor(props: IChartProp) {
+    constructor(props: IMonthlyChartMainProps) {
         super(props);
         this.state = { totals: null };
         this.db = new Database();
