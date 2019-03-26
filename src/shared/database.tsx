@@ -39,7 +39,7 @@ export class Database {
         );
     }
 
-    public async getTotals(): Promise<Totals[]> {
+    public async getMonthlyTotals(): Promise<Totals[]> {
         const client = knex(config[env]);
 
         const baseQuery = (alias: string) => {
@@ -67,6 +67,42 @@ export class Database {
                 return {
                     id: i++,
                     date: moment(e.date, "YYYY-MM"),
+                    asset: e.assets ? e.assets.toFixed(2) : 0,
+                    debt: e.debts ? e.debts.toFixed(2) : 0,
+                    total: e.totals.toFixed(2),
+                };
+            },
+        );
+    }
+
+    public async getYearlyTotals(): Promise<Totals[]> {
+        const client = knex(config[env]);
+
+        const baseQuery = (alias: string) => {
+            return client
+                .sum("amount")
+                .from("networth as B")
+                .as(`${alias}`);
+        };
+
+        const assetsSubquery = this.dbHelper.filterByYear(this.dbHelper.filterByType(baseQuery("assets"), Type.Asset));
+
+        const debtsSubquery = this.dbHelper.filterByYear(this.dbHelper.filterByType(baseQuery("debts"), Type.Debt));
+
+        const totalsSubquery = this.dbHelper.filterByYear(baseQuery("totals"));
+
+        const assets = await client
+            .select(client.raw("strftime('%Y',??) as year", "A.date"), assetsSubquery, debtsSubquery, totalsSubquery)
+            .from("networth as A")
+            .groupBy("year")
+            .orderBy("year", "desc");
+
+        let i: number = 0;
+        return assets.map(
+            (e: any): Totals => {
+                return {
+                    id: i++,
+                    date: moment(`${e.year}-01-01`),
                     asset: e.assets ? e.assets.toFixed(2) : 0,
                     debt: e.debts ? e.debts.toFixed(2) : 0,
                     total: e.totals.toFixed(2),

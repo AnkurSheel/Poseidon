@@ -4,23 +4,24 @@ import "react-table/react-table.css";
 import { Database } from "../../shared/database";
 import { Totals } from "../../types/totals";
 
-interface IMonthlyDetailsMainProps {}
+interface IYearlyDetailsMainProps {}
 
-interface IMonthlyDetailsMainState {
+interface IYearlyDetailsMainState {
     totals: Totals[];
 }
 
-export class MonthlyDetailsMain extends React.Component<IMonthlyDetailsMainProps, IMonthlyDetailsMainState> {
+export class YearlyDetailsMain extends React.Component<IYearlyDetailsMainProps, IYearlyDetailsMainState> {
     private db: Database;
 
-    constructor(props: IMonthlyDetailsMainProps) {
+    constructor(props: IYearlyDetailsMainProps) {
         super(props);
         this.state = { totals: null };
         this.db = new Database();
     }
 
     public async componentDidMount() {
-        const totals: Totals[] = await this.db.getMonthlyTotals();
+        const totals: Totals[] = await this.db.getYearlyTotals();
+        console.log(totals);
         this.setState({ totals });
     }
 
@@ -30,7 +31,7 @@ export class MonthlyDetailsMain extends React.Component<IMonthlyDetailsMainProps
         }
         const data = this.state.totals.map(t => {
             return {
-                date: t.date.format("MMM YYYY"),
+                date: t.date.format("YYYY"),
                 asset: t.asset,
                 debt: t.debt,
                 total: t.total,

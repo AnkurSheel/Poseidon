@@ -3,23 +3,23 @@ import { Bar, CartesianGrid, ComposedChart, Legend, Line, Tooltip, XAxis, YAxis 
 import { Database } from "../../shared/database";
 import { Totals } from "../../types/totals";
 
-interface IMonthlyChartMainProps {}
+interface IYearlyChartMainProps {}
 
-interface IMonthlyChartMainState {
+interface IYearlyChartMainState {
     totals: Totals[];
 }
 
-export class MonthlyChartMain extends React.Component<IMonthlyChartMainProps, IMonthlyChartMainState> {
+export class YearlyChartMain extends React.Component<IYearlyChartMainProps, IYearlyChartMainState> {
     private db: Database;
 
-    constructor(props: IMonthlyChartMainProps) {
+    constructor(props: IYearlyChartMainProps) {
         super(props);
         this.state = { totals: null };
         this.db = new Database();
     }
 
     public async componentDidMount() {
-        const totals: Totals[] = await this.db.getMonthlyTotals();
+        const totals: Totals[] = await this.db.getYearlyTotals();
         this.setState({ totals });
     }
 
@@ -31,7 +31,7 @@ export class MonthlyChartMain extends React.Component<IMonthlyChartMainProps, IM
         const data = this.state.totals
             .map(t => {
                 return {
-                    name: t.date.format("MMM YYYY"),
+                    name: t.date.format("YYYY"),
                     total: t.total,
                     asset: t.asset,
                     debt: -t.debt,
@@ -43,7 +43,7 @@ export class MonthlyChartMain extends React.Component<IMonthlyChartMainProps, IM
                 <XAxis
                     dataKey="name"
                     label={{
-                        value: "Months",
+                        value: "Year",
                         position: "insideBottom",
                         offset: 0,
                     }}
