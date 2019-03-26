@@ -2,14 +2,15 @@
     "extends": null,
     "productName": "Newt",
     "appId": "com.ankursheel.Newt",
-    "category": "public.app-category.finance",
     "directories": {
-        "output": "build"
+        "output": "build",
+        "buildResources": "assets"
     },
     "files": ["./dist/**/*"],
     "extraFiles": "migrations/*",
     "win": {
         "target": ["zip", "dir", "nsis"],
-        "publish": ["github"]
+        "publish": ["github"],
+        "icon": "assets/icon.ico"
     }
 }
