@@ -8,6 +8,7 @@
     "files": ["./dist/**/*"],
     "extraFiles": "migrations/*",
     "win": {
-        "target": ["zip", "dir"]
+        "target": ["zip", "dir", "nsis"],
+        "publish": ["github"]
     }
 }

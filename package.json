@@ -6,7 +6,10 @@
     "license": "MIT",
     "description": "A app to view networth changes",
     "private": true,
-    "repository": "github.com:AnkurSheel/Poseidon.git",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/AnkurSheel/Poseidon.git"
+    },
     "keywords": [
         "electron",
         "typescript",
@@ -18,10 +21,10 @@
         "start": "electron .",
         "watch": "webpack-dev-server --config ./config/webpack.dev.js --progress --colours",
         "dev": "rimraf dist && webpack --config ./config/webpack.dev.js --progress --colours",
-        "prod": "rimraf dist && webpack --config ./config/webpack.prod.js --progress --colours",
+        "prod": "rimraf dist && webpack --config ./config/webpack.prod.js",
         "build": "yarn prod && electron-builder . --config ./electron-builder.json",
         "postinstall": "electron-rebuild -f -w sqlite3",
-        "publish": "electron-builder --publish"
+        "publish": "yarn prod &&  electron-builder . --config ./electron-builder.json --publish always"
     },
     "build": {
         "npmRebuild": "true"
