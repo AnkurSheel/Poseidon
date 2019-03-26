@@ -1,7 +1,8 @@
 {
     "extends": null,
-    "productName": "NetWorthViewer",
-    "appId": "com.ankursheel.NetWorthViewer",
+    "productName": "Newt",
+    "appId": "com.ankursheel.Newt",
+    "category": "public.app-category.finance",
     "directories": {
         "output": "build"
     },
