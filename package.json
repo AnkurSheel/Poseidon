@@ -1,6 +1,6 @@
 {
-    "name": "electron-starter-kit",
     "version": "1.0.0",
+    "name": "Newt",
     "main": "./dist/main.bundle.js",
     "author": "Ankur Sheel <ankur.sheel@gmail.com>",
     "license": "MIT",
