@@ -1,0 +1,41 @@
+sudo: required
+dist: trusty
+
+language: c
+
+matrix:
+    include:
+        - os: osx
+        - os: linux
+          env: CC=clang CXX=clang++ npm_config_clang=1
+          compiler: clang
+
+node_js:
+    - "lts/*"
+
+cache:
+    yarn: true
+    directories:
+        - node_modules
+
+addons:
+    apt:
+        packages:
+            - icnsutils
+            - libgnome-keyring-dev
+
+install:
+    - yarn install
+    - export DISPLAY=':99.0'
+    - Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+
+before_script:
+    - export DISPLAY=:99.0
+    - sh -e /etc/init.d/xvfb start &
+    - sleep 3
+
+script:
+    - yarn config set version-tag-prefix "v"
+    - yarn config set version-git-tag false
+    - yarn version --new-version %APPVEYOR_BUILD_VERSION%
+    - yarn run publish

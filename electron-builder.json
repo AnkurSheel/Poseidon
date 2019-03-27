@@ -8,9 +8,26 @@
     },
     "files": ["./dist/**/*"],
     "extraFiles": "migrations/*",
+    "dmg": {
+        "contents": [
+            {
+                "x": 130,
+                "y": 220
+            },
+            {
+                "x": 410,
+                "y": 220,
+                "type": "link",
+                "path": "/Applications"
+            }
+        ]
+    },
     "win": {
         "target": ["zip", "dir", "nsis"],
         "publish": ["github"],
         "icon": "assets/icon.ico"
+    },
+    "linux": {
+        "target": ["AppImage", "deb"]
     }
 }
