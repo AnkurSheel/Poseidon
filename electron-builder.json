@@ -24,10 +24,10 @@
     },
     "win": {
         "target": ["zip", "dir", "nsis"],
-        "publish": ["github"],
-        "icon": "assets/icon.ico"
+        "icon": "assets/icon.png"
     },
     "linux": {
-        "target": ["AppImage", "deb"]
+        "target": ["AppImage", "deb", "zip"],
+        "icon": "assets/icon.png"
     }
 }
