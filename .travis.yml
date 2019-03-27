@@ -44,5 +44,5 @@ before_script:
 script:
     - yarn config set version-tag-prefix "v"
     - yarn config set version-git-tag false
-    - yarn version --new-version %APPVEYOR_BUILD_VERSION%
+    - yarn version --new-version %TRAVIS_BUILD_NUMBER%
     - yarn run publish
