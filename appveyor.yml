@@ -1,0 +1,30 @@
+version: 0.0.{build}
+
+branches:
+    only:
+        - master
+
+platform:
+    - x64
+
+cache:
+    - "%LOCALAPPDATA%/Yarn"
+    - node_modules
+
+environment:
+    GH_TOKEN:
+        secure: oz6oGG3Y/G1wrP7BzJBwFL1aFarF59qE1NgFVv3OqRJ0P+p12mgFB2Pd0ScgPtbB
+
+init:
+    - git config --global core.autocrlf input
+
+install:
+    - yarn install
+
+build_script:
+    - yarn config set version-tag-prefix "v"
+    - yarn config set version-git-tag false
+    - yarn version --new-version %APPVEYOR_BUILD_VERSION%
+    - yarn run publish
+
+test: off

@@ -1,13 +1,33 @@
 {
     "extends": null,
-    "productName": "NetWorthViewer",
-    "appId": "com.ankursheel.NetWorthViewer",
+    "productName": "Newt",
+    "appId": "com.ankursheel.Newt",
     "directories": {
-        "output": "build"
+        "output": "build",
+        "buildResources": "assets"
     },
     "files": ["./dist/**/*"],
     "extraFiles": "migrations/*",
+    "dmg": {
+        "contents": [
+            {
+                "x": 130,
+                "y": 220
+            },
+            {
+                "x": 410,
+                "y": 220,
+                "type": "link",
+                "path": "/Applications"
+            }
+        ]
+    },
     "win": {
-        "target": ["zip", "dir"]
+        "target": ["zip", "dir", "nsis"],
+        "icon": "assets/icon.png"
+    },
+    "linux": {
+        "target": ["AppImage", "deb", "zip"],
+        "icon": "assets/icon.png"
     }
 }
