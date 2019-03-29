@@ -8,6 +8,7 @@
     },
     "files": ["./dist/**/*"],
     "extraFiles": "migrations/*",
+    "artifactName": "${productName}-${os}.${ext}",
     "mac": {
         "target": ["zip"],
         "icon": "assets/icon.png"
