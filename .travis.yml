@@ -29,8 +29,8 @@ script:
 
 jobs:
     include:
-        - stage: test
-          name: "Build Mac And Windows"
+        - stage: Build
+          name: "Build"
           script:
               - yarn run buildNoPublish --mac --win --linux
           before_cache:
@@ -41,6 +41,7 @@ jobs:
               - rm -rf build/linux-unpacked
         - stage: Release to Github
           name: Release to Github
+          if: branch = master and type != pull_request
           script:
               - yarn run semantic-release
           before_cache:
