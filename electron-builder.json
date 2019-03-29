@@ -8,26 +8,16 @@
     },
     "files": ["./dist/**/*"],
     "extraFiles": "migrations/*",
-    "dmg": {
-        "contents": [
-            {
-                "x": 130,
-                "y": 220
-            },
-            {
-                "x": 410,
-                "y": 220,
-                "type": "link",
-                "path": "/Applications"
-            }
-        ]
+    "mac": {
+        "target": ["zip"],
+        "icon": "assets/icon.png"
     },
     "win": {
-        "target": ["zip", "dir", "nsis"],
+        "target": ["zip"],
         "icon": "assets/icon.png"
     },
     "linux": {
-        "target": ["AppImage", "deb", "zip"],
+        "target": ["zip"],
         "icon": "assets/icon.png"
     }
 }
