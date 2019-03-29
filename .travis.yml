@@ -1,6 +1,13 @@
 language: node_js
 node_js: "10"
 
+os: osx
+
+notifications:
+    email:
+        on_success: change # default: change
+        on_failure: change # default: always
+
 env:
     global:
         - ELECTRON_CACHE=$HOME/.cache/electron
@@ -10,26 +17,33 @@ branches:
     only:
         - master
 
-matrix:
-    include:
-        - os: osx
-          osx_image: xcode9.4
-
-        - os: linux
-
 cache:
     directories:
         - $HOME/.cache/electron
         - $HOME/.cache/electron-builder
         - yarn
-        - npm
-
+        - node_modules
+        - build
 script:
-    - yarn config set version-tag-prefix "v"
-    - yarn config set version-git-tag false
-    - yarn version --new-version 0.0.$TRAVIS_BUILD_NUMBER
-    - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then yarn run publish; fi
-    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then yarn run publish --mac --win; fi
+    - echo "skipping tests"
 
-before_cache:
-    - rm -rf $HOME/.cache/electron-builder/wine
+jobs:
+    include:
+        - stage: Build
+          name: "Build"
+          script:
+              - yarn run buildNoPublish --mac --win --linux
+          before_cache:
+              - rm -rf $HOME/.cache/electron-builder/wine/wine-2.0.3-mac-10.13/wine-home/system.reg
+              - rm -rf $HOME/.cache/electron-builder/wine/wine-2.0.3-mac-10.13/wine-home/user.reg
+              - rm -rf build/win-unpacked
+              - rm -rf build/mac
+              - rm -rf build/linux-unpacked
+        - stage: Release to Github
+          name: Release to Github
+          if: branch = master and type != pull_request
+          script:
+              - yarn run semantic-release
+          before_cache:
+              - rm -rf $HOME/.cache/electron-builder/wine/wine-2.0.3-mac-10.13/wine-home/system.reg
+              - rm -rf $HOME/.cache/electron-builder/wine/wine-2.0.3-mac-10.13/wine-home/user.reg
