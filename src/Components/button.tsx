@@ -7,18 +7,13 @@ export interface IButtonProps {
     action: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-export class Button extends React.Component<IButtonProps, {}> {
-    constructor(props: IButtonProps) {
-        super(props);
-    }
-    public render() {
-        return (
-            <button
-                style={this.props.style}
-                className={this.props.type == "primary" ? "btn btn-primary" : "btn btn-secondary"}
-                onClick={this.props.action}>
-                {this.props.title}
-            </button>
-        );
-    }
-}
+export const Button = (props: IButtonProps) => {
+    return (
+        <button
+            style={props.style}
+            className={props.type == "primary" ? "btn btn-primary" : "btn btn-secondary"}
+            onClick={props.action}>
+            {props.title}
+        </button>
+    );
+};

@@ -1,9 +1,9 @@
 import * as React from "react";
 import { Redirect, Route, RouteComponentProps, Switch } from "react-router";
 import { NavLink } from "react-router-dom";
-import { IndividualDetailsMain } from "../pages/individual-details/individual-details-main";
-import { MonthlyDetailsMain } from "../pages/monthly-details/monthly-details-main";
-import { YearlyDetailsMain } from "../pages/yearly-details/yearly-details-main";
+import { IndividualDetailsMain } from "../containers/individual-details/individual-details-main";
+import { MonthlyDetailsMain } from "../containers/monthly-details/monthly-details-main";
+import { YearlyDetailsMain } from "../containers/yearly-details/yearly-details-main";
 import "./routes.scss";
 
 interface ITablesProps extends RouteComponentProps {}

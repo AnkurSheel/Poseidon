@@ -1,10 +1,10 @@
 import * as React from "react";
 import { Redirect, Route, Switch } from "react-router";
 import { NavLink } from "react-router-dom";
+import { AddNewEntryMain } from "../containers/add-new-entry/add-new-entry-main";
 import { ChartRoutes } from "./chart-routes";
 import "./routes.scss";
 import { TableRoutes } from "./tables-routes";
-import { AddNewEntryMain } from "../pages/add-new-entry/add-new-entry-main";
 
 export class Routes extends React.Component {
     public render() {

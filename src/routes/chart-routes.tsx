@@ -1,8 +1,8 @@
 import * as React from "react";
 import { Redirect, Route, RouteComponentProps, Switch } from "react-router";
 import { NavLink } from "react-router-dom";
-import { MonthlyChartMain } from "../pages/monthly-chart/monthly-chart-main";
-import { YearlyChartMain } from "../pages/yearly-chart/yearly-chart-main";
+import { MonthlyChartMain } from "../containers/monthly-chart/monthly-chart-main";
+import { YearlyChartMain } from "../containers/yearly-chart/yearly-chart-main";
 import "./routes.scss";
 
 interface IChartProps extends RouteComponentProps {}

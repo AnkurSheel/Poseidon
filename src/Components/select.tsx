@@ -10,31 +10,22 @@ export interface ISelectProps {
     placeholder: string;
 }
 
-export class Select extends React.Component<ISelectProps, {}> {
-    constructor(props: ISelectProps) {
-        super(props);
-    }
-    public render() {
-        return (
-            <div className="form-group">
-                <label htmlFor={this.props.name}> {this.props.title} </label>
-                <select
-                    className="form-control"
-                    name={this.props.name}
-                    value={this.props.value}
-                    onChange={this.props.handleChange}>
-                    <option key={this.props.placeholder} value="" disabled>
-                        {this.props.placeholder}
-                    </option>
-                    {this.props.options.map(opt => {
-                        return (
-                            <option key={opt} value={opt}>
-                                {opt}
-                            </option>
-                        );
-                    })}
-                </select>
-            </div>
-        );
-    }
-}
+export const Select = (props: ISelectProps) => {
+    return (
+        <div className="form-group">
+            <label htmlFor={props.name}> {props.title} </label>
+            <select className="form-control" name={props.name} value={props.value} onChange={props.handleChange}>
+                <option key={props.placeholder} value="" disabled>
+                    {props.placeholder}
+                </option>
+                {props.options.map(opt => {
+                    return (
+                        <option key={opt} value={opt}>
+                            {opt}
+                        </option>
+                    );
+                })}
+            </select>
+        </div>
+    );
+};
