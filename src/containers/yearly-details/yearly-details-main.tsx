@@ -1,8 +1,6 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
-import ReactTable from "react-table";
-import "react-table/react-table.css";
-import { Loading } from "../../components/loading";
+import { DetailsWithLoading } from "../../components/details";
 import { Database } from "../../shared/database";
 import { Totals } from "../../types/totals";
 
@@ -23,9 +21,6 @@ export const YearlyDetailsMain = () => {
         fetchData();
     }, []);
 
-    if (isLoading) {
-        return <Loading />;
-    }
     const data = totals.map(t => {
         return {
             date: t.date.format("YYYY"),
@@ -53,9 +48,5 @@ export const YearlyDetailsMain = () => {
             accessor: "total",
         },
     ];
-    return (
-        <div>
-            <ReactTable data={data} columns={columns} />
-        </div>
-    );
+    return <DetailsWithLoading data={data} columns={columns} loading={isLoading} />;
 };

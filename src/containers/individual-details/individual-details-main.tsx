@@ -1,8 +1,6 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
-import ReactTable from "react-table";
-import "react-table/react-table.css";
-import { Loading } from "../../components/loading";
+import { DetailsWithLoading } from "../../components/details";
 import { Database } from "../../shared/database";
 import { Details } from "../../types/details";
 
@@ -24,9 +22,6 @@ export const IndividualDetailsMain = () => {
         fetchData();
     }, []);
 
-    if (isLoading) {
-        return <Loading />;
-    }
     const data = details.map(d => {
         return {
             date: d.date.format("MMM YYYY"),
@@ -54,9 +49,5 @@ export const IndividualDetailsMain = () => {
             accessor: "type",
         },
     ];
-    return (
-        <div>
-            <ReactTable data={data} columns={columns} />
-        </div>
-    );
+    return <DetailsWithLoading data={data} columns={columns} loading={isLoading} />;
 };
