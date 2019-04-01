@@ -1,7 +1,7 @@
 import * as React from "react";
 import ReactTable from "react-table";
-import { withLoading } from "./loading-hoc";
 import "react-table/react-table.css";
+import { withLoadingIndicator } from "./loading-hoc";
 
 export const Details = (props: any) => {
     return (
@@ -11,4 +11,4 @@ export const Details = (props: any) => {
     );
 };
 
-export const DetailsWithLoading = withLoading(Details);
+export const DetailsWithLoadingIndicator = withLoadingIndicator(Details);

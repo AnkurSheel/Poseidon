@@ -1,10 +1,10 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
-import { DetailsWithLoading } from "../../components/details";
+import { DetailsWithLoadingIndicator } from "../../components/details";
 import { Database } from "../../shared/database";
 import { Totals } from "../../types/totals";
 
-export const MonthlyDetailsMain = () => {
+export const MonthlyDetails = () => {
     const db: Database = new Database();
 
     const [totals, setTotals] = useState<Totals[]>([]);
@@ -49,5 +49,5 @@ export const MonthlyDetailsMain = () => {
             accessor: "total",
         },
     ];
-    return <DetailsWithLoading data={data} columns={columns} loading={isLoading} />;
+    return <DetailsWithLoadingIndicator data={data} columns={columns} loading={isLoading} />;
 };

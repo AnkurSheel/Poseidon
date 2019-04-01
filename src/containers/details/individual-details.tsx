@@ -1,10 +1,10 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
-import { DetailsWithLoading } from "../../components/details";
+import { DetailsWithLoadingIndicator } from "../../components/details";
 import { Database } from "../../shared/database";
 import { Details } from "../../types/details";
 
-export const IndividualDetailsMain = () => {
+export const IndividualDetails = () => {
     const db: Database = new Database();
 
     const [details, setDetails] = useState<Details[]>([]);
@@ -49,5 +49,5 @@ export const IndividualDetailsMain = () => {
             accessor: "type",
         },
     ];
-    return <DetailsWithLoading data={data} columns={columns} loading={isLoading} />;
+    return <DetailsWithLoadingIndicator data={data} columns={columns} loading={isLoading} />;
 };

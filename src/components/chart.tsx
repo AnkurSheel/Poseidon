@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Bar, CartesianGrid, ComposedChart, Legend, Line, Tooltip, XAxis, YAxis } from "recharts";
-import { withLoading } from "./loading-hoc";
+import { withLoadingIndicator } from "./loading-hoc";
 
 export const Charts = (props: any) => {
     return (
@@ -31,4 +31,4 @@ export const Charts = (props: any) => {
     );
 };
 
-export const ChartsWithLoading = withLoading(Charts);
+export const ChartsWithLoadingIndicator = withLoadingIndicator(Charts);

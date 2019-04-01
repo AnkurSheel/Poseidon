@@ -1,10 +1,10 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
-import { ChartsWithLoading } from "../../components/chart";
+import { ChartsWithLoadingIndicator } from "../../components/chart";
 import { Database } from "../../shared/database";
 import { Totals } from "../../types/totals";
 
-export const YearlyChartMain = () => {
+export const YearlyChart = () => {
     const db: Database = new Database();
 
     const [totals, setTotals] = useState<Totals[]>([]);
@@ -33,5 +33,5 @@ export const YearlyChartMain = () => {
         })
         .reverse();
 
-    return <ChartsWithLoading loading={isLoading} data={data} XAxisLabel="Years" YAxisLabel="Amount" />;
+    return <ChartsWithLoadingIndicator loading={isLoading} data={data} XAxisLabel="Years" YAxisLabel="Amount" />;
 };
