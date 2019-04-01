@@ -1,7 +1,6 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
-import { Bar, CartesianGrid, ComposedChart, Legend, Line, Tooltip, XAxis, YAxis } from "recharts";
-import { Loading } from "../../components/loading";
+import { ChartsWithLoading } from "../../components/chart";
 import { Database } from "../../shared/database";
 import { Totals } from "../../types/totals";
 
@@ -23,10 +22,6 @@ export const YearlyChartMain = () => {
         fetchData();
     }, []);
 
-    if (isLoading) {
-        return <Loading />;
-    }
-
     const data = totals
         .map(t => {
             return {
@@ -37,30 +32,6 @@ export const YearlyChartMain = () => {
             };
         })
         .reverse();
-    return (
-        <ComposedChart width={750} height={450} data={data} margin={{ top: 10, right: 10, left: 20, bottom: 10 }}>
-            <XAxis
-                dataKey="name"
-                label={{
-                    value: "Year",
-                    position: "insideBottom",
-                    offset: 0,
-                }}
-            />
-            <YAxis
-                label={{
-                    value: "Amount",
-                    position: "insideLeft",
-                    offset: 0,
-                    angle: -90,
-                }}
-            />
-            <Tooltip />
-            <Legend />
-            <CartesianGrid strokeDasharray="3 3" stroke="#000000" strokeOpacity={0.1} vertical={false} />
-            <Bar dataKey="debt" fill="#ff0000" barSize={20} />
-            <Bar dataKey="asset" fill="#82ca9d" barSize={10} />
-            <Line type="monotone" dataKey="total" name="Net Worth" stroke="#8884d8" />
-        </ComposedChart>
-    );
+
+    return <ChartsWithLoading loading={isLoading} data={data} XAxisLabel="Years" YAxisLabel="Amount" />;
 };
