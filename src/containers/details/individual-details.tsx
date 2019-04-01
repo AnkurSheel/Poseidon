@@ -2,12 +2,12 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import { DetailsWithLoadingIndicator } from "../../components/details";
 import { Database } from "../../shared/database";
-import { Details } from "../../types/details";
+import { Detail } from "../../types/details";
 
 export const IndividualDetails = () => {
     const db: Database = new Database();
 
-    const [details, setDetails] = useState<Details[]>([]);
+    const [details, setDetails] = useState<Detail[]>([]);
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {

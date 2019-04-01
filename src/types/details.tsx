@@ -6,7 +6,7 @@ export enum Type {
     Debt,
 }
 
-export class Details {
+export class Detail {
     public id: number;
     public name: string;
     public type: Type;

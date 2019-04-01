@@ -1,7 +1,9 @@
 import * as React from "react";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
-import { withLoadingIndicator } from "./loading-hoc";
+import { compose } from "recompose";
+import { withLoadingIndicator } from "../higher-order-components/loading-hoc";
+import { withNullCheck } from "../higher-order-components/null-check-hoc";
 
 export const Details = (props: any) => {
     return (
@@ -12,3 +14,14 @@ export const Details = (props: any) => {
 };
 
 export const DetailsWithLoadingIndicator = withLoadingIndicator(Details);
+
+const nullCheckFn = () => {
+    return (props: any) => !props.data;
+};
+
+export const withConditionalRenderings = compose(
+    withLoadingIndicator,
+    withNullCheck(nullCheckFn),
+);
+
+export const DetailsWithConditionalRenderings = withConditionalRenderings(Details);

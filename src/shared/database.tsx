@@ -2,7 +2,7 @@ const config = require("../../knexfile.js");
 const env = "development";
 import * as knex from "knex";
 import * as moment from "moment";
-import { Details, Type } from "../types/details";
+import { Detail, Type } from "../types/details";
 import { Totals } from "../types/totals";
 import { DatabaseHelpers } from "./database-helpers";
 
@@ -17,7 +17,7 @@ export class Database {
         client.migrate.latest(config);
     }
 
-    public async getIndividualDetails(): Promise<Details[]> {
+    public async getIndividualDetails(): Promise<Detail[]> {
         const client = knex(config[env]);
         const entries = await client
             .from("networth")
@@ -27,7 +27,7 @@ export class Database {
 
         let i: number = 0;
         return entries.map(
-            (e: any): Details => {
+            (e: any): Detail => {
                 return {
                     id: i++,
                     name: e.name,

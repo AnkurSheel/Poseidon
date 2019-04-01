@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Loading } from "./loading";
+import { Loading } from "../components/loading";
 
 interface IWithLoadingProps {
     loading: boolean;
