@@ -1,22 +1,14 @@
 import * as moment from "moment";
 import * as React from "react";
+import { useState } from "react";
 import { Button } from "../../Components/button";
 import { Input } from "../../Components/input";
 import { Select } from "../../Components/select";
 
-interface IAddNewEntryMainProp {}
+export const AddNewEntryMain = () => {
+    const typeOptions = ["Asset", "Debt"];
 
-interface IAddNewEntryMainState {
-    name: string;
-    type: string;
-    amount: number;
-    date: string;
-}
-
-export class AddNewEntryMain extends React.Component<IAddNewEntryMainProp, IAddNewEntryMainState> {
-    private readonly typeOptions = ["Asset", "Debt"];
-
-    private readonly accountNames = [
+    const accountNames = [
         "Joint Checking Account",
         "Joint Savings Account",
         "Westpac Checking Account",
@@ -33,99 +25,64 @@ export class AddNewEntryMain extends React.Component<IAddNewEntryMainProp, IAddN
         "ANZ Credit Card",
         "Amex Credit Card",
     ];
-    private readonly buttonStyles = {
+    const buttonStyles = {
         margin: "10px 10px 10px 10px",
     };
+    const [accountName, setAccountName] = useState("");
+    const [type, setType] = useState("");
+    const [amount, setAmount] = useState<number>(0);
+    const [date, setDate] = useState("");
 
-    constructor(props: IAddNewEntryMainProp) {
-        super(props);
-        this.state = { name: "", type: "", amount: 0, date: "" };
-        this.handleFormSubmit = this.handleFormSubmit.bind(this);
-        this.handleClearForm = this.handleClearForm.bind(this);
-        this.handleDateChange = this.handleDateChange.bind(this);
-        this.handleAccountSelected = this.handleAccountSelected.bind(this);
-        this.handleTypeSelected = this.handleTypeSelected.bind(this);
-        this.handleAmountChanged = this.handleAmountChanged.bind(this);
-    }
-
-    public render() {
-        return (
-            <form className="container" onSubmit={this.handleFormSubmit}>
-                <Input
-                    label="Date"
-                    value={this.state.date}
-                    type="text"
-                    name="date"
-                    placeholder="Mar 2019"
-                    handleChange={this.handleDateChange}
-                />
-                <Select
-                    title="Account"
-                    name="name"
-                    options={this.accountNames}
-                    value={this.state.name}
-                    placeholder={"Select Account"}
-                    handleChange={this.handleAccountSelected}
-                />
-                <Select
-                    title="Type"
-                    name="type"
-                    options={this.typeOptions}
-                    value={this.state.type}
-                    placeholder={"Select Type"}
-                    handleChange={this.handleTypeSelected}
-                />
-                <Input
-                    label="Amount"
-                    value={this.state.amount}
-                    type="number"
-                    name="amount"
-                    placeholder="0"
-                    handleChange={this.handleAmountChanged}
-                />
-                <Button action={this.handleFormSubmit} type={"primary"} title={"Submit"} style={this.buttonStyles} />
-                <Button action={this.handleClearForm} type={"secondary"} title={"Clear"} style={this.buttonStyles} />
-            </form>
-        );
-    }
-    private handleAccountSelected(e: React.ChangeEvent<HTMLSelectElement>) {
-        const value = e.target.value;
-        this.setState({
-            name: value,
-        });
-    }
-
-    private handleDateChange(e: React.ChangeEvent<HTMLInputElement>) {
-        const value = e.target.value;
-        this.setState({
-            date: value,
-        });
-    }
-
-    private handleTypeSelected(e: React.ChangeEvent<HTMLSelectElement>) {
-        const value = e.target.value;
-        this.setState({
-            type: value,
-        });
-    }
-
-    private handleAmountChanged(e: React.ChangeEvent<HTMLInputElement>) {
-        const value = e.target.value;
-        this.setState({
-            amount: value && parseInt(value),
-        });
-    }
-    private handleClearForm() {
-        this.setState({
-            name: "",
-            type: "",
-            amount: 0,
-            date: "",
-        });
-    }
-
-    private handleFormSubmit(e: any) {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log(this.state);
-    }
-}
+        console.log(`${date} ${accountName} ${type} ${amount}`);
+    };
+    const clearForm = () => {
+        setAccountName("");
+        setDate("");
+        setAmount(0);
+        setType("");
+    };
+
+    return (
+        <form className="container" onSubmit={handleSubmit}>
+            <Input
+                label="Date"
+                value={date}
+                type="text"
+                name="date"
+                placeholder="Mar 2019"
+                handleChange={(e: React.ChangeEvent<HTMLInputElement>) => setDate(e.target.value)}
+            />
+            <Select
+                title="Account"
+                name="name"
+                options={accountNames}
+                value={accountName}
+                placeholder={"Select Account"}
+                handleChange={(e: React.ChangeEvent<HTMLSelectElement>) => setAccountName(e.target.value)}
+            />
+            <Select
+                title="Type"
+                name="type"
+                options={typeOptions}
+                value={type}
+                placeholder={"Select Type"}
+                handleChange={(e: React.ChangeEvent<HTMLSelectElement>) => setType(e.target.value)}
+            />
+            <Input
+                label="Amount"
+                value={amount}
+                type="number"
+                name="amount"
+                placeholder="0"
+                handleChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    const value = e.target.value;
+                    value ? setAmount(parseInt(value)) : null;
+                }}
+            />
+            <Button isPrimary={true} type={"submit"} title={"Submit"} style={buttonStyles} />
+            <Button isPrimary={false} action={clearForm} type={"secondary"} title={"Clear"} style={buttonStyles} />
+        </form>
+    );
+};

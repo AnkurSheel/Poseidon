@@ -1,65 +1,56 @@
 import * as React from "react";
+import { useEffect, useState } from "react";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import { Database } from "../../shared/database";
 import { Totals } from "../../types/totals";
 
-interface IYearlyDetailsMainProps {}
+export const YearlyDetailsMain = () => {
+    const db: Database = new Database();
+    const [totals, setTotals] = useState<Totals[]>([]);
 
-interface IYearlyDetailsMainState {
-    totals: Totals[];
-}
+    useEffect(() => {
+        const fetchData = async () => {
+            const result = await db.getYearlyTotals();
 
-export class YearlyDetailsMain extends React.Component<IYearlyDetailsMainProps, IYearlyDetailsMainState> {
-    private db: Database;
+            setTotals(result);
+        };
+        fetchData();
+    }, []);
 
-    constructor(props: IYearlyDetailsMainProps) {
-        super(props);
-        this.state = { totals: null };
-        this.db = new Database();
+    if (!totals) {
+        return <div>No data</div>;
     }
+    const data = totals.map(t => {
+        return {
+            date: t.date.format("YYYY"),
+            asset: t.asset,
+            debt: t.debt,
+            total: t.total,
+        };
+    });
 
-    public async componentDidMount() {
-        const totals: Totals[] = await this.db.getYearlyTotals();
-        console.log(totals);
-        this.setState({ totals });
-    }
-
-    public render() {
-        if (!this.state.totals) {
-            return <div>No data</div>;
-        }
-        const data = this.state.totals.map(t => {
-            return {
-                date: t.date.format("YYYY"),
-                asset: t.asset,
-                debt: t.debt,
-                total: t.total,
-            };
-        });
-
-        const columns = [
-            {
-                Header: "Date",
-                accessor: "date",
-            },
-            {
-                Header: "Asset",
-                accessor: "asset",
-            },
-            {
-                Header: "Debt",
-                accessor: "debt",
-            },
-            {
-                Header: "Net Worth",
-                accessor: "total",
-            },
-        ];
-        return (
-            <div>
-                <ReactTable data={data} columns={columns} />
-            </div>
-        );
-    }
-}
+    const columns = [
+        {
+            Header: "Date",
+            accessor: "date",
+        },
+        {
+            Header: "Asset",
+            accessor: "asset",
+        },
+        {
+            Header: "Debt",
+            accessor: "debt",
+        },
+        {
+            Header: "Net Worth",
+            accessor: "total",
+        },
+    ];
+    return (
+        <div>
+            <ReactTable data={data} columns={columns} />
+        </div>
+    );
+};

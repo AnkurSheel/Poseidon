@@ -1,65 +1,56 @@
 import * as React from "react";
+import { useEffect, useState } from "react";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
-import { Details } from "../../types/details";
 import { Database } from "../../shared/database";
+import { Details } from "../../types/details";
 
-interface IIndividualDetailsMainProp {}
+export const IndividualDetailsMain = () => {
+    const db: Database = new Database();
+    const [details, setDetails] = useState<Details[]>([]);
 
-interface IIndividualDetailsMainState {
-    details: Details[];
-}
+    useEffect(() => {
+        const fetchData = async () => {
+            const result = await db.getIndividualDetails();
 
-export class IndividualDetailsMain extends React.Component<IIndividualDetailsMainProp, IIndividualDetailsMainState> {
-    private db: Database;
+            setDetails(result);
+        };
+        fetchData();
+    }, []);
 
-    constructor(props: IIndividualDetailsMainProp) {
-        super(props);
-        this.state = { details: null };
-        this.db = new Database();
+    if (!details) {
+        return <div>No data</div>;
     }
+    const data = details.map(d => {
+        return {
+            date: d.date.format("MMM YYYY"),
+            name: d.name,
+            type: d.type,
+            amount: d.amount,
+        };
+    });
 
-    public async componentDidMount() {
-        const details: Details[] = await this.db.getIndividualDetails();
-        this.setState({ details });
-    }
-
-    public render() {
-        if (!this.state.details) {
-            return <div>No data</div>;
-        }
-        const data = this.state.details.map(d => {
-            return {
-                date: d.date.format("MMM YYYY"),
-                name: d.name,
-                type: d.type,
-                amount: d.amount,
-            };
-        });
-
-        console.log(data);
-        const columns = [
-            {
-                Header: "Date",
-                accessor: "date",
-            },
-            {
-                Header: "Name",
-                accessor: "name",
-            },
-            {
-                Header: "Amount",
-                accessor: "amount",
-            },
-            {
-                Header: "Type",
-                accessor: "type",
-            },
-        ];
-        return (
-            <div>
-                <ReactTable data={data} columns={columns} />
-            </div>
-        );
-    }
-}
+    const columns = [
+        {
+            Header: "Date",
+            accessor: "date",
+        },
+        {
+            Header: "Name",
+            accessor: "name",
+        },
+        {
+            Header: "Amount",
+            accessor: "amount",
+        },
+        {
+            Header: "Type",
+            accessor: "type",
+        },
+    ];
+    return (
+        <div>
+            <ReactTable data={data} columns={columns} />
+        </div>
+    );
+};
