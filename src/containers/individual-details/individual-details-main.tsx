@@ -2,24 +2,30 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
+import { Loading } from "../../components/loading";
 import { Database } from "../../shared/database";
 import { Details } from "../../types/details";
 
 export const IndividualDetailsMain = () => {
     const db: Database = new Database();
+
     const [details, setDetails] = useState<Details[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
-            const result = await db.getIndividualDetails();
+            setIsLoading(true);
 
+            const result = await db.getIndividualDetails();
             setDetails(result);
+
+            setIsLoading(false);
         };
         fetchData();
     }, []);
 
-    if (!details) {
-        return <div>No data</div>;
+    if (isLoading) {
+        return <Loading />;
     }
     const data = details.map(d => {
         return {

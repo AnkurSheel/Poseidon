@@ -1,24 +1,31 @@
+import { delay } from "bluebird";
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { Bar, CartesianGrid, ComposedChart, Legend, Line, Tooltip, XAxis, YAxis } from "recharts";
+import { Loading } from "../../components/loading";
 import { Database } from "../../shared/database";
 import { Totals } from "../../types/totals";
 
 export const MonthlyChartMain = () => {
     const db: Database = new Database();
+
     const [totals, setTotals] = useState<Totals[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
+            setIsLoading(true);
+
             const result = await db.getMonthlyTotals();
 
             setTotals(result);
+            setIsLoading(false);
         };
         fetchData();
     }, []);
 
-    if (!totals) {
-        return <div>No data</div>;
+    if (isLoading) {
+        return <Loading />;
     }
 
     const data = totals

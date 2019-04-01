@@ -2,24 +2,29 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
+import { Loading } from "../../components/loading";
 import { Database } from "../../shared/database";
 import { Totals } from "../../types/totals";
 
 export const YearlyDetailsMain = () => {
     const db: Database = new Database();
     const [totals, setTotals] = useState<Totals[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
-            const result = await db.getYearlyTotals();
+            setIsLoading(true);
 
+            const result = await db.getYearlyTotals();
             setTotals(result);
+
+            setIsLoading(false);
         };
         fetchData();
     }, []);
 
-    if (!totals) {
-        return <div>No data</div>;
+    if (isLoading) {
+        return <Loading />;
     }
     const data = totals.map(t => {
         return {
