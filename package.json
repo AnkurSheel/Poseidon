@@ -19,7 +19,7 @@
     ],
     "scripts": {
         "start": "electron .",
-        "watch": "webpack-dev-server --config ./config/webpack.dev.js --progress --colours",
+        "watch": "webpack-dev-server --port 3000 --config ./config/webpack.dev.js --progress --colours",
         "dev": "rimraf dist && webpack --config ./config/webpack.dev.js --progress --colours",
         "prod": "rimraf dist && webpack --config ./config/webpack.prod.js",
         "build": "yarn prod && electron-builder . --config ./electron-builder.json",

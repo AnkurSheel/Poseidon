@@ -31,6 +31,11 @@ let baseMainConfig = {
     module: {
         rules: [
             {
+                test: /\.js$/,
+                loader: "source-map-loader",
+                enforce: "pre",
+            },
+            {
                 test: /\.(tsx?)$/,
                 loader: "ts-loader",
             },
@@ -58,13 +63,13 @@ let baseRendererConfig = {
     module: {
         rules: [
             {
-                test: /\.(tsx?)$/,
-                loader: "ts-loader",
-            },
-            {
                 enforce: "pre",
                 test: /\.js$/,
                 loader: "source-map-loader",
+            },
+            {
+                test: /\.(tsx?)$/,
+                loader: "ts-loader",
             },
             {
                 test: /\.(sa|sc|c)ss$/,
@@ -77,7 +82,7 @@ let baseRendererConfig = {
             template: path.resolve(rootFolder, "src/index.html"),
         }),
     ],
-    devtool: "source-map",
+    devtool: "inline-source-map",
     externals: [nodeModules],
 };
 
