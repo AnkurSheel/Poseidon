@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
-import { DetailsWithLoadingIndicator } from "../../components/details";
+import { DetailsWithConditionalRenderings } from "../../components/details";
 import { Database } from "../../shared/database";
 import { Detail } from "../../types/details";
 
@@ -49,5 +49,6 @@ export const IndividualDetails = () => {
             accessor: "type",
         },
     ];
-    return <DetailsWithLoadingIndicator data={data} columns={columns} loading={isLoading} />;
+
+    return <DetailsWithConditionalRenderings data={data} columns={columns} loading={isLoading} />;
 };
