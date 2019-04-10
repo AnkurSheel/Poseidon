@@ -48,6 +48,8 @@ const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
     const [amount, setAmount] = useState<number>(0);
     const [date, setDate] = useState<moment.Moment>(moment());
     const [submitSuccess, setSubmitSuccess] = useState(false);
+    const [amountErrorText, setAmountErrorText] = useState("");
+    const [hasError, setHasError] = useState(false);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
         e.preventDefault();
@@ -66,7 +68,17 @@ const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
     };
 
     const validateForm = (): boolean => {
-        return true;
+        const error = validateAmount();
+        setHasError(error);
+        return !error;
+    };
+
+    const validateAmount = (): boolean => {
+        if (amount <= 0) {
+            setAmountErrorText("Amount needs to be a positive number");
+            return true;
+        }
+        return false;
     };
 
     const submitForm = async (): Promise<boolean> => {
@@ -84,6 +96,11 @@ const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
                 {submitSuccess && (
                     <div className="alert alert-info" role="alert">
                         The form was successfully submitted!
+                    </div>
+                )}
+                {hasError && (
+                    <div className="alert alert-danger" role="alert">
+                        Please fix the highlighted errors!
                     </div>
                 )}
                 <FormControl fullWidth>
@@ -104,7 +121,7 @@ const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
                 <br />
                 <FormControl fullWidth>
                     <InputLabel shrink>Account</InputLabel>
-                    <Select value={accountName} name="account" onChange={handleAccountSelected} displayEmpty>
+                    <Select value={accountName} name="account" onChange={handleAccountSelected} displayEmpty autoWidth>
                         <MenuItem value="">
                             <em>Select Account</em>
                         </MenuItem>
@@ -119,7 +136,7 @@ const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
                 <br />
                 <FormControl fullWidth>
                     <InputLabel shrink>Type</InputLabel>
-                    <Select value={type} name="type" onChange={handleTypeSelected} autoWidth displayEmpty>
+                    <Select value={type} name="type" onChange={handleTypeSelected} displayEmpty autoWidth>
                         <MenuItem value="">
                             <em>Select Type</em>
                         </MenuItem>
@@ -146,7 +163,12 @@ const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
                         const value = e.target.value;
                         value ? setAmount(parseInt(value)) : null;
                     }}
+                    onBlur={() => {
+                        validateAmount();
+                    }}
                     placeholder={"Please enter the amount"}
+                    error={hasError}
+                    helperText={amountErrorText}
                 />
                 <br />
                 <Button
@@ -157,7 +179,12 @@ const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
                     onClick={clearForm}>
                     Reset
                 </Button>
-                <Button className={classes.Button} type="submit" variant="contained" color="primary">
+                <Button
+                    className={classes.Button}
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    disabled={hasError}>
                     Submit
                 </Button>
             </div>
