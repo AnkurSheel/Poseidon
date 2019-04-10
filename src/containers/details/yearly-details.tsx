@@ -23,7 +23,7 @@ export const YearlyDetails = () => {
 
     const data = totals.map(t => {
         return {
-            date: t.date.format("YYYY"),
+            date: t.date,
             asset: t.asset,
             debt: t.debt,
             total: t.total,

@@ -11,5 +11,5 @@ export class Detail {
     public name: string;
     public type: Type;
     public amount: number;
-    public date: moment.Moment;
+    public date: string;
 }

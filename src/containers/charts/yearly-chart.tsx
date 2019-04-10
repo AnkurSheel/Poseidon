@@ -25,7 +25,7 @@ export const YearlyChart = () => {
     const data = totals
         .map(t => {
             return {
-                name: t.date.format("YYYY"),
+                name: t.date,
                 total: t.total,
                 asset: t.asset,
                 debt: -t.debt,

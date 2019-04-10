@@ -24,7 +24,7 @@ export const IndividualDetails = () => {
 
     const data = details.map(d => {
         return {
-            date: d.date.format("MMM YYYY"),
+            date: d.date,
             name: d.name,
             type: d.type,
             amount: d.amount,

@@ -24,7 +24,7 @@ export const MonthlyDetails = () => {
 
     const data = totals.map(t => {
         return {
-            date: t.date.format("MMM YYYY"),
+            date: t.date,
             asset: t.asset,
             debt: t.debt,
             total: t.total,

@@ -25,12 +25,12 @@ export const MonthlyChart = () => {
     const data = totals
         .map(t => {
             return {
-                name: t.date.format("MMM YYYY"),
+                name: t.date,
                 total: t.total,
                 asset: t.asset,
-                debt: -t.debt,
+                debt: t.debt,
             };
         })
         .reverse();
-    return <ChartsWithLoadingIndicator loading={isLoading} data={data} XAxisLabel="Months" YAxisLabel="Amount" />;
+    return <ChartsWithLoadingIndicator loading={isLoading} data={totals} XAxisLabel="Months" YAxisLabel="Amount" />;
 };
