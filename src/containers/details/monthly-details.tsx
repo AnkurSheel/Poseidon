@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { DetailsWithConditionalRenderings } from "../../components/details";
 import { Database } from "../../shared/database";
 import { Totals } from "../../types/totals";
+import { ChartsWithLoadingIndicator } from "../../components/chart";
 
 export const MonthlyDetails = () => {
     const db: Database = new Database();
@@ -14,10 +15,10 @@ export const MonthlyDetails = () => {
         const fetchData = async () => {
             setIsLoading(true);
 
-            const result = await db.getMonthlyTotals();
-            setTotals(result);
+                const result = await db.getMonthlyTotals();
+                setTotals(result);
 
-            setIsLoading(false);
+                setIsLoading(false);
         };
         fetchData();
     }, []);
@@ -49,5 +50,15 @@ export const MonthlyDetails = () => {
             accessor: "total",
         },
     ];
-    return <DetailsWithConditionalRenderings data={data} columns={columns} loading={isLoading} />;
+    return (
+        <div>
+            <ChartsWithLoadingIndicator
+                loading={isLoading}
+                data={data.reverse()}
+                XAxisLabel="Months"
+                YAxisLabel="Amount"
+            />
+            <DetailsWithConditionalRenderings data={data} columns={columns} loading={isLoading} />;
+        </div>
+    );
 };
