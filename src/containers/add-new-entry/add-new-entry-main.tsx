@@ -18,9 +18,6 @@ import {
 
 const styles = () =>
     createStyles({
-        FormControl: {
-            width: 500,
-        },
         Button: {
             margin: 20,
         },
@@ -89,10 +86,9 @@ const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
                         The form was successfully submitted!
                     </div>
                 )}
-                <FormControl>
+                <FormControl fullWidth>
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                         <DatePicker
-                            className={classes.FormControl}
                             label="Select Date"
                             views={["year", "month"]}
                             value={date}
@@ -106,13 +102,12 @@ const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
                 </FormControl>
                 <br />
                 <br />
-                <FormControl>
-                    <InputLabel>Select Account</InputLabel>
-                    <Select
-                        className={classes.FormControl}
-                        value={accountName}
-                        name="account"
-                        onChange={handleAccountSelected}>
+                <FormControl fullWidth>
+                    <InputLabel shrink>Account</InputLabel>
+                    <Select value={accountName} name="account" onChange={handleAccountSelected} displayEmpty>
+                        <MenuItem value="">
+                            <em>Select Account</em>
+                        </MenuItem>
                         {accountNames.map(a => (
                             <MenuItem key={a} value={a}>
                                 {a}
@@ -122,14 +117,12 @@ const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
                 </FormControl>
                 <br />
                 <br />
-                <FormControl>
-                    <InputLabel>Select Type</InputLabel>
-                    <Select
-                        className={classes.FormControl}
-                        value={type}
-                        name="type"
-                        onChange={handleTypeSelected}
-                        autoWidth>
+                <FormControl fullWidth>
+                    <InputLabel shrink>Type</InputLabel>
+                    <Select value={type} name="type" onChange={handleTypeSelected} autoWidth displayEmpty>
+                        <MenuItem value="">
+                            <em>Select Type</em>
+                        </MenuItem>
                         {typeOptions.map(t => {
                             return (
                                 <MenuItem key={t} value={t}>
@@ -143,8 +136,7 @@ const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
                 <br />
                 <TextField
                     id="amount"
-                    className={classes.FormControl}
-                    variant="outlined"
+                    fullWidth
                     label="Amount"
                     type="Number"
                     InputProps={{
