@@ -22,15 +22,5 @@ export const MonthlyChart = () => {
         fetchData();
     }, []);
 
-    const data = totals
-        .map(t => {
-            return {
-                name: t.date,
-                total: t.total,
-                asset: t.asset,
-                debt: t.debt,
-            };
-        })
-        .reverse();
     return <ChartsWithLoadingIndicator loading={isLoading} data={totals} XAxisLabel="Months" YAxisLabel="Amount" />;
 };

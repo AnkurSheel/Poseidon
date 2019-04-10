@@ -22,16 +22,5 @@ export const YearlyChart = () => {
         fetchData();
     }, []);
 
-    const data = totals
-        .map(t => {
-            return {
-                name: t.date,
-                total: t.total,
-                asset: t.asset,
-                debt: -t.debt,
-            };
-        })
-        .reverse();
-
-    return <ChartsWithLoadingIndicator loading={isLoading} data={data} XAxisLabel="Years" YAxisLabel="Amount" />;
+    return <ChartsWithLoadingIndicator loading={isLoading} data={totals} XAxisLabel="Years" YAxisLabel="Amount" />;
 };
