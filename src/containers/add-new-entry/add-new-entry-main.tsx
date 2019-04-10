@@ -14,12 +14,21 @@ import {
     InputLabel,
     withStyles,
     WithStyles,
+    Paper,
+    Theme,
 } from "@material-ui/core";
 
-const styles = () =>
+const styles = (theme: Theme) =>
     createStyles({
-        Button: {
-            margin: 20,
+        root: {
+            display: "flex",
+            margin: theme.spacing.unit * 3,
+        },
+        formControl: {
+            margin: theme.spacing.unit,
+        },
+        button: {
+            margin: theme.spacing.unit,
         },
     });
 
@@ -91,8 +100,8 @@ const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
     const handleTypeSelected = (e: React.ChangeEvent<HTMLSelectElement>) => setType(e.target.value);
 
     return (
-        <form onSubmit={handleSubmit} noValidate={true} autoComplete="off">
-            <div className="container">
+        <Paper className={classes.root}>
+            <form onSubmit={handleSubmit} noValidate={true} autoComplete="off" className={classes.root}>
                 {submitSuccess && (
                     <div className="alert alert-info" role="alert">
                         The form was successfully submitted!
@@ -103,7 +112,7 @@ const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
                         Please fix the highlighted errors!
                     </div>
                 )}
-                <FormControl fullWidth>
+                <FormControl fullWidth className={classes.formControl}>
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                         <DatePicker
                             label="Select Date"
@@ -117,9 +126,7 @@ const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
                         />
                     </MuiPickersUtilsProvider>
                 </FormControl>
-                <br />
-                <br />
-                <FormControl fullWidth>
+                <FormControl fullWidth className={classes.formControl}>
                     <InputLabel shrink>Account</InputLabel>
                     <Select value={accountName} name="account" onChange={handleAccountSelected} displayEmpty autoWidth>
                         <MenuItem value="">
@@ -132,9 +139,7 @@ const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
                         ))}
                     </Select>
                 </FormControl>
-                <br />
-                <br />
-                <FormControl fullWidth>
+                <FormControl fullWidth className={classes.formControl}>
                     <InputLabel shrink>Type</InputLabel>
                     <Select value={type} name="type" onChange={handleTypeSelected} displayEmpty autoWidth>
                         <MenuItem value="">
@@ -149,9 +154,8 @@ const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
                         })}
                     </Select>
                 </FormControl>
-                <br />
-                <br />
                 <TextField
+                    className={classes.formControl}
                     id="amount"
                     fullWidth
                     label="Amount"
@@ -170,9 +174,8 @@ const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
                     error={hasError}
                     helperText={amountErrorText}
                 />
-                <br />
                 <Button
-                    className={classes.Button}
+                    className={classes.button}
                     type="reset"
                     variant="contained"
                     color="secondary"
@@ -180,15 +183,15 @@ const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
                     Reset
                 </Button>
                 <Button
-                    className={classes.Button}
+                    className={classes.button}
                     type="submit"
                     variant="contained"
                     color="primary"
                     disabled={hasError}>
                     Submit
                 </Button>
-            </div>
-        </form>
+            </form>
+        </Paper>
     );
 };
 
