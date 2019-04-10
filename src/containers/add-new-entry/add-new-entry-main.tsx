@@ -149,11 +149,16 @@ const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
                     placeholder={"Please enter the amount"}
                 />
                 <br />
+                <Button
+                    className={classes.Button}
+                    type="reset"
+                    variant="contained"
+                    color="secondary"
+                    onClick={clearForm}>
+                    Reset
+                </Button>
                 <Button className={classes.Button} type="submit" variant="contained" color="primary">
                     Submit
-                </Button>
-                <Button className={classes.Button} type="reset" variant="contained" color="default" onClick={clearForm}>
-                    Reset
                 </Button>
             </div>
         </form>

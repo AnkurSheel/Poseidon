@@ -1,12 +1,27 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import "./index.scss";
 import { App } from "./components/App";
+import { MuiThemeProvider, createMuiTheme, CssBaseline } from "@material-ui/core";
+import { amber, green } from "@material-ui/core/colors";
 
-ReactDOM.render(<App />, document.getElementById("app"));
+const theme = createMuiTheme({
+    palette: {
+        type: "dark",
+        primary: green,
+        secondary: amber,
+    },
+});
+const ThemedApp = (
+    <MuiThemeProvider theme={theme}>
+        <CssBaseline />
+        <App />
+    </MuiThemeProvider>
+);
+
+ReactDOM.render(ThemedApp, document.getElementById("app"));
 
 if ((module as any).hot) {
     (module as any).hot.accept("./components/app", () => {
-        ReactDOM.render(<App />, document.getElementById("app"));
+        ReactDOM.render(ThemedApp, document.getElementById("app"));
     });
 }
