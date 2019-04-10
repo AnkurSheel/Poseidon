@@ -1,10 +1,11 @@
 import * as React from "react";
-import { Bar, CartesianGrid, ComposedChart, Legend, Line, Tooltip, XAxis, YAxis } from "recharts";
+import { Bar, CartesianGrid, ComposedChart, Legend, Line, Tooltip, XAxis, YAxis, ResponsiveContainer } from "recharts";
 import { withLoadingIndicator } from "../higher-order-components/loading-hoc";
 
 export const Charts = (props: any) => {
     return (
-        <ComposedChart width={750} height={450} data={props.data} margin={{ top: 10, right: 10, left: 20, bottom: 10 }}>
+        <ResponsiveContainer aspect={3} width="100%" minWidth={800}>
+            <ComposedChart data={props.data} margin={{ top: 50, right: 50, left: 50, bottom: 50 }}>
                 <XAxis
                     dataKey="date"
                     label={{
@@ -28,6 +29,7 @@ export const Charts = (props: any) => {
                 <Bar dataKey="asset" fill="#82ca9d" barSize={10} />
                 <Line type="monotone" dataKey="total" name="Net Worth" stroke="#8884d8" />
             </ComposedChart>
+        </ResponsiveContainer>
     );
 };
 
