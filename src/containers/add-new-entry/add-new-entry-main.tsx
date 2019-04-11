@@ -33,6 +33,10 @@ const styles = ({ spacing }: Theme) =>
             marginRight: spacing.unit * 3,
             marginBottom: spacing.unit * 3,
         },
+        selectMenu: {
+            padding: spacing.unit,
+            maxHeight: "50%",
+        },
     });
 
 const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
@@ -176,6 +180,11 @@ const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
                     SelectProps={{
                         displayEmpty: true,
                         autoWidth: true,
+                        MenuProps: {
+                            classes: {
+                                paper: classes.selectMenu,
+                            },
+                        },
                     }}
                     onChange={handleAccountSelected}
                     onBlur={validateAccount}
@@ -204,6 +213,11 @@ const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
                     SelectProps={{
                         displayEmpty: true,
                         autoWidth: true,
+                        MenuProps: {
+                            classes: {
+                                paper: classes.selectMenu,
+                            },
+                        },
                     }}
                     onChange={handleTypeSelected}
                     onBlur={validateType}

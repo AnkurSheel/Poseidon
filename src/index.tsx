@@ -10,6 +10,9 @@ const theme = createMuiTheme({
         primary: green,
         secondary: amber,
     },
+    typography: {
+        useNextVariants: true,
+    },
 });
 const ThemedApp = (
     <MuiThemeProvider theme={theme}>
