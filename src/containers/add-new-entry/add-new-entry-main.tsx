@@ -128,6 +128,11 @@ const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
 
     const handleTypeSelected = (e: React.ChangeEvent<HTMLSelectElement>) => setType(e.target.value);
 
+    const handleAmountChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        value ? setAmount(parseInt(value)) : null;
+    };
+
     return (
         <Paper className={classes.root}>
             <form onSubmit={handleSubmit} noValidate={true} autoComplete="off" className={classes.root}>
@@ -136,11 +141,13 @@ const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
                         The form was successfully submitted!
                     </div>
                 )}
+
                 {hasError && (
                     <div className="alert alert-danger" role="alert">
                         Please fix the highlighted errors!
                     </div>
                 )}
+
                 <FormControl fullWidth className={classes.formControl}>
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                         <DatePicker
@@ -155,36 +162,65 @@ const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
                         />
                     </MuiPickersUtilsProvider>
                 </FormControl>
-                <FormControl fullWidth className={classes.formControl} error={!isEmptyString(accountErrorText)}>
-                    <InputLabel shrink>Account</InputLabel>
-                    <Select value={accountName} name="account" onChange={handleAccountSelected} displayEmpty autoWidth>
-                        <MenuItem value="">
-                            <em>Select Account</em>
+
+                <TextField
+                    className={classes.formControl}
+                    id="account"
+                    fullWidth
+                    select
+                    label="Account Name"
+                    value={accountName}
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
+                    SelectProps={{
+                        displayEmpty: true,
+                        autoWidth: true,
+                    }}
+                    onChange={handleAccountSelected}
+                    onBlur={validateAccount}
+                    error={!isEmptyString(accountErrorText)}
+                    helperText={accountErrorText}>
+                    <MenuItem value="">
+                        <em>Select Account</em>
+                    </MenuItem>
+                    {accountNames.map(a => (
+                        <MenuItem key={a} value={a}>
+                            {a}
                         </MenuItem>
-                        {accountNames.map(a => (
-                            <MenuItem key={a} value={a}>
-                                {a}
+                    ))}
+                </TextField>
+
+                <TextField
+                    className={classes.formControl}
+                    id="type"
+                    fullWidth
+                    select
+                    label="Account Type"
+                    value={type}
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
+                    SelectProps={{
+                        displayEmpty: true,
+                        autoWidth: true,
+                    }}
+                    onChange={handleTypeSelected}
+                    onBlur={validateType}
+                    error={!isEmptyString(typeErrorText)}
+                    helperText={typeErrorText}>
+                    <MenuItem value="">
+                        <em>Select Type</em>
+                    </MenuItem>
+                    {typeOptions.map(t => {
+                        return (
+                            <MenuItem key={t} value={t}>
+                                {t}
                             </MenuItem>
-                        ))}
-                    </Select>
-                    {accountErrorText && <FormHelperText>{accountErrorText}</FormHelperText>}
-                </FormControl>
-                <FormControl fullWidth className={classes.formControl} error={!isEmptyString(typeErrorText)}>
-                    <InputLabel shrink>Type</InputLabel>
-                    <Select value={type} name="type" onChange={handleTypeSelected} displayEmpty autoWidth>
-                        <MenuItem value="">
-                            <em>Select Type</em>
-                        </MenuItem>
-                        {typeOptions.map(t => {
-                            return (
-                                <MenuItem key={t} value={t}>
-                                    {t}
-                                </MenuItem>
-                            );
-                        })}
-                    </Select>
-                    {typeErrorText && <FormHelperText>{typeErrorText}</FormHelperText>}
-                </FormControl>
+                        );
+                    })}
+                </TextField>
+
                 <TextField
                     className={classes.formControl}
                     id="amount"
@@ -194,13 +230,8 @@ const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
                     InputProps={{
                         startAdornment: <InputAdornment position="start">$</InputAdornment>,
                     }}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                        const value = e.target.value;
-                        value ? setAmount(parseInt(value)) : null;
-                    }}
-                    onBlur={() => {
-                        validateAmount();
-                    }}
+                    onChange={handleAmountChanged}
+                    onBlur={validateAmount}
                     placeholder={"Please enter the amount"}
                     error={!isEmptyString(amountErrorText)}
                     helperText={amountErrorText}
