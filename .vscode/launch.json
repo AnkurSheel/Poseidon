@@ -1,9 +1,18 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+        {
+            "name": "Debug Renderer Process",
+            "type": "chrome",
+            "request": "attach",
+            "windows": {
+                "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron.cmd"
+            },
+            "port": 9223,
+            "webRoot": "${workspaceRoot}",
+            "sourceMaps": true,
+            "internalConsoleOptions": "openOnSessionStart"
+        },
         {
             "name": "Debug Main Process",
             "type": "node",
@@ -15,13 +24,19 @@
             "windows": {
                 "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron.cmd"
             },
-            "runtimeArgs": ["--enable-logging"],
+            "runtimeArgs": ["--enable-logging", "--remote-debugging-port=9223", "."],
             "env": {},
             "sourceMaps": true,
             "outFiles": ["${workspaceFolder}/dist/**/*.js"],
             "internalConsoleOptions": "openOnSessionStart",
             "console": "integratedTerminal",
             "outputCapture": "std"
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Electron: All",
+            "configurations": ["Debug Main Process", "Debug Renderer Process"]
         }
     ]
 }

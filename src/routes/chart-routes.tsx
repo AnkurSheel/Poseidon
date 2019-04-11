@@ -1,8 +1,8 @@
 import * as React from "react";
 import { Redirect, Route, RouteComponentProps, Switch } from "react-router";
 import { NavLink } from "react-router-dom";
-import { MonthlyChartMain } from "../pages/monthly-chart/monthly-chart-main";
-import { YearlyChartMain } from "../pages/yearly-chart/yearly-chart-main";
+import { MonthlyChart } from "../containers/charts/monthly-chart";
+import { YearlyChart } from "../containers/charts/yearly-chart";
 import "./routes.scss";
 
 interface IChartProps extends RouteComponentProps {}
@@ -27,8 +27,8 @@ export class ChartRoutes extends React.Component<IChartProps, {}> {
                 </ul>
                 <Switch>
                     <Route exact path={`${match.path}/`} render={() => <Redirect to={`${match.path}/monthly`} />} />
-                    <Route path={`${match.path}/monthly`} component={MonthlyChartMain} />
-                    <Route path={`${match.path}/yearly`} component={YearlyChartMain} />
+                    <Route path={`${match.path}/monthly`} component={MonthlyChart} />
+                    <Route path={`${match.path}/yearly`} component={YearlyChart} />
                 </Switch>
             </div>
         );

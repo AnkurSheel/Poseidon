@@ -25,7 +25,7 @@ let rendererConfig = {
         path: path.resolve(__dirname, "../", "dist"),
         filename: "[name].js",
         sourceMapFilename: "[name].map",
-        publicPath: "http://localhost:8080/assets/",
+        publicPath: "http://localhost:3000/assets/",
     },
     devServer: {
         inline: true,

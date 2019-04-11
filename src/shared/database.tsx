@@ -2,7 +2,7 @@ const config = require("../../knexfile.js");
 const env = "development";
 import * as knex from "knex";
 import * as moment from "moment";
-import { Details, Type } from "../types/details";
+import { Detail, Type } from "../types/details";
 import { Totals } from "../types/totals";
 import { DatabaseHelpers } from "./database-helpers";
 
@@ -17,7 +17,7 @@ export class Database {
         client.migrate.latest(config);
     }
 
-    public async getIndividualDetails(): Promise<Details[]> {
+    public async getIndividualDetails(): Promise<Detail[]> {
         const client = knex(config[env]);
         const entries = await client
             .from("networth")
@@ -25,17 +25,16 @@ export class Database {
             .orderBy("type")
             .orderBy("name");
 
-        let i: number = 0;
         return entries.map(
-            (e: any): Details => {
+            (e: any): Detail => {
                 return {
-                    id: i++,
+                    id: e.id,
                     name: e.name,
-                    date: moment(e.date, "YYYY-MM"),
+                    date: moment(e.date, "YYYY-MM").format("MMM YYYY"),
                     amount: e.amount.toFixed(2),
                     type: e.type,
                 };
-            },
+            }
         );
     }
 
@@ -49,9 +48,9 @@ export class Database {
                 .as(`${alias}`);
         };
 
-        const assetsSubquery = this.dbHelper.filterByDate(this.dbHelper.filterByType(baseQuery("assets"), Type.Asset));
+        const assetsSubquery = this.dbHelper.filterByDate(this.dbHelper.filterByType(baseQuery("assets"))(Type.Asset));
 
-        const debtsSubquery = this.dbHelper.filterByDate(this.dbHelper.filterByType(baseQuery("debts"), Type.Debt));
+        const debtsSubquery = this.dbHelper.filterByDate(this.dbHelper.filterByType(baseQuery("debts"))(Type.Debt));
 
         const totalsSubquery = this.dbHelper.filterByDate(baseQuery("totals"));
 
@@ -66,12 +65,12 @@ export class Database {
             (e: any): Totals => {
                 return {
                     id: i++,
-                    date: moment(e.date, "YYYY-MM"),
+                    date: moment(e.date, "YYYY-MM").format("MMM YYYY"),
                     asset: e.assets ? e.assets.toFixed(2) : 0,
-                    debt: e.debts ? e.debts.toFixed(2) : 0,
+                    debt: e.debts ? -e.debts.toFixed(2) : 0,
                     total: e.totals.toFixed(2),
                 };
-            },
+            }
         );
     }
 
@@ -85,9 +84,9 @@ export class Database {
                 .as(`${alias}`);
         };
 
-        const assetsSubquery = this.dbHelper.filterByYear(this.dbHelper.filterByType(baseQuery("assets"), Type.Asset));
+        const assetsSubquery = this.dbHelper.filterByYear(this.dbHelper.filterByType(baseQuery("assets"))(Type.Asset));
 
-        const debtsSubquery = this.dbHelper.filterByYear(this.dbHelper.filterByType(baseQuery("debts"), Type.Debt));
+        const debtsSubquery = this.dbHelper.filterByYear(this.dbHelper.filterByType(baseQuery("debts"))(Type.Debt));
 
         const totalsSubquery = this.dbHelper.filterByYear(baseQuery("totals"));
 
@@ -102,12 +101,12 @@ export class Database {
             (e: any): Totals => {
                 return {
                     id: i++,
-                    date: moment(`${e.year}-01-01`),
+                    date: e.year,
                     asset: e.assets ? e.assets.toFixed(2) : 0,
-                    debt: e.debts ? e.debts.toFixed(2) : 0,
+                    debt: e.debts ? -e.debts.toFixed(2) : 0,
                     total: e.totals.toFixed(2),
                 };
-            },
+            }
         );
     }
 }
