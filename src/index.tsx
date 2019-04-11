@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import { App } from "./components/App";
+import { App } from "./components/app";
 import { MuiThemeProvider, createMuiTheme, CssBaseline } from "@material-ui/core";
 import { amber, green } from "@material-ui/core/colors";
 
@@ -24,7 +24,7 @@ const ThemedApp = (
 ReactDOM.render(ThemedApp, document.getElementById("app"));
 
 if ((module as any).hot) {
-    (module as any).hot.accept("./components/App", () => {
+    (module as any).hot.accept("./components/app", () => {
         ReactDOM.render(ThemedApp, document.getElementById("app"));
     });
 }

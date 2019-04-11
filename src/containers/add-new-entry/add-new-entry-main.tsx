@@ -1,23 +1,9 @@
-import * as moment from "moment";
-import * as React from "react";
-import { useState } from "react";
-import { DatePicker, MuiPickersUtilsProvider, MaterialUiPickersDate } from "material-ui-pickers";
-import DateFnsUtils from "@date-io/moment";
-import Button from "@material-ui/core/Button";
-import {
-    TextField,
-    InputAdornment,
-    FormControl,
-    createStyles,
-    Select,
-    MenuItem,
-    InputLabel,
-    withStyles,
-    WithStyles,
-    FormHelperText,
-    Paper,
-    Theme,
-} from "@material-ui/core";
+import { createStyles, Paper, Theme, withStyles, WithStyles } from "@material-ui/core";
+import { MaterialUiPickersDate } from "material-ui-pickers";
+import moment from "moment";
+import React, { useState } from "react";
+import { Button, CurrencyTextField, Dropdown, MonthYearDatePicker } from "../../components/material-ui-wrappers/index";
+import { isEmptyString } from "../../utils";
 
 const styles = ({ spacing }: Theme) =>
     createStyles({
@@ -34,7 +20,7 @@ const styles = ({ spacing }: Theme) =>
             marginBottom: spacing.unit * 3,
         },
         selectMenu: {
-            padding: spacing.unit,
+            padding: spacing.unit * 2,
             maxHeight: "50%",
         },
     });
@@ -83,6 +69,11 @@ const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
         setDate(moment());
         setAmount(0);
         setType("");
+        setSubmitSuccess(false);
+        setAmountErrorText("");
+        setAccountErrorText("");
+        setTypeErrorText("");
+        setHasError(false);
     };
 
     const validateForm = (): boolean => {
@@ -120,10 +111,6 @@ const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
         return false;
     };
 
-    const isEmptyString = (text: string): boolean => {
-        return text === "" ? true : false;
-    };
-
     const submitForm = async (): Promise<boolean> => {
         return true;
     };
@@ -152,113 +139,52 @@ const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
                     </div>
                 )}
 
-                <FormControl fullWidth className={classes.formControl}>
-                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                        <DatePicker
-                            label="Select Date"
-                            views={["year", "month"]}
-                            value={date}
-                            onChange={(d: MaterialUiPickersDate) => setDate(moment(d).startOf("month"))}
-                            onMonthChange={setDate}
-                            showTodayButton={true}
-                            todayLabel={"Current Month"}
-                            disableFuture
-                        />
-                    </MuiPickersUtilsProvider>
-                </FormControl>
-
-                <TextField
+                <MonthYearDatePicker
                     className={classes.formControl}
-                    id="account"
-                    fullWidth
-                    select
+                    value={date}
+                    label="Select Date"
+                    onChange={(d: MaterialUiPickersDate) => setDate(moment(d).startOf("month"))}
+                />
+
+                <Dropdown
+                    className={classes.formControl}
                     label="Account Name"
                     value={accountName}
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
-                    SelectProps={{
-                        displayEmpty: true,
-                        autoWidth: true,
-                        MenuProps: {
-                            classes: {
-                                paper: classes.selectMenu,
-                            },
-                        },
-                    }}
+                    dropdownClassName={classes.selectMenu}
                     onChange={handleAccountSelected}
-                    onBlur={validateAccount}
-                    error={!isEmptyString(accountErrorText)}
-                    helperText={accountErrorText}>
-                    <MenuItem value="">
-                        <em>Select Account</em>
-                    </MenuItem>
-                    {accountNames.map(a => (
-                        <MenuItem key={a} value={a}>
-                            {a}
-                        </MenuItem>
-                    ))}
-                </TextField>
+                    onBlurValidation={validateAccount}
+                    errorText={accountErrorText}
+                    placeholder="Select Account Name"
+                    items={accountNames}
+                />
 
-                <TextField
+                <Dropdown
                     className={classes.formControl}
-                    id="type"
-                    fullWidth
-                    select
                     label="Account Type"
                     value={type}
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
-                    SelectProps={{
-                        displayEmpty: true,
-                        autoWidth: true,
-                        MenuProps: {
-                            classes: {
-                                paper: classes.selectMenu,
-                            },
-                        },
-                    }}
+                    dropdownClassName={classes.selectMenu}
                     onChange={handleTypeSelected}
-                    onBlur={validateType}
-                    error={!isEmptyString(typeErrorText)}
-                    helperText={typeErrorText}>
-                    <MenuItem value="">
-                        <em>Select Type</em>
-                    </MenuItem>
-                    {typeOptions.map(t => {
-                        return (
-                            <MenuItem key={t} value={t}>
-                                {t}
-                            </MenuItem>
-                        );
-                    })}
-                </TextField>
-
-                <TextField
-                    className={classes.formControl}
-                    id="amount"
-                    fullWidth
-                    label="Amount"
-                    type="Number"
-                    InputProps={{
-                        startAdornment: <InputAdornment position="start">$</InputAdornment>,
-                    }}
-                    onChange={handleAmountChanged}
-                    onBlur={validateAmount}
-                    placeholder={"Please enter the amount"}
-                    error={!isEmptyString(amountErrorText)}
-                    helperText={amountErrorText}
+                    onBlurValidation={validateType}
+                    errorText={typeErrorText}
+                    placeholder="Select Type"
+                    items={typeOptions}
                 />
-                <Button
-                    className={classes.button}
-                    type="reset"
-                    variant="contained"
-                    color="secondary"
-                    onClick={clearForm}>
+
+                <CurrencyTextField
+                    className={classes.formControl}
+                    onChange={handleAmountChanged}
+                    onBlurValidation={validateAmount}
+                    errorText={amountErrorText}
+                    label="Amount"
+                    placeholder="Please enter the amount"
+                    symbol="NZD"
+                />
+
+                <Button className={classes.button} color="secondary" onClick={clearForm}>
                     Reset
                 </Button>
-                <Button className={classes.button} type="submit" variant="contained" color="primary">
+
+                <Button className={classes.button} color="primary" type="submit">
                     Submit
                 </Button>
             </form>
