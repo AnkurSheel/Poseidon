@@ -19,17 +19,19 @@ import {
     Theme,
 } from "@material-ui/core";
 
-const styles = (theme: Theme) =>
+const styles = ({ spacing }: Theme) =>
     createStyles({
         root: {
-            display: "flex",
-            margin: theme.spacing.unit * 3,
+            margin: spacing.unit * 3,
         },
         formControl: {
-            margin: theme.spacing.unit,
+            marginTop: spacing.unit * 2,
+            marginRight: spacing.unit * 3,
         },
         button: {
-            margin: theme.spacing.unit,
+            marginTop: spacing.unit * 3,
+            marginRight: spacing.unit * 3,
+            marginBottom: spacing.unit * 3,
         },
     });
 
