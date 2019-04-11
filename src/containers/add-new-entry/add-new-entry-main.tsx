@@ -14,6 +14,7 @@ import {
     InputLabel,
     withStyles,
     WithStyles,
+    FormHelperText,
     Paper,
     Theme,
 } from "@material-ui/core";
@@ -58,6 +59,8 @@ const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
     const [date, setDate] = useState<moment.Moment>(moment());
     const [submitSuccess, setSubmitSuccess] = useState(false);
     const [amountErrorText, setAmountErrorText] = useState("");
+    const [accountErrorText, setAccountErrorText] = useState("");
+    const [typeErrorText, setTypeErrorText] = useState("");
     const [hasError, setHasError] = useState(false);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
@@ -77,21 +80,45 @@ const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
     };
 
     const validateForm = (): boolean => {
-        const error = validateAmount();
+        let error = validateAmount();
+        error = validateAccount() || error;
+        error = validateType() || error;
         setHasError(error);
         return !error;
     };
 
     const validateAmount = (): boolean => {
         if (amount <= 0) {
-            setAmountErrorText("Amount needs to be a positive number");
+            setAmountErrorText("Amount should be a positive number");
             return true;
         }
+        setAmountErrorText("");
         return false;
     };
 
+    const validateAccount = (): boolean => {
+        if (isEmptyString(accountName)) {
+            setAccountErrorText("Account is required");
+            return true;
+        }
+        setAccountErrorText("");
+        return false;
+    };
+
+    const validateType = (): boolean => {
+        if (isEmptyString(type)) {
+            setTypeErrorText("Type is required");
+            return true;
+        }
+        setTypeErrorText("");
+        return false;
+    };
+
+    const isEmptyString = (text: string): boolean => {
+        return text === "" ? true : false;
+    };
+
     const submitForm = async (): Promise<boolean> => {
-        console.log(`${date} ${accountName} ${type} ${amount}`);
         return true;
     };
 
@@ -126,7 +153,7 @@ const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
                         />
                     </MuiPickersUtilsProvider>
                 </FormControl>
-                <FormControl fullWidth className={classes.formControl}>
+                <FormControl fullWidth className={classes.formControl} error={!isEmptyString(accountErrorText)}>
                     <InputLabel shrink>Account</InputLabel>
                     <Select value={accountName} name="account" onChange={handleAccountSelected} displayEmpty autoWidth>
                         <MenuItem value="">
@@ -138,8 +165,9 @@ const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
                             </MenuItem>
                         ))}
                     </Select>
+                    {accountErrorText && <FormHelperText>{accountErrorText}</FormHelperText>}
                 </FormControl>
-                <FormControl fullWidth className={classes.formControl}>
+                <FormControl fullWidth className={classes.formControl} error={!isEmptyString(typeErrorText)}>
                     <InputLabel shrink>Type</InputLabel>
                     <Select value={type} name="type" onChange={handleTypeSelected} displayEmpty autoWidth>
                         <MenuItem value="">
@@ -153,6 +181,7 @@ const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
                             );
                         })}
                     </Select>
+                    {typeErrorText && <FormHelperText>{typeErrorText}</FormHelperText>}
                 </FormControl>
                 <TextField
                     className={classes.formControl}
@@ -171,7 +200,7 @@ const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
                         validateAmount();
                     }}
                     placeholder={"Please enter the amount"}
-                    error={hasError}
+                    error={!isEmptyString(amountErrorText)}
                     helperText={amountErrorText}
                 />
                 <Button
@@ -182,12 +211,7 @@ const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
                     onClick={clearForm}>
                     Reset
                 </Button>
-                <Button
-                    className={classes.button}
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                    disabled={hasError}>
+                <Button className={classes.button} type="submit" variant="contained" color="primary">
                     Submit
                 </Button>
             </form>
