@@ -109,4 +109,15 @@ export class Database {
             }
         );
     }
+
+    public async addNewRecord(record: Detail): Promise<boolean> {
+        const client = knex(config[env]);
+        try {
+            await client.table("networth").insert(record);
+        } catch (err) {
+            console.log(`Error: ${err.code} ${err.message}`);
+            return false;
+        }
+        return true;
+    }
 }

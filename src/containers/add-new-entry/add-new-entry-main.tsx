@@ -5,6 +5,8 @@ import moment from "moment";
 import React, { useState } from "react";
 import { Header } from "../../components/material-ui-wrappers/header";
 import { Button, CurrencyTextField, Dropdown, MonthYearDatePicker } from "../../components/material-ui-wrappers/index";
+import { Database } from "../../shared/database";
+import { Detail, Type } from "../../types/details";
 import { isEmptyString } from "../../utils";
 
 const styles = ({ spacing }: Theme) =>
@@ -66,8 +68,19 @@ const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
         e.preventDefault();
 
         if (validateForm()) {
-            const submitSuccess: boolean = await submitForm();
-            setSubmitSuccess(submitSuccess);
+            let db = new Database();
+            let record: Detail = new Detail();
+            record.name = accountName;
+            record.type = type as Type;
+            record.amount = amount;
+            record.date = date.format("YYYY-MM-DD");
+
+            const success = await db.addNewRecord(record);
+            if (success) {
+                setSubmitSuccess(success);
+            } else {
+                setHasError(true);
+            }
         }
     };
 
@@ -116,10 +129,6 @@ const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
         }
         setTypeErrorText("");
         return false;
-    };
-
-    const submitForm = async (): Promise<boolean> => {
-        return true;
     };
 
     const handleAccountSelected = (e: React.ChangeEvent<HTMLSelectElement>) => setAccountName(e.target.value);
