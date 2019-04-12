@@ -68,8 +68,8 @@ const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
         e.preventDefault();
 
         if (validateForm()) {
-            let db = new Database();
-            let record: Detail = new Detail();
+            const db = new Database();
+            const record: Detail = new Detail();
             record.name = accountName;
             record.type = type as Type;
             record.amount = amount;
@@ -194,6 +194,7 @@ const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
                     label="Amount"
                     placeholder="Please enter the amount"
                     symbol="NZD"
+                    value={amount}
                 />
 
                 <Button className={classes.button} color="secondary" onClick={clearForm}>
