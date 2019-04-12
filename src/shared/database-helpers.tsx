@@ -4,7 +4,7 @@ import { Type } from "../types/details";
 export class DatabaseHelpers {
     public filterByType = (query: knex.QueryBuilder) => {
         return (type: Type) => {
-            return query.where({ type: `${Type[type]}` });
+            return query.where({ type: `${type.toString()}` });
         };
     };
 

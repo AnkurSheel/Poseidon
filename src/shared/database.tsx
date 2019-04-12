@@ -1,7 +1,7 @@
 const config = require("../../knexfile.js");
 const env = "development";
-import * as knex from "knex";
-import * as moment from "moment";
+import knex from "knex";
+import moment from "moment";
 import { Detail, Type } from "../types/details";
 import { Totals } from "../types/totals";
 import { DatabaseHelpers } from "./database-helpers";
