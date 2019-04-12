@@ -1,0 +1,53 @@
+{
+    "path": "emoji-cz",
+    "emoji-cz": {
+        "types": {
+            "Feat": {
+                "name": "feat",
+                "emoji": "✨",
+                "description": "A new feature"
+            },
+            "Fix": {
+                "name": "fix",
+                "emoji": "🚑",
+                "description": "A bug fix"
+            },
+            "Docs": {
+                "name": "docs",
+                "emoji": "📚",
+                "description": "Documentation Changes"
+            },
+            "Style": {
+                "name": "style",
+                "emoji": "💄",
+                "description": "Changes that do not affect the meaning of the code for example white spaces"
+            },
+            "Refactor": {
+                "name": "refactor",
+                "emoji": "🔨",
+                "description": "A code change that neither fixes a bug nor adds a feature"
+            },
+            "Perf": {
+                "name": "perf",
+                "emoji": "🚀",
+                "description": "A code change that improves performance"
+            },
+            "Test": {
+                "name": "test",
+                "emoji": "✅",
+                "description": "Adding missing tests or fix existing tests"
+            },
+            "Chore": {
+                "name": "chore",
+                "emoji": "❓",
+                "description": "Other changes that don't modify src or test files"
+            },
+            "WIP": {
+                "name": "wip",
+                "emoji": "🚧",
+                "description": "Work in progress"
+            }
+        },
+        "format": "[name]: [emoji] [subject]"
+    }
+}
