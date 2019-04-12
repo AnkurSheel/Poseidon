@@ -1,14 +1,16 @@
 import { createStyles, Paper, Theme, withStyles, WithStyles } from "@material-ui/core";
+import { green, red } from "@material-ui/core/colors";
 import { MaterialUiPickersDate } from "material-ui-pickers";
 import moment from "moment";
 import React, { useState } from "react";
+import { Header } from "../../components/material-ui-wrappers/header";
 import { Button, CurrencyTextField, Dropdown, MonthYearDatePicker } from "../../components/material-ui-wrappers/index";
 import { isEmptyString } from "../../utils";
 
 const styles = ({ spacing }: Theme) =>
     createStyles({
         root: {
-            margin: spacing.unit * 3,
+            margin: spacing.unit,
         },
         formControl: {
             marginTop: spacing.unit * 2,
@@ -23,6 +25,11 @@ const styles = ({ spacing }: Theme) =>
             padding: spacing.unit * 2,
             maxHeight: "50%",
         },
+        header: {
+            textAlign: "center",
+        },
+        errorHeader: { background: red[400] },
+        successHeader: { background: green[400] },
     });
 
 const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
@@ -126,19 +133,19 @@ const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
 
     return (
         <Paper className={classes.root}>
+            {hasError && (
+                <Header className={`${classes.errorHeader} ${classes.header}`}>
+                    Please fix the highlighted errors!
+                </Header>
+            )}
+
+            {submitSuccess && (
+                <Header className={`${classes.successHeader} ${classes.header}`}>
+                    The form was successfully submitted!
+                </Header>
+            )}
+
             <form onSubmit={handleSubmit} noValidate={true} autoComplete="off" className={classes.root}>
-                {submitSuccess && (
-                    <div className="alert alert-info" role="alert">
-                        The form was successfully submitted!
-                    </div>
-                )}
-
-                {hasError && (
-                    <div className="alert alert-danger" role="alert">
-                        Please fix the highlighted errors!
-                    </div>
-                )}
-
                 <MonthYearDatePicker
                     className={classes.formControl}
                     value={date}
