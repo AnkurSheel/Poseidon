@@ -1,14 +1,19 @@
 import { createStyles, Paper, Theme, withStyles, WithStyles } from "@material-ui/core";
+import { green, red } from "@material-ui/core/colors";
 import { MaterialUiPickersDate } from "material-ui-pickers";
 import moment from "moment";
 import React, { useState } from "react";
+import { Header } from "../../components/material-ui-wrappers/header";
 import { Button, CurrencyTextField, Dropdown, MonthYearDatePicker } from "../../components/material-ui-wrappers/index";
+import { Database } from "../../shared/database";
+import { UniqueConstraintError } from "../../shared/unique-contraint-error";
+import { Detail, Type } from "../../types/details";
 import { isEmptyString } from "../../utils";
 
 const styles = ({ spacing }: Theme) =>
     createStyles({
         root: {
-            margin: spacing.unit * 3,
+            margin: spacing.unit,
         },
         formControl: {
             marginTop: spacing.unit * 2,
@@ -23,6 +28,11 @@ const styles = ({ spacing }: Theme) =>
             padding: spacing.unit * 2,
             maxHeight: "50%",
         },
+        header: {
+            textAlign: "center",
+        },
+        errorHeader: { background: red[400] },
+        successHeader: { background: green[400] },
     });
 
 const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
@@ -53,14 +63,32 @@ const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
     const [amountErrorText, setAmountErrorText] = useState("");
     const [accountErrorText, setAccountErrorText] = useState("");
     const [typeErrorText, setTypeErrorText] = useState("");
-    const [hasError, setHasError] = useState(false);
+    const [formErrorText, setFormErrorText] = useState("");
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
         e.preventDefault();
 
         if (validateForm()) {
-            const submitSuccess: boolean = await submitForm();
-            setSubmitSuccess(submitSuccess);
+            const db = new Database();
+            const record: Detail = new Detail();
+            record.name = accountName;
+            record.type = type as Type;
+            record.amount = amount;
+            record.date = date.format("YYYY-MM-01");
+
+            try {
+                await db.addNewRecord(record);
+                clearForm();
+                setSubmitSuccess(true);
+            } catch (err) {
+                if (err instanceof UniqueConstraintError) {
+                    setFormErrorText(`A record with "${accountName}" already exists for "${date.format("MMMM YYYY")}"`);
+                } else {
+                    setFormErrorText(`Something went wrong. Please try again later`);
+                }
+            }
+        } else {
+            setFormErrorText("Please fix the highlighted errors!");
         }
     };
 
@@ -73,14 +101,13 @@ const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
         setAmountErrorText("");
         setAccountErrorText("");
         setTypeErrorText("");
-        setHasError(false);
+        setFormErrorText("");
     };
 
     const validateForm = (): boolean => {
         let error = validateAmount();
         error = validateAccount() || error;
         error = validateType() || error;
-        setHasError(error);
         return !error;
     };
 
@@ -111,10 +138,6 @@ const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
         return false;
     };
 
-    const submitForm = async (): Promise<boolean> => {
-        return true;
-    };
-
     const handleAccountSelected = (e: React.ChangeEvent<HTMLSelectElement>) => setAccountName(e.target.value);
 
     const handleTypeSelected = (e: React.ChangeEvent<HTMLSelectElement>) => setType(e.target.value);
@@ -126,19 +149,17 @@ const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
 
     return (
         <Paper className={classes.root}>
+            {!isEmptyString(formErrorText) && (
+                <Header className={`${classes.errorHeader} ${classes.header}`}>{formErrorText}</Header>
+            )}
+
+            {submitSuccess && (
+                <Header className={`${classes.successHeader} ${classes.header}`}>
+                    The form was successfully submitted!
+                </Header>
+            )}
+
             <form onSubmit={handleSubmit} noValidate={true} autoComplete="off" className={classes.root}>
-                {submitSuccess && (
-                    <div className="alert alert-info" role="alert">
-                        The form was successfully submitted!
-                    </div>
-                )}
-
-                {hasError && (
-                    <div className="alert alert-danger" role="alert">
-                        Please fix the highlighted errors!
-                    </div>
-                )}
-
                 <MonthYearDatePicker
                     className={classes.formControl}
                     value={date}
@@ -178,6 +199,7 @@ const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
                     label="Amount"
                     placeholder="Please enter the amount"
                     symbol="NZD"
+                    value={amount}
                 />
 
                 <Button className={classes.button} color="secondary" onClick={clearForm}>

@@ -1,10 +1,9 @@
+import { MenuItem, TextField } from "@material-ui/core";
 import React, { ReactNode } from "react";
-import { TextField, MenuItem } from "@material-ui/core";
-import { ITextFieldProps } from "./textfield";
 import { isEmptyString } from "../../../utils";
+import { ITextFieldProps } from "./textfield";
 
 interface IDropdownProps extends ITextFieldProps {
-    value: string;
     dropdownClassName: string;
     items?: string[];
     children?: ReactNode;

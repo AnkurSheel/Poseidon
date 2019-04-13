@@ -5,4 +5,5 @@ export interface ITextFieldProps {
     errorText: string;
     label: string;
     placeholder?: string;
+    value: string | number;
 }

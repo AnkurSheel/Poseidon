@@ -1,7 +1,7 @@
+import { InputAdornment, TextField } from "@material-ui/core";
 import React from "react";
-import { TextField, InputAdornment } from "@material-ui/core";
-import { ITextFieldProps } from "./textfield";
 import { isEmptyString } from "../../../utils";
+import { ITextFieldProps } from "./textfield";
 
 interface ICurrencyTextFieldProps extends ITextFieldProps {
     symbol?: string;
@@ -9,6 +9,7 @@ interface ICurrencyTextFieldProps extends ITextFieldProps {
 
 export const CurrencyTextField = (props: ICurrencyTextFieldProps) => {
     const symbol = props.symbol || "$";
+    const value = props.value as number;
     return (
         <TextField
             className={props.className}
@@ -23,6 +24,7 @@ export const CurrencyTextField = (props: ICurrencyTextFieldProps) => {
             placeholder={props.placeholder}
             error={!isEmptyString(props.errorText)}
             helperText={props.errorText}
+            value={value > 0 && value}
         />
     );
 };

@@ -1,9 +1,7 @@
-import * as moment from "moment";
-
 export enum Type {
-    Unknown = 0,
-    Asset,
-    Debt,
+    Unknown = "unknown",
+    Asset = "Asset",
+    Debt = "Debt",
 }
 
 export class Detail {
