@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import { Header } from "../../components/material-ui-wrappers/header";
 import { Button, CurrencyTextField, Dropdown, MonthYearDatePicker } from "../../components/material-ui-wrappers/index";
 import { Database } from "../../shared/database";
+import { UniqueConstraintError } from "../../shared/unique-contraint-error";
 import { Detail, Type } from "../../types/details";
 import { isEmptyString } from "../../utils";
 
@@ -62,7 +63,7 @@ const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
     const [amountErrorText, setAmountErrorText] = useState("");
     const [accountErrorText, setAccountErrorText] = useState("");
     const [typeErrorText, setTypeErrorText] = useState("");
-    const [hasError, setHasError] = useState(false);
+    const [formErrorText, setFormErrorText] = useState("");
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
         e.preventDefault();
@@ -73,14 +74,21 @@ const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
             record.name = accountName;
             record.type = type as Type;
             record.amount = amount;
-            record.date = date.format("YYYY-MM-DD");
+            record.date = date.format("YYYY-MM-01");
 
-            const success = await db.addNewRecord(record);
-            if (success) {
-                setSubmitSuccess(success);
-            } else {
-                setHasError(true);
+            try {
+                await db.addNewRecord(record);
+                clearForm();
+                setSubmitSuccess(true);
+            } catch (err) {
+                if (err instanceof UniqueConstraintError) {
+                    setFormErrorText(`A record with "${accountName}" already exists for "${date.format("MMMM YYYY")}"`);
+                } else {
+                    setFormErrorText(`Something went wrong. Please try again later`);
+                }
             }
+        } else {
+            setFormErrorText("Please fix the highlighted errors!");
         }
     };
 
@@ -93,14 +101,13 @@ const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
         setAmountErrorText("");
         setAccountErrorText("");
         setTypeErrorText("");
-        setHasError(false);
+        setFormErrorText("");
     };
 
     const validateForm = (): boolean => {
         let error = validateAmount();
         error = validateAccount() || error;
         error = validateType() || error;
-        setHasError(error);
         return !error;
     };
 
@@ -142,10 +149,8 @@ const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
 
     return (
         <Paper className={classes.root}>
-            {hasError && (
-                <Header className={`${classes.errorHeader} ${classes.header}`}>
-                    Please fix the highlighted errors!
-                </Header>
+            {!isEmptyString(formErrorText) && (
+                <Header className={`${classes.errorHeader} ${classes.header}`}>{formErrorText}</Header>
             )}
 
             {submitSuccess && (

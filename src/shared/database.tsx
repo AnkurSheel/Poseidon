@@ -5,6 +5,7 @@ import moment from "moment";
 import { Detail, Type } from "../types/details";
 import { Totals } from "../types/totals";
 import { DatabaseHelpers } from "./database-helpers";
+import { UniqueConstraintError } from "./unique-contraint-error";
 
 export class Database {
     public dbHelper: DatabaseHelpers;
@@ -34,7 +35,7 @@ export class Database {
                     amount: e.amount.toFixed(2),
                     type: e.type,
                 };
-            }
+            },
         );
     }
 
@@ -70,7 +71,7 @@ export class Database {
                     debt: e.debts ? -e.debts.toFixed(2) : 0,
                     total: e.totals.toFixed(2),
                 };
-            }
+            },
         );
     }
 
@@ -106,18 +107,19 @@ export class Database {
                     debt: e.debts ? -e.debts.toFixed(2) : 0,
                     total: e.totals.toFixed(2),
                 };
-            }
+            },
         );
     }
 
-    public async addNewRecord(record: Detail): Promise<boolean> {
+    public async addNewRecord(record: Detail): Promise<void> {
         const client = knex(config[env]);
         try {
             await client.table("networth").insert(record);
         } catch (err) {
-            console.log(`Error: ${err.code} ${err.message}`);
-            return false;
+            if (err.errno == 19) {
+                throw new UniqueConstraintError("The record already exists");
+            }
+            throw err;
         }
-        return true;
     }
 }
