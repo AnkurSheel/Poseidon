@@ -16,7 +16,7 @@ export const MonthlyChart = () => {
 
             const result = await db.getMonthlyTotals();
 
-            setTotals(result);
+            setTotals(result.reverse());
             setIsLoading(false);
         };
         fetchData();

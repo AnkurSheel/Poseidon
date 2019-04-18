@@ -15,7 +15,7 @@ export const YearlyChart = () => {
             setIsLoading(true);
 
             const result = await db.getYearlyTotals();
-            setTotals(result);
+            setTotals(result.reverse());
 
             setIsLoading(false);
         };
