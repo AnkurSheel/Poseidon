@@ -3,6 +3,12 @@ import { useEffect, useState } from "react";
 import { DetailsWithConditionalRenderings } from "../../components/details";
 import { Database } from "../../shared/database";
 import { Detail } from "../../types/details";
+import { Theme, createStyles } from "@material-ui/core";
+
+const styles = (theme: Theme) =>
+    createStyles({
+        root: {},
+    });
 
 export const IndividualDetails = () => {
     const db: Database = new Database();
@@ -33,20 +39,16 @@ export const IndividualDetails = () => {
 
     const columns = [
         {
-            Header: "Date",
-            accessor: "date",
+            name: "Date",
         },
         {
-            Header: "Name",
-            accessor: "name",
+            name: "Name",
         },
         {
-            Header: "Amount",
-            accessor: "amount",
+            name: "Amount",
         },
         {
-            Header: "Type",
-            accessor: "type",
+            name: "Type",
         },
     ];
 

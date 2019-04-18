@@ -33,20 +33,16 @@ export const YearlyDetails = () => {
 
     const columns = [
         {
-            Header: "Date",
-            accessor: "date",
+            name: "Date",
         },
         {
-            Header: "Asset",
-            accessor: "asset",
+            name: "Asset",
         },
         {
-            Header: "Debt",
-            accessor: "debt",
+            name: "Debt",
         },
         {
-            Header: "Net Worth",
-            accessor: "total",
+            name: "Net Worth",
         },
     ];
     return (
