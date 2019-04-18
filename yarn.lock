@@ -438,12 +438,6 @@
     "@types/history" "*"
     "@types/react" "*"
 
-"@types/react-table@^6.8.0":
-  version "6.8.0"
-  resolved "https://registry.yarnpkg.com/@types/react-table/-/react-table-6.8.0.tgz#97cd60a119d5a969ff6aa73ca6e55847ce8ae703"
-  dependencies:
-    "@types/react" "*"
-
 "@types/react-text-mask@^5.4.3":
   version "5.4.4"
   resolved "https://registry.yarnpkg.com/@types/react-text-mask/-/react-text-mask-5.4.4.tgz#eb4606e1c431b7bd2f5e817ea141432cc63b58c1"
@@ -6911,12 +6905,6 @@ react-smooth@~1.0.0:
     prop-types "^15.6.0"
     raf "^3.4.0"
     react-transition-group "^2.5.0"
-
-react-table@^6.9.2:
-  version "6.9.2"
-  resolved "https://registry.yarnpkg.com/react-table/-/react-table-6.9.2.tgz#6a59adfeb8d5deced288241ed1c7847035b5ec5f"
-  dependencies:
-    classnames "^2.2.5"
 
 react-text-mask@^5.4.3:
   version "5.4.3"

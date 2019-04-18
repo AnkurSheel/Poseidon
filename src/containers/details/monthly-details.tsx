@@ -15,10 +15,10 @@ export const MonthlyDetails = () => {
         const fetchData = async () => {
             setIsLoading(true);
 
-                const result = await db.getMonthlyTotals();
-                setTotals(result);
+            const result = await db.getMonthlyTotals();
+            setTotals(result);
 
-                setIsLoading(false);
+            setIsLoading(false);
         };
         fetchData();
     }, []);
@@ -34,20 +34,16 @@ export const MonthlyDetails = () => {
 
     const columns = [
         {
-            Header: "Date",
-            accessor: "date",
+            name: "Date",
         },
         {
-            Header: "Asset",
-            accessor: "asset",
+            name: "Asset",
         },
         {
-            Header: "Debt",
-            accessor: "debt",
+            name: "Debt",
         },
         {
-            Header: "Net Worth",
-            accessor: "total",
+            name: "Net Worth",
         },
     ];
     return (

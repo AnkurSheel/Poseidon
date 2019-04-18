@@ -1,29 +1,37 @@
 import * as React from "react";
-import ReactTable from "react-table";
-import "react-table/react-table.css";
 import { ComponentEnhancer, compose } from "recompose";
 import { withLoadingIndicator } from "../higher-order-components/loading-hoc";
 import { withNullCheck } from "../higher-order-components/null-check-hoc";
+import { Paper, Table, TableHead, TableRow, TableCell, TableBody } from "@material-ui/core";
 
 const nullCheckFn = (props: any) => !props.data || props.data.length == 0;
 
-export const Details = (props: any) => (
-    <div>
-        <ReactTable
-            data={props.data}
-            columns={props.columns.map((c: any) => ({
-                Header: c.Header,
-                accessor: c.accessor,
-                style: {
-                    color: "white",
-                },
-                headerStyle: {
-                    color: "white",
-                },
-            }))}
-        />
-    </div>
-);
+export const Details = (props: any) => {
+    const renderRow = (_row: any) => {
+        return (
+            <TableRow key={_row.id}>
+                {Object.keys(_row).map((key: any) => {
+                    return <TableCell>{_row[key]}</TableCell>;
+                })}
+            </TableRow>
+        );
+    };
+
+    return (
+        <Paper>
+            <Table>
+                <TableHead>
+                    <TableRow>
+                        {props.columns.map((c: any) => (
+                            <TableCell>{c.name}</TableCell>
+                        ))}
+                    </TableRow>
+                </TableHead>
+                <TableBody>{props.data.map(renderRow)}</TableBody>
+            </Table>
+        </Paper>
+    );
+};
 
 export const DetailsWithLoadingIndicator = withLoadingIndicator(Details);
 
