@@ -7,8 +7,10 @@ import { Header } from "../../components/material-ui-wrappers/header";
 import { Button, CurrencyTextField, Dropdown, MonthYearDatePicker } from "../../components/material-ui-wrappers/index";
 import { Database } from "../../shared/database";
 import { UniqueConstraintError } from "../../shared/unique-contraint-error";
+import { accountNames } from "../../types/accountNames";
 import { Detail, Type } from "../../types/details";
 import { isEmptyString } from "../../utils";
+import { typeOptions } from "../../types/typeOptions";
 
 const styles = ({ spacing }: Theme) =>
     createStyles({
@@ -36,25 +38,6 @@ const styles = ({ spacing }: Theme) =>
     });
 
 const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
-    const typeOptions = ["Asset", "Debt"];
-
-    const accountNames = [
-        "Joint Checking Account",
-        "Joint Savings Account",
-        "Westpac Checking Account",
-        "Emergency Account",
-        "Gunjans Online Account",
-        "Home Deposit Account",
-        "Fixed Deposit 1",
-        "Fixed Deposit 2",
-        "Fixed Deposit 3",
-        "Ankurs KiwiSaver",
-        "Gunjans KiwiSaver",
-        "Bonus Bonds",
-        "Shares",
-        "ANZ Credit Card",
-        "Amex Credit Card",
-    ];
     const [accountName, setAccountName] = useState("");
     const [type, setType] = useState("");
     const [amount, setAmount] = useState<number>(0);
