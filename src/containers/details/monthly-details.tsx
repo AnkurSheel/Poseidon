@@ -1,9 +1,9 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
+import { ChartsWithLoadingIndicator } from "../../components/chart";
 import { DetailsWithConditionalRenderings } from "../../components/details";
 import { Database } from "../../shared/database";
 import { Totals } from "../../types/totals";
-import { ChartsWithLoadingIndicator } from "../../components/chart";
 
 export const MonthlyDetails = () => {
     const db: Database = new Database();
@@ -46,15 +46,5 @@ export const MonthlyDetails = () => {
             name: "Net Worth",
         },
     ];
-    return (
-        <div>
-            <ChartsWithLoadingIndicator
-                loading={isLoading}
-                data={data.reverse()}
-                XAxisLabel="Months"
-                YAxisLabel="Amount"
-            />
-            <DetailsWithConditionalRenderings data={data} columns={columns} loading={isLoading} />;
-        </div>
-    );
+    return <DetailsWithConditionalRenderings data={data} columns={columns} loading={isLoading} />;
 };
