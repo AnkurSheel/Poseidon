@@ -1,0 +1,17 @@
+export const accountNames = [
+    "Joint Checking Account",
+    "Joint Savings Account",
+    "Westpac Checking Account",
+    "Emergency Account",
+    "Gunjans Online Account",
+    "Home Deposit Account",
+    "Fixed Deposit 1",
+    "Fixed Deposit 2",
+    "Fixed Deposit 3",
+    "Ankurs KiwiSaver",
+    "Gunjans KiwiSaver",
+    "Bonus Bonds",
+    "Shares",
+    "ANZ Credit Card",
+    "Amex Credit Card",
+];
