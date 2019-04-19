@@ -9,8 +9,8 @@ import { Database } from "../../shared/database";
 import { UniqueConstraintError } from "../../shared/unique-contraint-error";
 import { accountNames } from "../../types/accountNames";
 import { Detail, Type } from "../../types/details";
-import { isEmptyString } from "../../utils";
 import { typeOptions } from "../../types/typeOptions";
+import { isEmptyString } from "../../utils";
 
 const styles = ({ spacing }: Theme) =>
     createStyles({
@@ -56,7 +56,7 @@ const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
             const record: Detail = new Detail();
             record.name = accountName;
             record.type = type as Type;
-            record.amount = amount;
+            record.amount = record.type === Type.Asset ? amount : -amount;
             record.date = date.format("YYYY-MM-01");
 
             try {
