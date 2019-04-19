@@ -52,6 +52,7 @@ const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
         e.preventDefault();
+        clearText();
 
         if (validateForm()) {
             const record: Detail = new Detail();
@@ -60,7 +61,6 @@ const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
             record.amount = record.type === Type.Asset ? amount : -amount;
             record.date = date.format("YYYY-MM-01");
 
-            clearText();
             setSubmittingText("Submitting...");
 
             ipcRenderer.send("insert-record", record);
