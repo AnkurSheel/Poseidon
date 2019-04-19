@@ -1,13 +1,15 @@
 import { createStyles, Paper, Theme, withStyles, WithStyles } from "@material-ui/core";
-import { green, red } from "@material-ui/core/colors";
+import { blue, green, red } from "@material-ui/core/colors";
+import { ipcRenderer } from "electron";
 import { MaterialUiPickersDate } from "material-ui-pickers";
 import moment from "moment";
 import React, { useState } from "react";
 import { Header } from "../../components/material-ui-wrappers/header";
 import { Button, CurrencyTextField, Dropdown, MonthYearDatePicker } from "../../components/material-ui-wrappers/index";
-import { Database } from "../../shared/database";
 import { UniqueConstraintError } from "../../shared/unique-contraint-error";
+import { accountNames } from "../../types/accountNames";
 import { Detail, Type } from "../../types/details";
+import { typeOptions } from "../../types/typeOptions";
 import { isEmptyString } from "../../utils";
 
 const styles = ({ spacing }: Theme) =>
@@ -33,28 +35,10 @@ const styles = ({ spacing }: Theme) =>
         },
         errorHeader: { background: red[400] },
         successHeader: { background: green[400] },
+        submittingHeader: { background: blue[400] },
     });
 
 const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
-    const typeOptions = ["Asset", "Debt"];
-
-    const accountNames = [
-        "Joint Checking Account",
-        "Joint Savings Account",
-        "Westpac Checking Account",
-        "Emergency Account",
-        "Gunjans Online Account",
-        "Home Deposit Account",
-        "Fixed Deposit 1",
-        "Fixed Deposit 2",
-        "Fixed Deposit 3",
-        "Ankurs KiwiSaver",
-        "Gunjans KiwiSaver",
-        "Bonus Bonds",
-        "Shares",
-        "ANZ Credit Card",
-        "Amex Credit Card",
-    ];
     const [accountName, setAccountName] = useState("");
     const [type, setType] = useState("");
     const [amount, setAmount] = useState<number>(0);
@@ -64,44 +48,54 @@ const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
     const [accountErrorText, setAccountErrorText] = useState("");
     const [typeErrorText, setTypeErrorText] = useState("");
     const [formErrorText, setFormErrorText] = useState("");
+    const [submittingText, setSubmittingText] = useState("");
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
         e.preventDefault();
+        clearText();
 
         if (validateForm()) {
-            const db = new Database();
             const record: Detail = new Detail();
             record.name = accountName;
             record.type = type as Type;
-            record.amount = amount;
+            record.amount = record.type === Type.Asset ? amount : -amount;
             record.date = date.format("YYYY-MM-01");
 
-            try {
-                await db.addNewRecord(record);
-                clearForm();
-                setSubmitSuccess(true);
-            } catch (err) {
-                if (err instanceof UniqueConstraintError) {
-                    setFormErrorText(`A record with "${accountName}" already exists for "${date.format("MMMM YYYY")}"`);
-                } else {
-                    setFormErrorText(`Something went wrong. Please try again later`);
-                }
-            }
+            setSubmittingText("Submitting...");
+
+            ipcRenderer.send("insert-record", record);
         } else {
             setFormErrorText("Please fix the highlighted errors!");
         }
     };
+
+    ipcRenderer.on("insert-record-result", (event: any, msg: string) => {
+        clearText();
+        if (msg === "Success") {
+            clearForm();
+            setSubmitSuccess(true);
+        } else if (msg === "UniqueConstraintError") {
+            setFormErrorText(`A record with "${accountName}" already exists for "${date.format("MMMM YYYY")}"`);
+        } else {
+            setFormErrorText(`Something went wrong. Please try again later`);
+        }
+    });
 
     const clearForm = () => {
         setAccountName("");
         setDate(moment());
         setAmount(0);
         setType("");
+        clearText();
+    };
+
+    const clearText = () => {
         setSubmitSuccess(false);
         setAmountErrorText("");
         setAccountErrorText("");
         setTypeErrorText("");
         setFormErrorText("");
+        setSubmittingText("");
     };
 
     const validateForm = (): boolean => {
@@ -151,6 +145,10 @@ const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
         <Paper className={classes.root}>
             {!isEmptyString(formErrorText) && (
                 <Header className={`${classes.errorHeader} ${classes.header}`}>{formErrorText}</Header>
+            )}
+
+            {!isEmptyString(submittingText) && (
+                <Header className={`${classes.submittingHeader} ${classes.header}`}>{submittingText}</Header>
             )}
 
             {submitSuccess && (

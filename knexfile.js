@@ -1,31 +1,34 @@
 // Update with your config settings.
 
-module.exports = {
-    development: {
-        client: "sqlite3",
-        connection: {
-            filename: "./dev.sqlite3",
+module.exports = appData => {
+    console.log(appData);
+    return {
+        development: {
+            client: "sqlite3",
+            connection: {
+                filename: `${appData}/newt-dev.sqlite3`,
+            },
+            seeds: {
+                directory: "./seeds",
+            },
+            useNullAsDefault: true,
+            debug: true,
         },
-        seeds: {
-            directory: "./seeds",
-        },
-        useNullAsDefault: true,
-        debug: true,
-    },
 
-    staging: {
-        client: "sqlite3",
-        connection: {
-            filename: "./dev.sqlite3",
+        staging: {
+            client: "sqlite3",
+            connection: {
+                filename: `${appData}/newt-test.sqlite3`,
+            },
+            useNullAsDefault: true,
         },
-        useNullAsDefault: true,
-    },
 
-    production: {
-        client: "sqlite3",
-        connection: {
-            filename: "./dev.sqlite3",
+        production: {
+            client: "sqlite3",
+            connection: {
+                filename: `${appData}/newt.sqlite3`,
+            },
+            useNullAsDefault: true,
         },
-        useNullAsDefault: true,
-    },
+    };
 };

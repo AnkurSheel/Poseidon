@@ -2,6 +2,7 @@ var HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
 var WebpackNotifierPlugin = require("webpack-notifier");
 var fs = require("fs");
+const webpack = require("webpack");
 
 const nodeModules = {};
 fs.readdirSync("node_modules")
@@ -13,6 +14,10 @@ fs.readdirSync("node_modules")
     });
 
 let rootFolder = path.resolve(__dirname, "../");
+
+const envVars = {
+    ENVIRONMENT: JSON.stringify(process.env.ENVIRONMENT),
+};
 
 let baseMainConfig = {
     entry: path.resolve(rootFolder, "src/main.tsx"),
@@ -42,7 +47,12 @@ let baseMainConfig = {
         ],
     },
     devtool: "source-map",
-    plugins: [new WebpackNotifierPlugin({ title: "Poseidon" })],
+    plugins: [
+        new WebpackNotifierPlugin({ title: "Poseidon" }),
+        new webpack.DefinePlugin({
+            "process.env": envVars,
+        }),
+    ],
     externals: [nodeModules],
 };
 
@@ -80,6 +90,9 @@ let baseRendererConfig = {
     plugins: [
         new HtmlWebpackPlugin({
             template: path.resolve(rootFolder, "src/index.html"),
+        }),
+        new webpack.DefinePlugin({
+            "process.env": envVars,
         }),
     ],
     devtool: "inline-source-map",
