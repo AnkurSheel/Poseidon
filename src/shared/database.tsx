@@ -1,5 +1,5 @@
 const config = require("../../knexfile.js");
-const env = "development";
+
 import knex from "knex";
 import moment from "moment";
 import { Detail, Type } from "../types/details";
@@ -9,18 +9,19 @@ import { UniqueConstraintError } from "./unique-contraint-error";
 
 export class Database {
     public dbHelper: DatabaseHelpers;
+    private client: knex;
+
     constructor() {
         this.dbHelper = new DatabaseHelpers();
+        this.client = knex(config[process.env.ENVIRONMENT]);
     }
 
     public migrateDatabase(): void {
-        const client = knex(config[env]);
-        client.migrate.latest(config);
+        this.client.migrate.latest(config);
     }
 
     public async getIndividualDetails(): Promise<Detail[]> {
-        const client = knex(config[env]);
-        const entries = await client
+        const entries = await this.client
             .from("networth")
             .orderBy("date", "desc")
             .orderBy("type")
@@ -40,10 +41,8 @@ export class Database {
     }
 
     public async getMonthlyTotals(): Promise<Totals[]> {
-        const client = knex(config[env]);
-
         const baseQuery = (alias: string) => {
-            return client
+            return this.client
                 .sum("amount")
                 .from("networth as B")
                 .as(`${alias}`);
@@ -55,7 +54,7 @@ export class Database {
 
         const totalsSubquery = this.dbHelper.filterByDate(baseQuery("totals"));
 
-        const assets = await client
+        const assets = await this.client
             .select("date", assetsSubquery, debtsSubquery, totalsSubquery)
             .from("networth as A")
             .groupBy("date")
@@ -76,10 +75,8 @@ export class Database {
     }
 
     public async getYearlyTotals(): Promise<Totals[]> {
-        const client = knex(config[env]);
-
         const baseQuery = (alias: string) => {
-            return client
+            return this.client
                 .sum("amount")
                 .from("networth as B")
                 .as(`${alias}`);
@@ -91,8 +88,13 @@ export class Database {
 
         const totalsSubquery = this.dbHelper.filterByYear(baseQuery("totals"));
 
-        const assets = await client
-            .select(client.raw("strftime('%Y',??) as year", "A.date"), assetsSubquery, debtsSubquery, totalsSubquery)
+        const assets = await this.client
+            .select(
+                this.client.raw("strftime('%Y',??) as year", "A.date"),
+                assetsSubquery,
+                debtsSubquery,
+                totalsSubquery,
+            )
             .from("networth as A")
             .groupBy("year")
             .orderBy("year", "desc");
@@ -112,9 +114,8 @@ export class Database {
     }
 
     public async addNewRecord(record: Detail): Promise<void> {
-        const client = knex(config[env]);
         try {
-            await client.table("networth").insert(record);
+            await this.client.table("networth").insert(record);
         } catch (err) {
             if (err.errno == 19) {
                 throw new UniqueConstraintError("The record already exists");

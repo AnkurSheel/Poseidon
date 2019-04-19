@@ -4,7 +4,7 @@ module.exports = {
     development: {
         client: "sqlite3",
         connection: {
-            filename: "./dev.sqlite3",
+            filename: "./newt-dev.sqlite3",
         },
         seeds: {
             directory: "./seeds",
@@ -16,7 +16,7 @@ module.exports = {
     staging: {
         client: "sqlite3",
         connection: {
-            filename: "./dev.sqlite3",
+            filename: "./newt-test.sqlite3",
         },
         useNullAsDefault: true,
     },
@@ -24,7 +24,7 @@ module.exports = {
     production: {
         client: "sqlite3",
         connection: {
-            filename: "./dev.sqlite3",
+            filename: "./newt.sqlite3",
         },
         useNullAsDefault: true,
     },
