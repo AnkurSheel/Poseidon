@@ -1,5 +1,4 @@
 import { app, BrowserWindow } from "electron";
-import { ipcMain } from "electron";
 import installExtension, { REACT_DEVELOPER_TOOLS } from "electron-devtools-installer";
 import * as path from "path";
 import * as url from "url";
@@ -29,13 +28,15 @@ function createWindow(): void {
         mainWindow = null;
     });
 
-    installExtension(REACT_DEVELOPER_TOOLS)
-        .then((name: string) => {
-            console.log(`Added Extension:  ${name}`);
-        })
-        .catch((err: any) => {
-            console.log("An error occurred: ", err);
-        });
+    if (process.env.ENVIRONMENT === "development") {
+        installExtension(REACT_DEVELOPER_TOOLS)
+            .then((name: string) => {
+                console.log(`Added Extension:  ${name}`);
+            })
+            .catch((err: any) => {
+                console.log("An error occurred: ", err);
+            });
+    }
 }
 
 app.on("ready", createWindow);
