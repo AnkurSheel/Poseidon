@@ -11,9 +11,10 @@ export class Database {
     public dbHelper: DatabaseHelpers;
     private client: knex;
 
-    constructor() {
+    constructor(appDataPath: string) {
         this.dbHelper = new DatabaseHelpers();
-        this.client = knex(config[process.env.ENVIRONMENT]);
+        const currentConfig = config(appDataPath)[process.env.ENVIRONMENT];
+        this.client = knex(currentConfig);
     }
 
     public migrateDatabase(): void {

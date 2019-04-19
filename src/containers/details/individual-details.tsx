@@ -1,9 +1,9 @@
-import * as React from "react";
+import { createStyles, Theme } from "@material-ui/core";
+import { ipcRenderer } from "electron";
+import React from "react";
 import { useEffect, useState } from "react";
 import { DetailsWithConditionalRenderings } from "../../components/details";
-import { Database } from "../../shared/database";
 import { Detail } from "../../types/details";
-import { Theme, createStyles } from "@material-ui/core";
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -11,22 +11,18 @@ const styles = (theme: Theme) =>
     });
 
 export const IndividualDetails = () => {
-    const db: Database = new Database();
-
     const [details, setDetails] = useState<Detail[]>([]);
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        const fetchData = async () => {
-            setIsLoading(true);
-
-            const result = await db.getIndividualDetails();
-            setDetails(result);
-
-            setIsLoading(false);
-        };
-        fetchData();
+        setIsLoading(true);
+        ipcRenderer.send("get-individual-details");
     }, []);
+
+    ipcRenderer.on("individual-details", (event: any, data: Detail[]) => {
+        setDetails(data);
+        setIsLoading(false);
+    });
 
     const data = details.map(d => {
         return {
