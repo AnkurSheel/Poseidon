@@ -15,6 +15,7 @@ export const Charts = (props: any) => {
                         offset: -10,
                         fill: "#fff",
                     }}
+                    reversed={true}
                 />
                 <YAxis
                     stroke="#fff"

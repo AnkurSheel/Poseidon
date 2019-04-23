@@ -14,7 +14,7 @@ export const YearlyChart = () => {
     }, []);
 
     ipcRenderer.on("yearly-totals", (event: any, data: Totals[]) => {
-        setTotals(data.reverse());
+        setTotals(data);
         setIsLoading(false);
     });
 

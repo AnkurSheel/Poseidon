@@ -14,7 +14,7 @@ export const MonthlyChart = () => {
     }, []);
 
     ipcRenderer.on("monthly-totals", (event: any, data: Totals[]) => {
-        setTotals(data.reverse());
+        setTotals(data);
         setIsLoading(false);
     });
     return <ChartsWithLoadingIndicator loading={isLoading} data={totals} XAxisLabel="Months" YAxisLabel="Amount" />;
