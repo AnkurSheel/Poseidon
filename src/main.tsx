@@ -1,21 +1,20 @@
 import { app, BrowserWindow, ipcMain } from "electron";
-import installExtension, { REACT_DEVELOPER_TOOLS } from "electron-devtools-installer";
 import * as path from "path";
 import * as url from "url";
-import { importJson } from "./import-json";
 import { Database } from "./shared/database";
 import { UniqueConstraintError } from "./shared/unique-contraint-error";
 import { Detail } from "./types/details";
 
 let mainWindow: Electron.BrowserWindow;
 const db = new Database(app.getPath("userData"));
+const isDevelopment = process.env.ENVIRONMENT === "development";
 
 function createWindow(): void {
     mainWindow = new BrowserWindow({
         height: 600,
         width: 800,
         webPreferences: {
-            enableRemoteModule: false,
+            enableRemoteModule: isDevelopment,
         },
     });
 
@@ -27,27 +26,18 @@ function createWindow(): void {
             pathname: path.join(__dirname, "./index.html"),
             protocol: "file:",
             slashes: true,
-        }),
+        })
     );
 
     mainWindow.on("closed", () => {
         mainWindow = null;
     });
-
-    // if (process.env.ENVIRONMENT === "development") {
-    //     installExtension(REACT_DEVELOPER_TOOLS)
-    //         .then((name: string) => {
-    //             console.log(`Added Extension:  ${name}`);
-    //         })
-    //         .catch((err: any) => {
-    //             console.log("An error occurred: ", err);
-    //         });
-    // }
 }
 
-app.on("ready", () => {
+app.on("ready", async () => {
     db.migrateDatabase();
     createWindow();
+    await addExtensions();
 
     ipcMain.on("get-monthly-totals", async () => {
         const results = await db.getMonthlyTotals();
@@ -93,3 +83,15 @@ app.on("activate", () => {
         createWindow();
     }
 });
+
+async function addExtensions() {
+    if (isDevelopment) {
+        try {
+            const devTools = await import("electron-devtools-installer");
+            let result = await devTools.default(devTools.REACT_DEVELOPER_TOOLS);
+            console.log(`Added Extension`);
+        } catch (err) {
+            console.log("An error occurred: ", err);
+        }
+    }
+}
