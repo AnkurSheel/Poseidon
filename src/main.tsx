@@ -2,6 +2,7 @@ import { app, BrowserWindow, ipcMain } from "electron";
 import installExtension, { REACT_DEVELOPER_TOOLS } from "electron-devtools-installer";
 import * as path from "path";
 import * as url from "url";
+import { importJson } from "./import-json";
 import { Database } from "./shared/database";
 import { UniqueConstraintError } from "./shared/unique-contraint-error";
 import { Detail } from "./types/details";
@@ -13,7 +14,12 @@ function createWindow(): void {
     mainWindow = new BrowserWindow({
         height: 600,
         width: 800,
+        webPreferences: {
+            enableRemoteModule: false,
+        },
     });
+
+    // await importJson(db);
 
     // and load the index.html of the app.
     mainWindow.loadURL(
@@ -28,15 +34,15 @@ function createWindow(): void {
         mainWindow = null;
     });
 
-    if (process.env.ENVIRONMENT === "development") {
-        installExtension(REACT_DEVELOPER_TOOLS)
-            .then((name: string) => {
-                console.log(`Added Extension:  ${name}`);
-            })
-            .catch((err: any) => {
-                console.log("An error occurred: ", err);
-            });
-    }
+    // if (process.env.ENVIRONMENT === "development") {
+    //     installExtension(REACT_DEVELOPER_TOOLS)
+    //         .then((name: string) => {
+    //             console.log(`Added Extension:  ${name}`);
+    //         })
+    //         .catch((err: any) => {
+    //             console.log("An error occurred: ", err);
+    //         });
+    // }
 }
 
 app.on("ready", () => {

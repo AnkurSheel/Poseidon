@@ -37,7 +37,7 @@ export class Database {
                     amount: e.amount.toFixed(2),
                     type: e.type,
                 };
-            },
+            }
         );
     }
 
@@ -71,7 +71,7 @@ export class Database {
                     debt: e.debts ? -e.debts.toFixed(2) : 0,
                     total: e.totals.toFixed(2),
                 };
-            },
+            }
         );
     }
 
@@ -94,7 +94,7 @@ export class Database {
                 this.client.raw("strftime('%Y',??) as year", "A.date"),
                 assetsSubquery,
                 debtsSubquery,
-                totalsSubquery,
+                totalsSubquery
             )
             .from("networth as A")
             .groupBy("year")
@@ -110,7 +110,7 @@ export class Database {
                     debt: e.debts ? -e.debts.toFixed(2) : 0,
                     total: e.totals.toFixed(2),
                 };
-            },
+            }
         );
     }
 
@@ -123,5 +123,9 @@ export class Database {
             }
             throw err;
         }
+    }
+
+    public async clearTable(): Promise<void> {
+        await this.client.table("networth").del();
     }
 }
