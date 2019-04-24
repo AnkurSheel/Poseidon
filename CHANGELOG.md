@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/AnkurSheel/Poseidon/compare/v1.0.1...v1.1.0) (2019-04-24)
+
+
+### Features
+
+* ✨ add auto updater ([6577192](https://github.com/AnkurSheel/Poseidon/commit/6577192))
+
 ## [1.0.1](https://github.com/AnkurSheel/Poseidon/compare/v1.0.0...v1.0.1) (2019-04-24)
 
 
