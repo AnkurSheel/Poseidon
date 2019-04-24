@@ -4,10 +4,16 @@ import * as url from "url";
 import { Database } from "./shared/database";
 import { UniqueConstraintError } from "./shared/unique-contraint-error";
 import { Detail } from "./types/details";
+import { autoUpdater } from "electron-updater";
+import * as log from "electron-log";
 
 let mainWindow: Electron.BrowserWindow;
 const db = new Database(app.getPath("userData"));
 const isDevelopment = process.env.ENVIRONMENT === "development";
+
+autoUpdater.logger = log;
+log.transports.file.level = "verbose";
+log.info("App starting...");
 
 function createWindow(): void {
     mainWindow = new BrowserWindow({
@@ -35,6 +41,9 @@ function createWindow(): void {
 }
 
 app.on("ready", async () => {
+    log.info(autoUpdater.getFeedURL());
+    autoUpdater.checkForUpdates();
+
     db.migrateDatabase();
     createWindow();
     await addExtensions();
@@ -95,3 +104,30 @@ async function addExtensions() {
         }
     }
 }
+
+autoUpdater.on("checking-for-update", () => {
+    log.info("Checking for update...");
+});
+
+autoUpdater.on("update-available", info => {
+    log.info("Update available.");
+});
+
+autoUpdater.on("update-not-available", info => {
+    log.info("Update not available.");
+});
+
+autoUpdater.on("error", err => {
+    log.info("Error in auto-updater. " + err);
+});
+
+autoUpdater.on("download-progress", progressObj => {
+    let log_message = "Download speed: " + progressObj.bytesPerSecond;
+    log_message = log_message + " - Downloaded " + progressObj.percent + "%";
+    log_message = log_message + " (" + progressObj.transferred + "/" + progressObj.total + ")";
+    log.info(log_message);
+});
+
+autoUpdater.on("update-downloaded", info => {
+    log.info("Update downloaded");
+});
