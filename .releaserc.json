@@ -28,8 +28,8 @@
             {
                 "assets": [
                     { "path": "build/Newt-win.zip" },
-                    { "path": "build/Newt-win.exe" },
-                    { "path": "build/Newt-win.exe.blockmap" },
+                    { "path": "build/Newt-Setup.exe" },
+                    { "path": "build/Newt-Setup.exe.blockmap" },
                     { "path": "build/latest.yml" },
                     { "path": "build/Newt-mac.zip" },
                     { "path": "build/Newt-mac.dmg" },
