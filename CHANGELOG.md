@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/AnkurSheel/Poseidon/compare/v1.1.0...v1.1.1) (2019-04-24)
+
+
+### Bug Fixes
+
+* 🚑 allow user to modify installation dir for windows exe ([720011f](https://github.com/AnkurSheel/Poseidon/commit/720011f))
+
 # [1.1.0](https://github.com/AnkurSheel/Poseidon/compare/v1.0.1...v1.1.0) (2019-04-24)
 
 
