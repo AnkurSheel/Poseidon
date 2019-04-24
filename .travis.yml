@@ -23,7 +23,6 @@ cache:
         - $HOME/.cache/electron-builder
         - yarn
         - node_modules
-        - build
 script:
     - echo "skipping tests"
 
@@ -32,13 +31,10 @@ jobs:
         - stage: Build
           name: "Build"
           script:
-              - yarn run buildNoPublish --mac --win --linux
+              - yarn run buildNoPublish
           before_cache:
               - rm -rf $HOME/.cache/electron-builder/wine/wine-2.0.3-mac-10.13/wine-home/system.reg
               - rm -rf $HOME/.cache/electron-builder/wine/wine-2.0.3-mac-10.13/wine-home/user.reg
-              - rm -rf build/win-unpacked
-              - rm -rf build/mac
-              - rm -rf build/linux-unpacked
         - stage: Release to Github
           name: Release to Github
           if: branch = master and type != pull_request

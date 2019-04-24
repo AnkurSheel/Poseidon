@@ -11,6 +11,19 @@
             }
         ],
         [
+            "@semantic-release/exec",
+            {
+                "prepareCmd": "yarn run buildNoPublish --mac --win --linux 1>&2"
+            }
+        ],
+        [
+            "@semantic-release/git",
+            {
+                "assets": ["package.json", "CHANGELOG.md"],
+                "message": "chore(New Release): Version ${nextRelease.version} \n\n${nextRelease.notes} [skip ci]"
+            }
+        ],
+        [
             "@semantic-release/github",
             {
                 "assets": [
@@ -26,13 +39,6 @@
                     { "path": "build/Newt-linux.AppImage" },
                     { "path": "build/latest-linux.yml" }
                 ]
-            }
-        ],
-        [
-            "@semantic-release/git",
-            {
-                "assets": ["package.json", "CHANGELOG.md"],
-                "message": "chore(New Release): Version ${nextRelease.version} \n\n${nextRelease.notes} [skip ci]"
             }
         ]
     ]
