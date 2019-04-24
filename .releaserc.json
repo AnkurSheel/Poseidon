@@ -13,7 +13,7 @@
         [
             "@semantic-release/exec",
             {
-                "prepareCmd": "yarn run buildNoPublish --mac --win --linux 1>&2"
+                "prepareCmd": "yarn run build --mac --win --linux 1>&2"
             }
         ],
         [

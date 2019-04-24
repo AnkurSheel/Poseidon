@@ -23,7 +23,7 @@
         "dev": "rimraf dist && env-cmd .env.dev webpack --config ./config --progress --colours",
         "prod": "rimraf dist && env-cmd .env webpack --config ./config",
         "postinstall": "electron-builder install-app-deps",
-        "buildNoPublish": "yarn prod &&  electron-builder . --config ./electron-builder.json --publish never",
+        "build": "yarn prod &&  electron-builder . --config ./electron-builder.json --publish never",
         "semantic-release": "semantic-release",
         "commit": "yarn git-cz"
     },
