@@ -11,8 +11,4 @@ export class DatabaseHelpers {
     public filterByDate = (query: knex.QueryBuilder) => {
         return query.whereRaw("?? = ??", ["A.date", "B.date"]);
     };
-
-    public filterByYear = (query: knex.QueryBuilder) => {
-        return query.whereRaw("strftime('%Y',??) = strftime('%Y',??)", ["A.date", "B.date"]);
-    };
 }

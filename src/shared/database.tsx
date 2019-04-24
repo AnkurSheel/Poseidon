@@ -83,15 +83,18 @@ export class Database {
                 .as(`${alias}`);
         };
 
-        const assetsSubquery = this.dbHelper.filterByYear(this.dbHelper.filterByType(baseQuery("assets"))(Type.Asset));
 
-        const debtsSubquery = this.dbHelper.filterByYear(this.dbHelper.filterByType(baseQuery("debts"))(Type.Debt));
+        const assetsSubquery = this.dbHelper.filterByDate(this.dbHelper.filterByType(baseQuery("assets"))(Type.Asset));
 
-        const totalsSubquery = this.dbHelper.filterByYear(baseQuery("totals"));
+        const debtsSubquery = this.dbHelper.filterByDate(this.dbHelper.filterByType(baseQuery("debts"))(Type.Debt));
+
+        const totalsSubquery = this.dbHelper.filterByDate(baseQuery("totals"));
 
         const assets = await this.client
             .select(
+                "date",
                 this.client.raw("strftime('%Y',??) as year", "A.date"),
+                this.client.raw("max(strftime('%m', ??)) as maxMonth", "A.date"),
                 assetsSubquery,
                 debtsSubquery,
                 totalsSubquery,
@@ -123,5 +126,9 @@ export class Database {
             }
             throw err;
         }
+    }
+
+    public async clearTable(): Promise<void> {
+        await this.client.table("networth").del();
     }
 }

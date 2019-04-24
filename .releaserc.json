@@ -15,8 +15,16 @@
             {
                 "assets": [
                     { "path": "build/Newt-win.zip" },
+                    { "path": "build/Newt-win.exe" },
+                    { "path": "build/Newt-win.exe.blockmap" },
+                    { "path": "build/latest.yml" },
                     { "path": "build/Newt-mac.zip" },
-                    { "path": "build/Newt-linux.zip" }
+                    { "path": "build/Newt-mac.dmg" },
+                    { "path": "build/Newt-mac.dmg.blockmap" },
+                    { "path": "build/latest-mac.yml" },
+                    { "path": "build/Newt-linux.zip" },
+                    { "path": "build/Newt-linux.AppImage" },
+                    { "path": "build/latest-linux.yml" }
                 ]
             }
         ],

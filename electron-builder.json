@@ -10,15 +10,15 @@
     "extraFiles": "migrations/*",
     "artifactName": "${productName}-${os}.${ext}",
     "mac": {
-        "target": ["zip"],
+        "target": ["zip", "dmg"],
         "icon": "assets/icon.png"
     },
     "win": {
-        "target": ["zip"],
+        "target": ["zip", "nsis"],
         "icon": "assets/icon.png"
     },
     "linux": {
-        "target": ["zip"],
+        "target": ["zip", "AppImage"],
         "icon": "assets/icon.png"
     }
 }
