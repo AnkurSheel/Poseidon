@@ -22,7 +22,6 @@
         "watch": "env-cmd .env.dev webpack-dev-server --port 3000 --config ./config --progress --colours --remote-debugging-port=9223",
         "dev": "rimraf dist && env-cmd .env.dev webpack --config ./config --progress --colours",
         "prod": "rimraf dist && env-cmd .env webpack --config ./config",
-        "build": "yarn prod && electron-builder . --config ./electron-builder.json",
         "postinstall": "electron-builder install-app-deps",
         "buildNoPublish": "yarn prod &&  electron-builder . --config ./electron-builder.json --publish never",
         "semantic-release": "semantic-release",
