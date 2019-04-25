@@ -17,6 +17,9 @@ export const IndividualDetails = () => {
     useEffect(() => {
         setIsLoading(true);
         ipcRenderer.send("get-individual-details");
+        return () => {
+            ipcRenderer.removeAllListeners("individual-details");
+        };
     }, []);
 
     ipcRenderer.on("individual-details", (event: any, data: Detail[]) => {

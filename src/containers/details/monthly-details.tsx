@@ -11,6 +11,9 @@ export const MonthlyDetails = () => {
     useEffect(() => {
         setIsLoading(true);
         ipcRenderer.send("get-monthly-totals");
+        return () => {
+            ipcRenderer.removeAllListeners("monthly-totals");
+        };
     }, []);
 
     ipcRenderer.on("monthly-totals", (event: any, data: Totals[]) => {
