@@ -1,11 +1,11 @@
 import { app, BrowserWindow, ipcMain } from "electron";
+import * as log from "electron-log";
+import { autoUpdater } from "electron-updater";
 import * as path from "path";
 import * as url from "url";
 import { Database } from "./shared/database";
 import { UniqueConstraintError } from "./shared/unique-contraint-error";
 import { Detail } from "./types/details";
-import { autoUpdater } from "electron-updater";
-import * as log from "electron-log";
 
 let mainWindow: Electron.BrowserWindow;
 const db = new Database(app.getPath("userData"));
@@ -21,6 +21,7 @@ function createWindow(): void {
         width: 800,
         webPreferences: {
             enableRemoteModule: isDevelopment,
+            nodeIntegration: true,
         },
     });
 
@@ -32,7 +33,7 @@ function createWindow(): void {
             pathname: path.join(__dirname, "./index.html"),
             protocol: "file:",
             slashes: true,
-        })
+        }),
     );
 
     mainWindow.on("closed", () => {
@@ -97,7 +98,7 @@ async function addExtensions() {
     if (isDevelopment) {
         try {
             const devTools = await import("electron-devtools-installer");
-            let result = await devTools.default(devTools.REACT_DEVELOPER_TOOLS);
+            const result = await devTools.default(devTools.REACT_DEVELOPER_TOOLS);
             console.log(`Added Extension`);
         } catch (err) {
             console.log("An error occurred: ", err);
