@@ -1,7 +1,7 @@
 import { ipcRenderer } from "electron";
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DetailsWithConditionalRenderings } from "../../components/details";
+import { Navigation } from "../../components/navigation";
 import { Totals } from "../../types/totals";
 
 export const MonthlyDetails = () => {
@@ -44,5 +44,10 @@ export const MonthlyDetails = () => {
             name: "Net Worth",
         },
     ];
-    return <DetailsWithConditionalRenderings data={data} columns={columns} loading={isLoading} />;
+    return (
+        <React.Fragment>
+            <Navigation />
+            <DetailsWithConditionalRenderings data={data} columns={columns} loading={isLoading} />
+        </React.Fragment>
+    );
 };

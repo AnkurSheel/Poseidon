@@ -1,7 +1,7 @@
 import { ipcRenderer } from "electron";
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ChartsWithLoadingIndicator } from "../../components/chart";
+import { Navigation } from "../../components/navigation";
 import { Totals } from "../../types/totals";
 
 export const YearlyChart = () => {
@@ -21,5 +21,10 @@ export const YearlyChart = () => {
         setIsLoading(false);
     });
 
-    return <ChartsWithLoadingIndicator loading={isLoading} data={totals} XAxisLabel="Years" YAxisLabel="Amount" />;
+    return (
+        <React.Fragment>
+            <Navigation />
+            <ChartsWithLoadingIndicator loading={isLoading} data={totals} XAxisLabel="Years" YAxisLabel="Amount" />;
+        </React.Fragment>
+    );
 };

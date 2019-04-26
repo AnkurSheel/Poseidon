@@ -1,8 +1,8 @@
 import { ipcRenderer } from "electron";
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DetailsWithConditionalRenderings } from "../../components/details";
 import { Totals } from "../../types/totals";
+import { Navigation } from "../../components/navigation";
 
 export const YearlyDetails = () => {
     const [totals, setTotals] = useState<Totals[]>([]);
@@ -44,5 +44,10 @@ export const YearlyDetails = () => {
             name: "Net Worth",
         },
     ];
-    return <DetailsWithConditionalRenderings data={data} columns={columns} loading={isLoading} />;
+    return (
+        <React.Fragment>
+            <Navigation />
+            <DetailsWithConditionalRenderings data={data} columns={columns} loading={isLoading} />
+        </React.Fragment>
+    );
 };
