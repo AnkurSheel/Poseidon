@@ -1,8 +1,10 @@
 import { ipcRenderer } from "electron";
 import React, { useEffect, useState } from "react";
+import Content from "../../Components/content";
 import { DetailsWithConditionalRenderings } from "../../components/details";
+import FlexContainer from "../../Components/flex-container";
+import Navigation from "../../components/navigation";
 import { Totals } from "../../types/totals";
-import { Navigation } from "../../components/navigation";
 
 export const YearlyDetails = () => {
     const [totals, setTotals] = useState<Totals[]>([]);
@@ -45,9 +47,11 @@ export const YearlyDetails = () => {
         },
     ];
     return (
-        <React.Fragment>
+        <FlexContainer>
             <Navigation />
-            <DetailsWithConditionalRenderings data={data} columns={columns} loading={isLoading} />
-        </React.Fragment>
+            <Content>
+                <DetailsWithConditionalRenderings data={data} columns={columns} loading={isLoading} />
+            </Content>
+        </FlexContainer>
     );
 };

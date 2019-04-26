@@ -1,7 +1,9 @@
 import { ipcRenderer } from "electron";
 import React, { useEffect, useState } from "react";
 import { ChartsWithLoadingIndicator } from "../../components/chart";
-import { Navigation } from "../../components/navigation";
+import Content from "../../Components/content";
+import FlexContainer from "../../Components/flex-container";
+import Navigation from "../../components/navigation";
 import { Totals } from "../../types/totals";
 
 export const MonthlyChart = () => {
@@ -22,9 +24,11 @@ export const MonthlyChart = () => {
     });
 
     return (
-        <React.Fragment>
+        <FlexContainer>
             <Navigation />
-            <ChartsWithLoadingIndicator loading={isLoading} data={totals} XAxisLabel="Months" YAxisLabel="Amount" />
-        </React.Fragment>
+            <Content>
+                <ChartsWithLoadingIndicator loading={isLoading} data={totals} XAxisLabel="Months" YAxisLabel="Amount" />
+            </Content>
+        </FlexContainer>
     );
 };

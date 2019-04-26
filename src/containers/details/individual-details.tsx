@@ -1,8 +1,10 @@
 import { createStyles, Theme } from "@material-ui/core";
 import { ipcRenderer } from "electron";
 import React, { useEffect, useState } from "react";
+import Content from "../../Components/content";
 import { DetailsWithConditionalRenderings } from "../../components/details";
-import { Navigation } from "../../components/navigation";
+import FlexContainer from "../../Components/flex-container";
+import Navigation from "../../components/navigation";
 import { Detail } from "../../types/details";
 
 const styles = (theme: Theme) =>
@@ -52,9 +54,11 @@ export const IndividualDetails = () => {
     ];
 
     return (
-        <React.Fragment>
+        <FlexContainer>
             <Navigation />
-            <DetailsWithConditionalRenderings data={data} columns={columns} loading={isLoading} />;
-        </React.Fragment>
+            <Content>
+                <DetailsWithConditionalRenderings data={data} columns={columns} loading={isLoading} />;
+            </Content>
+        </FlexContainer>
     );
 };
