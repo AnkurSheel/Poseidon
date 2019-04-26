@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import { App } from "./components/app";
+import { App } from "./Components/app";
 import { MuiThemeProvider, createMuiTheme, CssBaseline } from "@material-ui/core";
 import { amber, green } from "@material-ui/core/colors";
 

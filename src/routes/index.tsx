@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Redirect, Route, Switch } from "react-router";
+import { Route, Switch } from "react-router";
 import { AddNewEntryMain } from "../containers/add-new-entry/add-new-entry-main";
 import { MonthlyChart } from "../containers/charts/monthly-chart";
 import { YearlyChart } from "../containers/charts/yearly-chart";
