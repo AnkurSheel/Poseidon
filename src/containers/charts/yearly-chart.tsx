@@ -11,6 +11,9 @@ export const YearlyChart = () => {
     useEffect(() => {
         setIsLoading(true);
         ipcRenderer.send("get-yearly-totals");
+        return () => {
+            ipcRenderer.removeAllListeners("yearly-totals");
+        };
     }, []);
 
     ipcRenderer.on("yearly-totals", (event: any, data: Totals[]) => {

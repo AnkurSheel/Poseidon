@@ -3,7 +3,7 @@ import { blue, green, red } from "@material-ui/core/colors";
 import { ipcRenderer } from "electron";
 import { MaterialUiPickersDate } from "material-ui-pickers";
 import moment from "moment";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Header } from "../../components/material-ui-wrappers/header";
 import { Button, CurrencyTextField, Dropdown, MonthYearDatePicker } from "../../components/material-ui-wrappers/index";
 import { UniqueConstraintError } from "../../shared/unique-contraint-error";
@@ -49,6 +49,12 @@ const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
     const [typeErrorText, setTypeErrorText] = useState("");
     const [formErrorText, setFormErrorText] = useState("");
     const [submittingText, setSubmittingText] = useState("");
+
+    useEffect(() => {
+        return () => {
+            ipcRenderer.removeAllListeners("insert-record-result");
+        };
+    }, []);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
         e.preventDefault();
