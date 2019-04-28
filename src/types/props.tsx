@@ -1,6 +1,6 @@
 import { Totals } from "./totals";
 
-export interface IMonthlyTotalsProps {
+export interface ITotalsProps {
     totals: Totals[];
     isLoading: boolean;
 }

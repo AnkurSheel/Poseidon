@@ -4,9 +4,9 @@ import { DetailsWithConditionalRenderings } from "../../components/details";
 import FlexContainer from "../../Components/flex-container";
 import Navigation from "../../components/navigation";
 import withTotalsLoader from "../../higher-order-components/totals-loader";
-import { IMonthlyTotalsProps } from "../../types/props";
+import { ITotalsProps } from "../../types/props";
 
-const MonthlyDetails = ({ totals, isLoading }: IMonthlyTotalsProps) => {
+const MonthlyDetails = ({ totals, isLoading }: ITotalsProps) => {
     const data = totals.map((t: any) => {
         return {
             date: t.date,
@@ -40,4 +40,6 @@ const MonthlyDetails = ({ totals, isLoading }: IMonthlyTotalsProps) => {
     );
 };
 
-export default withTotalsLoader()(MonthlyDetails);
+export default withTotalsLoader({ sendMessage: "get-monthly-totals", recieveMessage: "monthly-totals" })(
+    MonthlyDetails,
+);

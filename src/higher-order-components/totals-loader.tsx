@@ -2,30 +2,37 @@ import React, { useEffect, useState } from "react";
 
 import { ipcRenderer } from "electron";
 
-import { IMonthlyTotalsProps } from "../types/props";
+import { ITotalsProps } from "../types/props";
 import { Totals } from "../types/totals";
 import { getDisplayName } from "../utils";
 
-const withTotalsLoader = <P extends object>() => {
-    return (WrappedComponent: React.FC<P & IMonthlyTotalsProps>) => {
+export interface ITotalsLoader {
+    sendMessage: string;
+    recieveMessage: string;
+}
+
+const withTotalsLoader = <P extends object>(loaderProps: ITotalsLoader) => {
+    return (WrappedComponent: React.FC<P & ITotalsProps>) => {
         const TotalsLoader = (props: P) => {
             const [totals, setTotals] = useState<Totals[]>([]);
             const [isLoading, setIsLoading] = useState(false);
 
+            const { sendMessage, recieveMessage } = loaderProps;
+
             useEffect(() => {
                 setIsLoading(true);
-                ipcRenderer.send("get-monthly-totals");
+                ipcRenderer.send(sendMessage);
                 return () => {
-                    ipcRenderer.removeAllListeners("monthly-totals");
+                    ipcRenderer.removeAllListeners(recieveMessage);
                 };
             }, []);
 
-            ipcRenderer.on("monthly-totals", (event: any, data: Totals[]) => {
+            ipcRenderer.on(recieveMessage, (event: any, data: Totals[]) => {
                 setTotals(data);
                 setIsLoading(false);
             });
             // And it renders the component it was given
-            return <WrappedComponent {...props} totals={totals} isLoading={isLoading} />;
+            return <WrappedComponent {...props as P} totals={totals} isLoading={isLoading} />;
         };
 
         TotalsLoader.displayName = `TotalsLoader(${getDisplayName(WrappedComponent)})`;

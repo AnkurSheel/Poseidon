@@ -1,28 +1,12 @@
-import { ipcRenderer } from "electron";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Content from "../../Components/content";
 import { DetailsWithConditionalRenderings } from "../../components/details";
 import FlexContainer from "../../Components/flex-container";
 import Navigation from "../../components/navigation";
-import { Totals } from "../../types/totals";
+import withTotalsLoader from "../../higher-order-components/totals-loader";
+import { ITotalsProps } from "../../types/props";
 
-export const YearlyDetails = () => {
-    const [totals, setTotals] = useState<Totals[]>([]);
-    const [isLoading, setIsLoading] = useState(false);
-
-    useEffect(() => {
-        setIsLoading(true);
-        ipcRenderer.send("get-yearly-totals");
-        return () => {
-            ipcRenderer.removeAllListeners("yearly-totals");
-        };
-    }, []);
-
-    ipcRenderer.on("yearly-totals", (event: any, data: Totals[]) => {
-        setTotals(data);
-        setIsLoading(false);
-    });
-
+const YearlyDetails = ({ totals, isLoading }: ITotalsProps) => {
     const data = totals.map(t => {
         return {
             date: t.date,
@@ -55,3 +39,5 @@ export const YearlyDetails = () => {
         </FlexContainer>
     );
 };
+
+export default withTotalsLoader({ sendMessage: "get-yearly-totals", recieveMessage: "yearly-totals" })(YearlyDetails);

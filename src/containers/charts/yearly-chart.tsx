@@ -1,28 +1,12 @@
-import { ipcRenderer } from "electron";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { ChartsWithLoadingIndicator } from "../../components/chart";
 import Content from "../../Components/content";
 import FlexContainer from "../../Components/flex-container";
 import Navigation from "../../components/navigation";
-import { Totals } from "../../types/totals";
+import withTotalsLoader from "../../higher-order-components/totals-loader";
+import { ITotalsProps } from "../../types/props";
 
-export const YearlyChart = () => {
-    const [totals, setTotals] = useState<Totals[]>([]);
-    const [isLoading, setIsLoading] = useState(false);
-
-    useEffect(() => {
-        setIsLoading(true);
-        ipcRenderer.send("get-yearly-totals");
-        return () => {
-            ipcRenderer.removeAllListeners("yearly-totals");
-        };
-    }, []);
-
-    ipcRenderer.on("yearly-totals", (event: any, data: Totals[]) => {
-        setTotals(data);
-        setIsLoading(false);
-    });
-
+const YearlyChart = ({ totals, isLoading }: ITotalsProps) => {
     return (
         <FlexContainer>
             <Navigation />
@@ -32,3 +16,5 @@ export const YearlyChart = () => {
         </FlexContainer>
     );
 };
+
+export default withTotalsLoader({ sendMessage: "get-yearly-totals", recieveMessage: "yearly-totals" })(YearlyChart);

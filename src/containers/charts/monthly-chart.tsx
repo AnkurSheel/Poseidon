@@ -4,9 +4,9 @@ import Content from "../../Components/content";
 import FlexContainer from "../../Components/flex-container";
 import Navigation from "../../components/navigation";
 import withTotalsLoader from "../../higher-order-components/totals-loader";
-import { IMonthlyTotalsProps } from "../../types/props";
+import { ITotalsProps } from "../../types/props";
 
-const MonthlyChart = ({ totals, isLoading }: IMonthlyTotalsProps) => {
+const MonthlyChart = ({ totals, isLoading }: ITotalsProps) => {
     return (
         <FlexContainer>
             <Navigation />
@@ -17,4 +17,4 @@ const MonthlyChart = ({ totals, isLoading }: IMonthlyTotalsProps) => {
     );
 };
 
-export default withTotalsLoader()(MonthlyChart);
+export default withTotalsLoader({ sendMessage: "get-monthly-totals", recieveMessage: "monthly-totals" })(MonthlyChart);
