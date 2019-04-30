@@ -11,7 +11,8 @@
     "artifactName": "${productName}-${os}.${ext}",
     "mac": {
         "target": ["zip", "dmg"],
-        "icon": "assets/icon.png"
+        "icon": "assets/icon.png",
+        "category": "public.app-category.finance"
     },
     "win": {
         "target": ["zip", "nsis"],

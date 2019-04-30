@@ -1,18 +1,15 @@
-import { app, BrowserWindow, ipcMain } from "electron";
+import { app, BrowserWindow } from "electron";
 import * as log from "electron-log";
-import { autoUpdater } from "electron-updater";
 import * as path from "path";
 import * as url from "url";
+import { setupAutoUpdater } from "./auto-updater";
+import { setupIpcMessages } from "./ipc-messages";
 import { Database } from "./shared/database";
-import { UniqueConstraintError } from "./shared/unique-contraint-error";
-import { Detail } from "./types/details";
+import { isDevelopment, isProduction } from "./utils";
 
-let mainWindow: Electron.BrowserWindow;
+export let mainWindow: Electron.BrowserWindow;
 const db = new Database(app.getPath("userData"));
-const isDevelopment = process.env.ENVIRONMENT === "development";
 
-autoUpdater.logger = log;
-log.transports.file.level = "verbose";
 log.info("App starting...");
 
 function createWindow(): void {
@@ -34,7 +31,7 @@ function createWindow(): void {
             pathname: path.join(__dirname, "./index.html"),
             protocol: "file:",
             slashes: true,
-        })
+        }),
     );
 
     mainWindow.on("closed", () => {
@@ -47,40 +44,15 @@ function createWindow(): void {
 }
 
 app.on("ready", async () => {
-    log.info(autoUpdater.getFeedURL());
-    autoUpdater.checkForUpdates();
+    if (isProduction) {
+        setupAutoUpdater();
+    }
 
     db.migrateDatabase();
     createWindow();
     await addExtensions();
 
-    ipcMain.on("get-monthly-totals", async () => {
-        const results = await db.getMonthlyTotals();
-        mainWindow.webContents.send("monthly-totals", results);
-    });
-
-    ipcMain.on("get-yearly-totals", async () => {
-        const results = await db.getYearlyTotals();
-        mainWindow.webContents.send("yearly-totals", results);
-    });
-
-    ipcMain.on("get-individual-details", async () => {
-        const results = await db.getIndividualDetails();
-        mainWindow.webContents.send("individual-details", results);
-    });
-
-    ipcMain.on("insert-record", async (event: any, data: Detail) => {
-        try {
-            await db.addNewRecord(data);
-            mainWindow.webContents.send("insert-record-result", "Success");
-        } catch (err) {
-            if (err instanceof UniqueConstraintError) {
-                mainWindow.webContents.send("insert-record-result", "UniqueConstraintError");
-            } else {
-                mainWindow.webContents.send("insert-record-result", "Error");
-            }
-        }
-    });
+    setupIpcMessages(mainWindow, db);
 });
 
 app.on("window-all-closed", () => {
@@ -110,30 +82,3 @@ async function addExtensions() {
         }
     }
 }
-
-autoUpdater.on("checking-for-update", () => {
-    log.info("Checking for update...");
-});
-
-autoUpdater.on("update-available", info => {
-    log.info("Update available.");
-});
-
-autoUpdater.on("update-not-available", info => {
-    log.info("Update not available.");
-});
-
-autoUpdater.on("error", err => {
-    log.info("Error in auto-updater. " + err);
-});
-
-autoUpdater.on("download-progress", progressObj => {
-    let log_message = "Download speed: " + progressObj.bytesPerSecond;
-    log_message = log_message + " - Downloaded " + progressObj.percent + "%";
-    log_message = log_message + " (" + progressObj.transferred + "/" + progressObj.total + ")";
-    log.info(log_message);
-});
-
-autoUpdater.on("update-downloaded", info => {
-    log.info("Update downloaded");
-});
