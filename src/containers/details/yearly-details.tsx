@@ -1,14 +1,26 @@
+import { ipcRenderer } from "electron";
 import React from "react";
-import { RouteComponentProps } from "react-router-dom";
-import Content from "../../Components/content";
+import { useEffect, useState } from "react";
 import { DetailsWithConditionalRenderings } from "../../components/details";
-import FlexContainer from "../../Components/flex-container";
-import Navigation from "../../components/navigation";
-import withTotalsLoader from "../../higher-order-components/totals-loader";
-import { ITotalsProps } from "../../types/props";
+import { Totals } from "../../types/totals";
 
-const YearlyDetails = (props: ITotalsProps & RouteComponentProps) => {
-    const { location, totals, isLoading } = props;
+export const YearlyDetails = () => {
+    const [totals, setTotals] = useState<Totals[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
+
+    useEffect(() => {
+        setIsLoading(true);
+        ipcRenderer.send("get-yearly-totals");
+        return () => {
+            ipcRenderer.removeAllListeners("yearly-totals");
+        };
+    }, []);
+
+    ipcRenderer.on("yearly-totals", (event: any, data: Totals[]) => {
+        setTotals(data);
+        setIsLoading(false);
+    });
+
     const data = totals.map(t => {
         return {
             date: t.date,
@@ -32,14 +44,5 @@ const YearlyDetails = (props: ITotalsProps & RouteComponentProps) => {
             name: "Net Worth",
         },
     ];
-    return (
-        <FlexContainer>
-            <Navigation currentPath={location.pathname} />
-            <Content>
-                <DetailsWithConditionalRenderings data={data} columns={columns} loading={isLoading} />
-            </Content>
-        </FlexContainer>
-    );
+    return <DetailsWithConditionalRenderings data={data} columns={columns} loading={isLoading} />;
 };
-
-export default withTotalsLoader({ sendMessage: "get-yearly-totals", recieveMessage: "yearly-totals" })(YearlyDetails);

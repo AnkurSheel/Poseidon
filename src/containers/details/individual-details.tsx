@@ -1,15 +1,16 @@
 import { createStyles, Theme } from "@material-ui/core";
 import { ipcRenderer } from "electron";
-import React, { useEffect, useState } from "react";
-import { RouteComponentProps } from "react-router-dom";
-import Content from "../../Components/content";
+import React from "react";
+import { useEffect, useState } from "react";
 import { DetailsWithConditionalRenderings } from "../../components/details";
-import FlexContainer from "../../Components/flex-container";
-import Navigation from "../../components/navigation";
 import { Detail } from "../../types/details";
 
-export const IndividualDetails = (props: RouteComponentProps) => {
-    const { location } = props;
+const styles = (theme: Theme) =>
+    createStyles({
+        root: {},
+    });
+
+export const IndividualDetails = () => {
     const [details, setDetails] = useState<Detail[]>([]);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -50,12 +51,5 @@ export const IndividualDetails = (props: RouteComponentProps) => {
         },
     ];
 
-    return (
-        <FlexContainer>
-            <Navigation currentPath={location.pathname} />
-            <Content>
-                <DetailsWithConditionalRenderings data={data} columns={columns} loading={isLoading} />;
-            </Content>
-        </FlexContainer>
-    );
+    return <DetailsWithConditionalRenderings data={data} columns={columns} loading={isLoading} />;
 };
