@@ -4,6 +4,7 @@ import { ipcRenderer } from "electron";
 import { MaterialUiPickersDate } from "material-ui-pickers";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
+import { RouteComponentProps } from "react-router";
 import Content from "../../Components/content";
 import FlexContainer from "../../Components/flex-container";
 import { Header } from "../../components/material-ui-wrappers/header";
@@ -40,7 +41,8 @@ const styles = ({ spacing }: Theme) =>
         submittingHeader: { background: blue[400] },
     });
 
-const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
+const AddNewEntryMainForm = (props: RouteComponentProps & WithStyles<typeof styles>) => {
+    const { location, classes } = props;
     const [accountName, setAccountName] = useState("");
     const [type, setType] = useState("");
     const [amount, setAmount] = useState<number>(0);
@@ -151,7 +153,7 @@ const AddNewEntryMainForm = ({ classes }: WithStyles<typeof styles>) => {
 
     return (
         <FlexContainer>
-            <Navigation />
+            <Navigation currentPath={location.pathname} />
             <Content>
                 <Paper className={classes.root}>
                     {!isEmptyString(formErrorText) && (

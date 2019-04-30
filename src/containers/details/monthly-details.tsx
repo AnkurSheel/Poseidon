@@ -5,8 +5,11 @@ import FlexContainer from "../../Components/flex-container";
 import Navigation from "../../components/navigation";
 import withTotalsLoader from "../../higher-order-components/totals-loader";
 import { ITotalsProps } from "../../types/props";
+import { RouteComponentProps } from "react-router-dom";
 
-const MonthlyDetails = ({ totals, isLoading }: ITotalsProps) => {
+const MonthlyDetails = (props: ITotalsProps & RouteComponentProps) => {
+    const { location, totals, isLoading } = props;
+
     const data = totals.map((t: any) => {
         return {
             date: t.date,
@@ -32,7 +35,7 @@ const MonthlyDetails = ({ totals, isLoading }: ITotalsProps) => {
     ];
     return (
         <FlexContainer>
-            <Navigation />
+            <Navigation currentPath={location.pathname} />
             <Content>
                 <DetailsWithConditionalRenderings data={data} columns={columns} loading={isLoading} />
             </Content>
@@ -41,5 +44,5 @@ const MonthlyDetails = ({ totals, isLoading }: ITotalsProps) => {
 };
 
 export default withTotalsLoader({ sendMessage: "get-monthly-totals", recieveMessage: "monthly-totals" })(
-    MonthlyDetails,
+    MonthlyDetails
 );
