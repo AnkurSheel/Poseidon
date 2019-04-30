@@ -1,14 +1,13 @@
-import { app, BrowserWindow, ipcMain } from "electron";
+import { app, BrowserWindow } from "electron";
 import * as log from "electron-log";
 import * as path from "path";
 import * as url from "url";
 import { setupAutoUpdater } from "./auto-updater";
+import { setupIpcMessages } from "./ipc-messages";
 import { Database } from "./shared/database";
-import { UniqueConstraintError } from "./shared/unique-contraint-error";
-import { Detail } from "./types/details";
 import { isDevelopment, isProduction } from "./utils";
 
-let mainWindow: Electron.BrowserWindow;
+export let mainWindow: Electron.BrowserWindow;
 const db = new Database(app.getPath("userData"));
 
 log.info("App starting...");
@@ -53,33 +52,7 @@ app.on("ready", async () => {
     createWindow();
     await addExtensions();
 
-    ipcMain.on("get-monthly-totals", async () => {
-        const results = await db.getMonthlyTotals();
-        mainWindow.webContents.send("monthly-totals", results);
-    });
-
-    ipcMain.on("get-yearly-totals", async () => {
-        const results = await db.getYearlyTotals();
-        mainWindow.webContents.send("yearly-totals", results);
-    });
-
-    ipcMain.on("get-individual-details", async () => {
-        const results = await db.getIndividualDetails();
-        mainWindow.webContents.send("individual-details", results);
-    });
-
-    ipcMain.on("insert-record", async (event: any, data: Detail) => {
-        try {
-            await db.addNewRecord(data);
-            mainWindow.webContents.send("insert-record-result", "Success");
-        } catch (err) {
-            if (err instanceof UniqueConstraintError) {
-                mainWindow.webContents.send("insert-record-result", "UniqueConstraintError");
-            } else {
-                mainWindow.webContents.send("insert-record-result", "Error");
-            }
-        }
-    });
+    setupIpcMessages(mainWindow, db);
 });
 
 app.on("window-all-closed", () => {
