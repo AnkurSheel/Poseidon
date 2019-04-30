@@ -1,8 +1,8 @@
 import { app, BrowserWindow, ipcMain } from "electron";
 import * as log from "electron-log";
-import { autoUpdater } from "electron-updater";
 import * as path from "path";
 import * as url from "url";
+import { setupAutoUpdater } from "./auto-updater";
 import { Database } from "./shared/database";
 import { UniqueConstraintError } from "./shared/unique-contraint-error";
 import { Detail } from "./types/details";
@@ -11,8 +11,6 @@ let mainWindow: Electron.BrowserWindow;
 const db = new Database(app.getPath("userData"));
 const isDevelopment = process.env.ENVIRONMENT === "development";
 
-autoUpdater.logger = log;
-log.transports.file.level = "verbose";
 log.info("App starting...");
 
 function createWindow(): void {
@@ -34,7 +32,7 @@ function createWindow(): void {
             pathname: path.join(__dirname, "./index.html"),
             protocol: "file:",
             slashes: true,
-        })
+        }),
     );
 
     mainWindow.on("closed", () => {
@@ -47,8 +45,7 @@ function createWindow(): void {
 }
 
 app.on("ready", async () => {
-    log.info(autoUpdater.getFeedURL());
-    autoUpdater.checkForUpdates();
+        setupAutoUpdater();
 
     db.migrateDatabase();
     createWindow();
@@ -110,30 +107,3 @@ async function addExtensions() {
         }
     }
 }
-
-autoUpdater.on("checking-for-update", () => {
-    log.info("Checking for update...");
-});
-
-autoUpdater.on("update-available", info => {
-    log.info("Update available.");
-});
-
-autoUpdater.on("update-not-available", info => {
-    log.info("Update not available.");
-});
-
-autoUpdater.on("error", err => {
-    log.info("Error in auto-updater. " + err);
-});
-
-autoUpdater.on("download-progress", progressObj => {
-    let log_message = "Download speed: " + progressObj.bytesPerSecond;
-    log_message = log_message + " - Downloaded " + progressObj.percent + "%";
-    log_message = log_message + " (" + progressObj.transferred + "/" + progressObj.total + ")";
-    log.info(log_message);
-});
-
-autoUpdater.on("update-downloaded", info => {
-    log.info("Update downloaded");
-});
