@@ -23,6 +23,7 @@ function createWindow(): void {
             enableRemoteModule: isDevelopment,
             nodeIntegration: true,
         },
+        show: false,
     });
 
     // await importJson(db);
@@ -33,11 +34,15 @@ function createWindow(): void {
             pathname: path.join(__dirname, "./index.html"),
             protocol: "file:",
             slashes: true,
-        }),
+        })
     );
 
     mainWindow.on("closed", () => {
         mainWindow = null;
+    });
+
+    mainWindow.once("ready-to-show", () => {
+        mainWindow.show();
     });
 }
 

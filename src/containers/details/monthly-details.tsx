@@ -1,27 +1,16 @@
-import { ipcRenderer } from "electron";
 import React from "react";
-import { useEffect, useState } from "react";
+import Content from "../../Components/content";
 import { DetailsWithConditionalRenderings } from "../../components/details";
-import { Totals } from "../../types/totals";
+import FlexContainer from "../../Components/flex-container";
+import Navigation from "../../components/navigation";
+import withTotalsLoader from "../../higher-order-components/totals-loader";
+import { ITotalsProps } from "../../types/props";
+import { RouteComponentProps } from "react-router-dom";
 
-export const MonthlyDetails = () => {
-    const [totals, setTotals] = useState<Totals[]>([]);
-    const [isLoading, setIsLoading] = useState(false);
+const MonthlyDetails = (props: ITotalsProps & RouteComponentProps) => {
+    const { location, totals, isLoading } = props;
 
-    useEffect(() => {
-        setIsLoading(true);
-        ipcRenderer.send("get-monthly-totals");
-        return () => {
-            ipcRenderer.removeAllListeners("monthly-totals");
-        };
-    }, []);
-
-    ipcRenderer.on("monthly-totals", (event: any, data: Totals[]) => {
-        setTotals(data);
-        setIsLoading(false);
-    });
-
-    const data = totals.map(t => {
+    const data = totals.map((t: any) => {
         return {
             date: t.date,
             asset: t.asset,
@@ -44,5 +33,16 @@ export const MonthlyDetails = () => {
             name: "Net Worth",
         },
     ];
-    return <DetailsWithConditionalRenderings data={data} columns={columns} loading={isLoading} />;
+    return (
+        <FlexContainer>
+            <Navigation currentPath={location.pathname} />
+            <Content>
+                <DetailsWithConditionalRenderings data={data} columns={columns} loading={isLoading} />
+            </Content>
+        </FlexContainer>
+    );
 };
+
+export default withTotalsLoader({ sendMessage: "get-monthly-totals", recieveMessage: "monthly-totals" })(
+    MonthlyDetails
+);
