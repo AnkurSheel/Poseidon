@@ -6,10 +6,10 @@ import { setupAutoUpdater } from "./auto-updater";
 import { Database } from "./shared/database";
 import { UniqueConstraintError } from "./shared/unique-contraint-error";
 import { Detail } from "./types/details";
+import { isDevelopment, isProduction } from "./utils";
 
 let mainWindow: Electron.BrowserWindow;
 const db = new Database(app.getPath("userData"));
-const isDevelopment = process.env.ENVIRONMENT === "development";
 
 log.info("App starting...");
 
@@ -45,7 +45,9 @@ function createWindow(): void {
 }
 
 app.on("ready", async () => {
+    if (isProduction) {
         setupAutoUpdater();
+    }
 
     db.migrateDatabase();
     createWindow();
