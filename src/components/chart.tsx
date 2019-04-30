@@ -3,9 +3,10 @@ import { Bar, CartesianGrid, ComposedChart, Legend, Line, ResponsiveContainer, T
 import { withLoadingIndicator } from "../higher-order-components/loading-hoc";
 
 export const Charts = (props: any) => {
+    const data = props.data.reverse();
     return (
         <ResponsiveContainer aspect={2.7} width="99%" minWidth={800}>
-            <ComposedChart data={props.data} margin={{ top: 50, right: 50, left: 50, bottom: 50 }}>
+            <ComposedChart data={data} margin={{ top: 50, right: 50, left: 50, bottom: 50 }}>
                 <XAxis
                     dataKey="date"
                     stroke="#fff"
@@ -15,7 +16,6 @@ export const Charts = (props: any) => {
                         offset: -10,
                         fill: "#fff",
                     }}
-                    reversed={true}
                 />
                 <YAxis
                     stroke="#fff"
