@@ -1,16 +1,27 @@
+import { ipcRenderer } from "electron";
 import React from "react";
-import Content from "../../Components/content";
+import { useEffect, useState } from "react";
 import { DetailsWithConditionalRenderings } from "../../components/details";
-import FlexContainer from "../../Components/flex-container";
-import Navigation from "../../components/navigation";
-import withTotalsLoader from "../../higher-order-components/totals-loader";
-import { ITotalsProps } from "../../types/props";
-import { RouteComponentProps } from "react-router-dom";
+import { Totals } from "../../types/totals";
 
-const MonthlyDetails = (props: ITotalsProps & RouteComponentProps) => {
-    const { location, totals, isLoading } = props;
+export const MonthlyDetails = () => {
+    const [totals, setTotals] = useState<Totals[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
 
-    const data = totals.map((t: any) => {
+    useEffect(() => {
+        setIsLoading(true);
+        ipcRenderer.send("get-monthly-totals");
+        return () => {
+            ipcRenderer.removeAllListeners("monthly-totals");
+        };
+    }, []);
+
+    ipcRenderer.on("monthly-totals", (event: any, data: Totals[]) => {
+        setTotals(data);
+        setIsLoading(false);
+    });
+
+    const data = totals.map(t => {
         return {
             date: t.date,
             asset: t.asset,
@@ -33,16 +44,5 @@ const MonthlyDetails = (props: ITotalsProps & RouteComponentProps) => {
             name: "Net Worth",
         },
     ];
-    return (
-        <FlexContainer>
-            <Navigation currentPath={location.pathname} />
-            <Content>
-                <DetailsWithConditionalRenderings data={data} columns={columns} loading={isLoading} />
-            </Content>
-        </FlexContainer>
-    );
+    return <DetailsWithConditionalRenderings data={data} columns={columns} loading={isLoading} />;
 };
-
-export default withTotalsLoader({ sendMessage: "get-monthly-totals", recieveMessage: "monthly-totals" })(
-    MonthlyDetails
-);

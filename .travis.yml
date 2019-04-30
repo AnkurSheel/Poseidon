@@ -36,14 +36,6 @@ jobs:
           before_cache:
               - rm -rf $HOME/.cache/electron-builder/wine/wine-2.0.3-mac-10.13/wine-home/system.reg
               - rm -rf $HOME/.cache/electron-builder/wine/wine-2.0.3-mac-10.13/wine-home/user.reg
-        - stage: Dry Run for Release
-          name: Dry Run for Release
-          if: branch = dev and type != pull_request
-          script:
-              - yarn run semantic-release --dryRun
-          before_cache:
-              - rm -rf $HOME/.cache/electron-builder/wine/wine-2.0.3-mac-10.13/wine-home/system.reg
-              - rm -rf $HOME/.cache/electron-builder/wine/wine-2.0.3-mac-10.13/wine-home/user.reg
         - stage: Release to Github
           name: Release to Github
           if: branch = master and type != pull_request
