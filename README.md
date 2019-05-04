@@ -23,6 +23,7 @@ See the [Changelog](https://github.com/AnkurSheel/Newt/blob/master/CHANGELOG.md)
 --- 
 # I already installed the application. How do I get updates?
 If you ran the installer, you don't have to do anything. The application auto-updates itself if there new version has been released since you last ran it.
+
 If you used the zip versions, you will need to re-download the latest zip and overwrite all the files 
 
 ---
