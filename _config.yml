@@ -8,3 +8,6 @@ github:
   windows_download: https://github.com/AnkurSheel/Newt/releases/download/v1.1.2/Newt-Setup.exe
   mac_download: https://github.com/AnkurSheel/Newt/releases/download/v1.1.2/Newt-mac.dmg
   linux_download: https://github.com/AnkurSheel/Newt/releases/download/v1.1.2/Newt-linux.AppImage
+
+plugins:
+  - jekyll-feed
