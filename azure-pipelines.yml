@@ -1,5 +1,46 @@
+trigger:
+    branches:
+        include:
+            - master
+            - dev
+            - azure_pipelines
+    tags:
+        include:
+            - "*"
+
 jobs:
+    # - job: Variables
+    #   steps:
+    #       - script: |
+    #             echo Build.SourceBranch $(Build.SourceBranch)
+    #             echo Build.SourceVersionMessage $(Build.SourceVersionMessage)
+    #         displayName: setvarStep
+
+    - job: Version_And_Tag
+      # dependsOn: Variables
+      condition: not(contains(variables['Build.SourceBranch'], 'tag'))
+      steps:
+          - task: NodeTool@0
+            displayName: "Use Node 10.x"
+            inputs:
+                versionSpec: 10.x
+
+          - task: UsePythonVersion@0
+            displayName: "Use Python 2.x"
+            inputs:
+                versionSpec: 2.x
+
+          - script: npm install
+            displayName: Install dependencies
+
+          - script: npm run build
+            displayName: Build application
+
+          - script: npm run semantic-release
+            displayName: Version and Tag
+
     - job: Build
+      condition: and(succeeded(), contains(variables['Build.SourceBranch'], 'tag'))
       strategy:
           maxParallel: 2
           matrix:
@@ -14,10 +55,6 @@ jobs:
           vmImage: $(imageName)
 
       steps:
-          - script: |
-                echo Hello, world! $(imageName)
-                echo Hello, world! $(System.DefaultWorkingDirectory)
-
           - task: NodeTool@0
             displayName: "Use Node 10.x"
             inputs:
@@ -44,10 +81,9 @@ jobs:
 
           - task: PublishBuildArtifacts@1
 
-    - job: Release
-      steps:
-          - script: |
-                echo Build.SourceBranch $(Build.SourceBranch')
-                echo Build.Reason $(Build.Reason)
+    - job: Deploy_to_Github
       dependsOn: Build
-      condition: succeeded()
+      condition: and(succeeded(), contains(variables['Build.SourceBranch'], 'tag'))
+      steps:
+          - script: echo Build.SourceBranch $(Build.SourceBranch)
+            displayName: Variables Debug
