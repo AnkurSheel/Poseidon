@@ -1,41 +1,53 @@
-strategy:
-    matrix:
-        # linux:
-        #     imageName: "ubuntu-16.04"
-        mac:
-            imageName: "macos-10.13"
-        windows:
-            imageName: "vs2017-win2016"
+jobs:
+    - job: Build
+      strategy:
+          maxParallel: 2
+          matrix:
+              # linux:
+              #     imageName: "ubuntu-16.04"
+              mac:
+                  imageName: "macos-10.13"
+              windows:
+                  imageName: "vs2017-win2016"
 
-pool:
-    vmImage: $(imageName)
+      pool:
+          vmImage: $(imageName)
 
-steps:
-    - script: |
-          echo Hello, world! $(imageName)
-          echo Hello, world! $(System.DefaultWorkingDirectory)
-    - task: NodeTool@0
-      displayName: "Use Node 10.x"
-      inputs:
-          versionSpec: 10.x
+      steps:
+          - script: |
+                echo Hello, world! $(imageName)
+                echo Hello, world! $(System.DefaultWorkingDirectory)
 
-    - task: UsePythonVersion@0
-      displayName: "Use Python 2.x"
-      inputs:
-          versionSpec: 2.x
+          - task: NodeTool@0
+            displayName: "Use Node 10.x"
+            inputs:
+                versionSpec: 10.x
 
-    - script: npm install
-      displayName: Install dependencies
+          - task: UsePythonVersion@0
+            displayName: "Use Python 2.x"
+            inputs:
+                versionSpec: 2.x
 
-    - script: npm run build
-      displayName: Build application
+          - script: npm install
+            displayName: Install dependencies
 
-    - task: CopyFiles@2
-      inputs:
-          SourceFolder: "$(System.DefaultWorkingDirectory)"
-          Contents: |
-              build/*
-              package.json
-          TargetFolder: "$(Build.ArtifactStagingDirectory)"
+          - script: npm run build
+            displayName: Build application
 
-    - task: PublishBuildArtifacts@1
+          - task: CopyFiles@2
+            inputs:
+                SourceFolder: "$(System.DefaultWorkingDirectory)"
+                Contents: |
+                    build/*
+                    package.json
+                TargetFolder: "$(Build.ArtifactStagingDirectory)"
+
+          - task: PublishBuildArtifacts@1
+
+    - job: Release
+      steps:
+          - script: |
+                echo Build.SourceBranch $(Build.SourceBranch')
+                echo Build.Reason $(Build.Reason)
+      dependsOn: Build
+      condition: succeeded()
