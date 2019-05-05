@@ -1,7 +1,7 @@
 strategy:
     matrix:
-        linux:
-            imageName: "ubuntu-16.04"
+        # linux:
+        #     imageName: "ubuntu-16.04"
         mac:
             imageName: "macos-10.13"
         windows:
@@ -11,7 +11,9 @@ pool:
     vmImage: $(imageName)
 
 steps:
-    - script: echo Hello, world! $(imageName)
+    - script: |
+          echo Hello, world! $(imageName)
+          echo Hello, world! $(System.DefaultWorkingDirectory)
     - task: NodeTool@0
       displayName: "Use Node 10.x"
       inputs:
@@ -23,4 +25,17 @@ steps:
           versionSpec: 2.x
 
     - script: npm install
+      displayName: Install dependencies
+
     - script: npm run build
+      displayName: Build application
+
+    - task: CopyFiles@2
+      inputs:
+          SourceFolder: "$(System.DefaultWorkingDirectory)"
+          Contents: |
+              build/*
+              package.json
+          TargetFolder: "$(Build.ArtifactStagingDirectory)"
+
+    - task: PublishBuildArtifacts@1
