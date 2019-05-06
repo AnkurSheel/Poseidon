@@ -1,5 +1,5 @@
 {
-    "branch": "azure_pipelines",
+    "branch": "master",
     "plugins": [
         "@semantic-release/commit-analyzer",
         "@semantic-release/release-notes-generator",

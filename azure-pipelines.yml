@@ -3,7 +3,6 @@ trigger:
         include:
             - master
             - dev
-            - azure_pipelines
     tags:
         include:
             - "*"
@@ -17,19 +16,19 @@ jobs:
             inputs:
                 versionSpec: 10.x
 
-          # - task: UsePythonVersion@0
-          #   displayName: "Use Python 2.x"
-          #   inputs:
-          #       versionSpec: 2.x
+          - task: UsePythonVersion@0
+            displayName: "Use Python 2.x"
+            inputs:
+                versionSpec: 2.x
 
-          # - script: npm install
-          #   displayName: Install dependencies
-
-          # - script: npm run build
-          #   displayName: Build application
-
-          - script: npm install --save-dev @semantic-release/changelog @semantic-release/git semantic-release
+          - script: npm install
             displayName: Install dependencies
+
+          - script: npm run build
+            displayName: Build application
+
+          # - script: npm install --save-dev @semantic-release/changelog @semantic-release/git semantic-release
+          #   displayName: Install dependencies
 
           - script: npm run semantic-release
             displayName: Version and Tag
