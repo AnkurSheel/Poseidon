@@ -1,25 +1,22 @@
-import { ipcRenderer } from "electron";
 import React from "react";
-import { useEffect, useState } from "react";
+import { RouteComponentProps } from "react-router";
 import { ChartsWithLoadingIndicator } from "../../components/chart";
-import { Totals } from "../../types/totals";
+import Content from "../../Components/content";
+import FlexContainer from "../../Components/flex-container";
+import Navigation from "../../components/navigation";
+import withTotalsLoader from "../../higher-order-components/totals-loader";
+import { ITotalsProps } from "../../types/props";
 
-export const YearlyChart = () => {
-    const [totals, setTotals] = useState<Totals[]>([]);
-    const [isLoading, setIsLoading] = useState(false);
-
-    useEffect(() => {
-        setIsLoading(true);
-        ipcRenderer.send("get-yearly-totals");
-        return () => {
-            ipcRenderer.removeAllListeners("yearly-totals");
-        };
-    }, []);
-
-    ipcRenderer.on("yearly-totals", (event: any, data: Totals[]) => {
-        setTotals(data);
-        setIsLoading(false);
-    });
-
-    return <ChartsWithLoadingIndicator loading={isLoading} data={totals} XAxisLabel="Years" YAxisLabel="Amount" />;
+const YearlyChart = (props: ITotalsProps & RouteComponentProps) => {
+    const { location, totals, isLoading } = props;
+    return (
+        <FlexContainer>
+            <Navigation currentPath={location.pathname} />
+            <Content>
+                <ChartsWithLoadingIndicator loading={isLoading} data={totals} XAxisLabel="Years" YAxisLabel="Amount" />;
+            </Content>
+        </FlexContainer>
+    );
 };
+
+export default withTotalsLoader({ sendMessage: "get-yearly-totals", recieveMessage: "yearly-totals" })(YearlyChart);
