@@ -5,10 +5,11 @@ trigger:
             - dev
     tags:
         include:
-            - "*"
+            - "v*"
 
 jobs:
     - job: Version_And_Tag
+      displayName: Version and Tag
       condition: not(contains(variables['Build.SourceBranch'], 'tag'))
       steps:
           - task: NodeTool@0
@@ -75,6 +76,7 @@ jobs:
           - task: PublishBuildArtifacts@1
 
     - job: Deploy_to_Github
+      displayName: Deploy to Github Release
       dependsOn: Build
       condition: and(succeeded(), contains(variables['Build.SourceBranch'], 'tag'))
       steps:
@@ -93,10 +95,10 @@ jobs:
                 # target: "$(Build.SourceVersion)" # Required when action == Create || Action == Edit
                 # tagSource: "auto"
                 #tag: # Required when action == Edit || Action == Delete || TagSource == Manual
-                #title: # Optional
+                title: "$(Build.SourceBranchName)"
                 releaseNotesSource: "input" # Optional. Options: file, input
                 # releaseNotesFile: $(System.DefaultWorkingDirectory)/CHANGELOG.md
-                releaseNotes: "See the [Changelog](https://github.com/AnkurSheel/Newt/blob/master/CHANGELOG.md)"
+                releaseNotes: "See the [Changelog](https://github.com/AnkurSheel/Newt/blob/master/CHANGELOG.md) to see all the updates in this release."
                 assets: $(System.ArtifactsDirectory)\**
                 #assetUploadMode: 'delete' # Optional. Options: delete, replace
                 #isDraft: false # Optional
