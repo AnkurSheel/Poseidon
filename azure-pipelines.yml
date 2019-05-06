@@ -1,0 +1,104 @@
+trigger:
+    branches:
+        include:
+            - master
+            - dev
+    tags:
+        include:
+            - "*"
+
+jobs:
+    - job: Version_And_Tag
+      condition: not(contains(variables['Build.SourceBranch'], 'tag'))
+      steps:
+          - task: NodeTool@0
+            displayName: "Use Node 10.x"
+            inputs:
+                versionSpec: 10.x
+
+          - task: UsePythonVersion@0
+            displayName: "Use Python 2.x"
+            inputs:
+                versionSpec: 2.x
+
+          - script: npm install
+            displayName: Install dependencies
+
+          - script: npm run build
+            displayName: Build application
+
+          # - script: npm install --save-dev @semantic-release/changelog @semantic-release/git semantic-release
+          #   displayName: Install dependencies
+
+          - script: npm run semantic-release
+            displayName: Version and Tag
+
+    - job: Build
+      condition: contains(variables['Build.SourceBranch'], 'tag')
+      strategy:
+          maxParallel: 2
+          matrix:
+              # linux:
+              #     imageName: "ubuntu-16.04"
+              mac:
+                  imageName: "macos-10.13"
+              windows:
+                  imageName: "vs2017-win2016"
+
+      pool:
+          vmImage: $(imageName)
+
+      steps:
+          - task: NodeTool@0
+            displayName: "Use Node 10.x"
+            inputs:
+                versionSpec: 10.x
+
+          - task: UsePythonVersion@0
+            displayName: "Use Python 2.x"
+            inputs:
+                versionSpec: 2.x
+
+          - script: npm install
+            displayName: Install dependencies
+
+          - script: npm run build
+            displayName: Build application
+
+          - task: CopyFiles@2
+            inputs:
+                SourceFolder: "$(System.DefaultWorkingDirectory)"
+                Contents: |
+                    build/*
+                TargetFolder: "$(Build.ArtifactStagingDirectory)"
+
+          - task: PublishBuildArtifacts@1
+
+    - job: Deploy_to_Github
+      dependsOn: Build
+      condition: and(succeeded(), contains(variables['Build.SourceBranch'], 'tag'))
+      steps:
+          - task: DownloadBuildArtifacts@0
+            inputs:
+                buildType: "current"
+                downloadType: "single"
+                artifactName: "drop"
+                downloadPath: "$(System.ArtifactsDirectory)"
+          - task: GithubRelease@0
+            displayName: "Create GitHub Release"
+            inputs:
+                githubConnection: GitHubconnection
+                repositoryName: "$(Build.Repository.Name)"
+                # action: "create"
+                # target: "$(Build.SourceVersion)" # Required when action == Create || Action == Edit
+                # tagSource: "auto"
+                #tag: # Required when action == Edit || Action == Delete || TagSource == Manual
+                #title: # Optional
+                releaseNotesSource: "input" # Optional. Options: file, input
+                # releaseNotesFile: $(System.DefaultWorkingDirectory)/CHANGELOG.md
+                releaseNotes: "See the [Changelog](https://github.com/AnkurSheel/Newt/blob/master/CHANGELOG.md)"
+                assets: $(System.ArtifactsDirectory)\**
+                #assetUploadMode: 'delete' # Optional. Options: delete, replace
+                #isDraft: false # Optional
+                #isPreRelease: false # Optional
+                addChangeLog: false # Optional
