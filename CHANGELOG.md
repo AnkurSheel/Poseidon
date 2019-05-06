@@ -1,3 +1,16 @@
+# [1.2.0](https://github.com/AnkurSheel/Poseidon/compare/v1.1.2...v1.2.0) (2019-05-06)
+
+
+### Bug Fixes
+
+* 🚑 do not show the white screen while the app is loading ([7cc2f5d](https://github.com/AnkurSheel/Poseidon/commit/7cc2f5d))
+* 🚑 line animation renders left to right ([65712ab](https://github.com/AnkurSheel/Poseidon/commit/65712ab))
+
+
+### Features
+
+* ✨ add side navigation bar ([4cef84a](https://github.com/AnkurSheel/Poseidon/commit/4cef84a))
+
 ## [1.1.2](https://github.com/AnkurSheel/Poseidon/compare/v1.1.1...v1.1.2) (2019-04-27)
 
 
