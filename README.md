@@ -6,7 +6,7 @@
 
 ![Window Downloads](https://img.shields.io/github/downloads/AnkurSheel/Newt/Newt-Setup.exe.svg?label=Window%20Downloads)
 ![Mac Downloads](https://img.shields.io/github/downloads/AnkurSheel/Newt/Newt-mac.dmg.svg?label=Mac%20Downloads)
-![Linux Downloads](https://img.shields.io/github/downloads/AnkurSheel/Newt/Newt-linux.AppImage.svg?label=Linux%20Downloads)
+<!-- ![Linux Downloads](https://img.shields.io/github/downloads/AnkurSheel/Newt/Newt-linux.AppImage.svg?label=Linux%20Downloads) -->
 
 
 ---
