@@ -13,6 +13,7 @@ const db = new Database(app.getPath("userData"));
 log.info("App starting...");
 
 function createWindow(): void {
+    const title = `Newt-v${app.getVersion()}`;
     mainWindow = new BrowserWindow({
         height: 600,
         width: 800,
@@ -20,6 +21,7 @@ function createWindow(): void {
             enableRemoteModule: isDevelopment,
             nodeIntegration: true,
         },
+        title,
         show: false,
     });
 
@@ -33,6 +35,10 @@ function createWindow(): void {
             slashes: true,
         }),
     );
+
+    mainWindow.on("page-title-updated", evt => {
+        evt.preventDefault();
+    });
 
     mainWindow.on("closed", () => {
         mainWindow = null;
