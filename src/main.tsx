@@ -55,6 +55,11 @@ app.on("ready", async () => {
     }
 
     db.migrateDatabase();
+
+    if (process.env.ENVIRONMENT === "staging") {
+        db.seedDatabase();
+    }
+
     createWindow();
     await addExtensions();
 

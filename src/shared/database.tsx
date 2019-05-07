@@ -21,6 +21,10 @@ export class Database {
         this.client.migrate.latest(config);
     }
 
+    public seedDatabase() {
+        this.client.seed.run();
+    }
+
     public async getIndividualDetails(): Promise<Detail[]> {
         const entries = await this.client
             .from("networth")
@@ -82,7 +86,6 @@ export class Database {
                 .from("networth as B")
                 .as(`${alias}`);
         };
-
 
         const assetsSubquery = this.dbHelper.filterByDate(this.dbHelper.filterByType(baseQuery("assets"))(Type.Asset));
 
