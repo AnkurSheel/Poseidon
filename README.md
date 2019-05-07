@@ -8,7 +8,10 @@
 ![Downloads](https://img.shields.io/github/downloads/ankursheel/poseidon/latest/total.svg?label=Downloads%20of%20Latest%20Version)
 
 ![Window Downloads](https://img.shields.io/github/downloads/AnkurSheel/Newt/Newt-Setup.exe.svg?label=Window%20Downloads)
+![Window Zip Downloads](https://img.shields.io/github/downloads/AnkurSheel/Newt/Newt-win.zip.svg?label=Window%20Downloads)
+
 ![Mac Downloads](https://img.shields.io/github/downloads/AnkurSheel/Newt/Newt-mac.dmg.svg?label=Mac%20Downloads)
+![Mac Zip Downloads](https://img.shields.io/github/downloads/AnkurSheel/Newt/Newt-mac.zip.svg?label=Mac%20Downloads)
 
 <!-- ![Linux Downloads](https://img.shields.io/github/downloads/AnkurSheel/Newt/Newt-linux.AppImage.svg?label=Linux%20Downloads) -->
 
