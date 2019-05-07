@@ -5,7 +5,7 @@ faker.seed(123);
 
 const createFakeEntry = () => {
     let fakeEntry = {
-        date: moment(faker.date.between("2016-01-01", "2017-01-01"), "YYYY-MM").format("YYYY-MM-01"),
+        date: moment(faker.date.between("2014-01-01", "2016-12-12"), "YYYY-MM").format("YYYY-MM-01"),
         name: faker.name.firstName() + faker.name.lastName(),
         type: faker.random.arrayElement(["Asset", "Debt"]),
     };
