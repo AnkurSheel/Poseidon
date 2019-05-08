@@ -1,6 +1,6 @@
 {
     "version": "1.2.0",
-    "name": "Newt",
+    "name": "newt",
     "main": "./dist/main.bundle.js",
     "author": "Ankur Sheel <ankur.sheel@gmail.com>",
     "license": "MIT",
