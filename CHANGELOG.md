@@ -1,3 +1,11 @@
+# [1.3.0](https://github.com/AnkurSheel/Poseidon/compare/v1.2.0...v1.3.0) (2019-05-08)
+
+
+### Features
+
+* ✨ show notification for updates ([2a86000](https://github.com/AnkurSheel/Poseidon/commit/2a86000))
+* ✨ show version in title ([2152717](https://github.com/AnkurSheel/Poseidon/commit/2152717))
+
 # [1.2.0](https://github.com/AnkurSheel/Poseidon/compare/v1.1.2...v1.2.0) (2019-05-06)
 
 
