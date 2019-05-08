@@ -1,6 +1,6 @@
 {
     "version": "1.2.0",
-    "name": "Newt",
+    "name": "newt",
     "main": "./dist/main.bundle.js",
     "author": "Ankur Sheel <ankur.sheel@gmail.com>",
     "license": "MIT",
@@ -19,10 +19,12 @@
     ],
     "scripts": {
         "start": "electron .",
-        "watch": "env-cmd .env.dev webpack-dev-server --port 3000 --config ./config --progress --colours --remote-debugging-port=9223",
         "dev": "rimraf dist && env-cmd .env.dev webpack --config ./config --progress --colours",
+        "staging": "rimraf dist && env-cmd .env.staging webpack --config ./config --progress --colours",
+        "watch": "env-cmd .env.dev webpack-dev-server --port 3000 --config ./config --progress --colours --remote-debugging-port=9223",
+        "watch:staging": "env-cmd .env.staging webpack-dev-server --port 3000 --config ./config --progress --colours --remote-debugging-port=9223",
         "prod": "rimraf dist && env-cmd .env webpack --config ./config",
-        "install-app-deps": "electron-builder install-app-deps",
+        "postinstall": "electron-builder install-app-deps",
         "build": "npm run prod &&  electron-builder . --config ./electron-builder.json --publish never",
         "semantic-release": "semantic-release",
         "commit": "yarn git-cz"

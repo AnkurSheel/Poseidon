@@ -30,7 +30,8 @@
             "outFiles": ["${workspaceFolder}/dist/**/*.js"],
             "internalConsoleOptions": "openOnSessionStart",
             "console": "integratedTerminal",
-            "outputCapture": "std"
+            "outputCapture": "std",
+            "postDebugTask": "postdebugKill"
         }
     ],
     "compounds": [

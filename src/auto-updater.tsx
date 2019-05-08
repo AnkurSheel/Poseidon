@@ -1,5 +1,6 @@
+import { Notification } from "electron";
 import * as log from "electron-log";
-import { autoUpdater } from "electron-updater";
+import { autoUpdater, UpdateInfo } from "electron-updater";
 
 export const setupAutoUpdater = () => {
     autoUpdater.checkForUpdates();
@@ -11,8 +12,15 @@ export const setupAutoUpdater = () => {
         log.info("Checking for update...");
     });
 
-    autoUpdater.on("update-available", () => {
+    autoUpdater.on("update-available", (updateInfo: UpdateInfo) => {
         log.info("Update available.");
+
+        let myNotification = new Notification({
+            title: "Update Available",
+            body: `${updateInfo.releaseName} is available and is being downloaded while you work.`,
+        });
+
+        myNotification.show();
     });
 
     autoUpdater.on("update-not-available", () => {
@@ -30,7 +38,13 @@ export const setupAutoUpdater = () => {
         log.info(log_message);
     });
 
-    autoUpdater.on("update-downloaded", () => {
+    autoUpdater.on("update-downloaded", (updateInfo: UpdateInfo) => {
         log.info("Update downloaded");
+        let myNotification = new Notification({
+            title: "Update Downloaded",
+            body: `${updateInfo.releaseName} has been downloaded and will be installed after you quit.`,
+        });
+
+        myNotification.show();
     });
 };
