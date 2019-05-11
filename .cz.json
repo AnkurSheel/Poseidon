@@ -46,6 +46,11 @@
                 "name": "wip",
                 "emoji": "🚧",
                 "description": "Work in progress"
+            },
+            "Internal": {
+                "name": "internal",
+                "emoji": "⚡️",
+                "description": "General Update - do not add to release notes"
             }
         },
         "format": "[name]: [emoji] [subject]"
