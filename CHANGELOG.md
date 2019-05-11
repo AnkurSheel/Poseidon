@@ -1,3 +1,11 @@
+## [1.3.1](https://github.com/AnkurSheel/Poseidon/compare/v1.3.0...v1.3.1) (2019-05-11)
+
+
+### Bug Fixes
+
+* 🚑 change default size to screen size ([6d7c4be](https://github.com/AnkurSheel/Poseidon/commit/6d7c4be))
+* 🚑 replace icon image ([16bbe01](https://github.com/AnkurSheel/Poseidon/commit/16bbe01))
+
 # [1.3.0](https://github.com/AnkurSheel/Poseidon/compare/v1.2.0...v1.3.0) (2019-05-08)
 
 
