@@ -13,7 +13,8 @@ export class Database {
 
     constructor(appDataPath: string) {
         this.dbHelper = new DatabaseHelpers();
-        const currentConfig = config(appDataPath)[process.env.ENVIRONMENT];
+        const currentConfig = config[process.env.ENVIRONMENT];
+        currentConfig.connection.filename = `${appDataPath}/${currentConfig.connection.filename}`;
         this.client = knex(currentConfig);
     }
 
@@ -41,7 +42,7 @@ export class Database {
                     amount: e.amount.toFixed(2),
                     type: e.type,
                 };
-            },
+            }
         );
     }
 
@@ -75,7 +76,7 @@ export class Database {
                     debt: e.debts ? -e.debts.toFixed(2) : 0,
                     total: e.totals.toFixed(2),
                 };
-            },
+            }
         );
     }
 
@@ -100,7 +101,7 @@ export class Database {
                 this.client.raw("max(strftime('%m', ??)) as maxMonth", "A.date"),
                 assetsSubquery,
                 debtsSubquery,
-                totalsSubquery,
+                totalsSubquery
             )
             .from("networth as A")
             .groupBy("year")
@@ -116,7 +117,7 @@ export class Database {
                     debt: e.debts ? -e.debts.toFixed(2) : 0,
                     total: e.totals.toFixed(2),
                 };
-            },
+            }
         );
     }
 
