@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from "electron";
+import { app, BrowserWindow, screen } from "electron";
 import * as log from "electron-log";
 import * as path from "path";
 import * as url from "url";
@@ -14,9 +14,10 @@ log.info("App starting...");
 
 function createWindow(): void {
     const title = `Newt-v${app.getVersion()}`;
+    const { width, height } = screen.getPrimaryDisplay().workAreaSize;
     mainWindow = new BrowserWindow({
-        height: 600,
-        width: 800,
+        height,
+        width,
         webPreferences: {
             enableRemoteModule: isDevelopment,
             nodeIntegration: true,
