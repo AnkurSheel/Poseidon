@@ -52,6 +52,7 @@ function createWindow(): void {
 
 app.on("ready", async () => {
     if (isProduction) {
+        app.setAppUserModelId("com.ankursheel.Newt");
         setupAutoUpdater();
     }
 
