@@ -10,7 +10,6 @@ import FlexContainer from "../../Components/flex-container";
 import { Header } from "../../components/material-ui-wrappers/header";
 import { Button, CurrencyTextField, Dropdown, MonthYearDatePicker } from "../../components/material-ui-wrappers/index";
 import Navigation from "../../components/navigation";
-import { accountNames } from "../../types/accountNames";
 import { Detail, Type } from "../../types/details";
 import { typeOptions } from "../../types/typeOptions";
 import { isEmptyString } from "../../utils";
@@ -53,12 +52,19 @@ const AddNewEntryMainForm = (props: RouteComponentProps & WithStyles<typeof styl
     const [typeErrorText, setTypeErrorText] = useState("");
     const [formErrorText, setFormErrorText] = useState("");
     const [submittingText, setSubmittingText] = useState("");
-
+    const [accountNames, setAccountNames] = useState<string[]>(["Loading"]);
     useEffect(() => {
+        ipcRenderer.send("get-account-names");
         return () => {
             ipcRenderer.removeAllListeners("insert-record-result");
+            ipcRenderer.removeAllListeners("account-names");
         };
     }, []);
+
+    ipcRenderer.on("account-names", (event: any, data: any) => {
+        const accounts = data.map((d: any) => d.name);
+        setAccountNames(accounts);
+    });
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
         e.preventDefault();

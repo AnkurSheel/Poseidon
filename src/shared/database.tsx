@@ -20,6 +20,7 @@ export class Database {
 
     public migrateDatabase(): void {
         this.client.migrate.latest(config);
+        // this.client.migrate.rollback(config);
     }
 
     public seedDatabase() {
@@ -42,7 +43,7 @@ export class Database {
                     amount: e.amount.toFixed(2),
                     type: e.type,
                 };
-            }
+            },
         );
     }
 
@@ -76,7 +77,7 @@ export class Database {
                     debt: e.debts ? -e.debts.toFixed(2) : 0,
                     total: e.totals.toFixed(2),
                 };
-            }
+            },
         );
     }
 
@@ -101,7 +102,7 @@ export class Database {
                 this.client.raw("max(strftime('%m', ??)) as maxMonth", "A.date"),
                 assetsSubquery,
                 debtsSubquery,
-                totalsSubquery
+                totalsSubquery,
             )
             .from("networth as A")
             .groupBy("year")
@@ -117,7 +118,7 @@ export class Database {
                     debt: e.debts ? -e.debts.toFixed(2) : 0,
                     total: e.totals.toFixed(2),
                 };
-            }
+            },
         );
     }
 
@@ -134,5 +135,12 @@ export class Database {
 
     public async clearTable(): Promise<void> {
         await this.client.table("networth").del();
+    }
+
+    public async getAccountNames(): Promise<string[]> {
+        return await this.client
+            .select("name")
+            .from("accounts")
+            .orderBy(["type", "name"]);
     }
 }
