@@ -1,3 +1,10 @@
+## [1.3.2](https://github.com/AnkurSheel/Poseidon/compare/v1.3.1...v1.3.2) (2019-05-11)
+
+
+### Bug Fixes
+
+* 🚑 fix update notifications not working ([224b76d](https://github.com/AnkurSheel/Poseidon/commit/224b76d))
+
 ## [1.3.1](https://github.com/AnkurSheel/Poseidon/compare/v1.3.0...v1.3.1) (2019-05-11)
 
 
