@@ -11,3 +11,7 @@ github:
 
 plugins:
   - jekyll-feed
+
+# Google Analytics
+google_analytics: UA-45876690-2
+  
