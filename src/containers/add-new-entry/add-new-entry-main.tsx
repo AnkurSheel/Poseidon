@@ -41,7 +41,7 @@ const styles = ({ spacing }: Theme) =>
 
 const AddNewEntryMainForm = (props: RouteComponentProps & WithStyles<typeof styles>) => {
     const { location, classes } = props;
-    const [accountName, setAccountName] = useState("");
+    const [selectedAccountName, setSelectedAccountName] = useState("");
     const [selectedAccountType, setSelectedAccountType] = useState("");
     const [amount, setAmount] = useState<number>(0);
     const [date, setDate] = useState<moment.Moment>(moment());
@@ -81,7 +81,7 @@ const AddNewEntryMainForm = (props: RouteComponentProps & WithStyles<typeof styl
 
         if (validateForm()) {
             const record: Detail = new Detail();
-            record.name = accountName;
+            record.name = selectedAccountName;
             record.type = selectedAccountType as Type;
             record.amount = record.type === Type.Asset ? amount : -amount;
             record.date = date.format("YYYY-MM-01");
@@ -100,14 +100,14 @@ const AddNewEntryMainForm = (props: RouteComponentProps & WithStyles<typeof styl
             clearForm();
             setSubmitSuccess(true);
         } else if (msg === "UniqueConstraintError") {
-            setFormErrorText(`A record with "${accountName}" already exists for "${date.format("MMMM YYYY")}"`);
+            setFormErrorText(`A record with "${selectedAccountName}" already exists for "${date.format("MMMM YYYY")}"`);
         } else {
             setFormErrorText(`Something went wrong. Please try again later`);
         }
     });
 
     const clearForm = () => {
-        setAccountName("");
+        setSelectedAccountName("");
         setDate(moment());
         setAmount(0);
         setSelectedAccountType("");
@@ -140,7 +140,7 @@ const AddNewEntryMainForm = (props: RouteComponentProps & WithStyles<typeof styl
     };
 
     const validateAccount = (): boolean => {
-        if (isEmptyString(accountName)) {
+        if (isEmptyString(selectedAccountName)) {
             setAccountErrorText("Account is required");
             return true;
         }
@@ -157,7 +157,7 @@ const AddNewEntryMainForm = (props: RouteComponentProps & WithStyles<typeof styl
         return false;
     };
 
-    const handleAccountSelected = (e: React.ChangeEvent<HTMLSelectElement>) => setAccountName(e.target.value);
+    const handleAccountSelected = (e: React.ChangeEvent<HTMLSelectElement>) => setSelectedAccountName(e.target.value);
 
     const handleTypeSelected = (e: React.ChangeEvent<HTMLSelectElement>) => setSelectedAccountType(e.target.value);
 
@@ -196,7 +196,7 @@ const AddNewEntryMainForm = (props: RouteComponentProps & WithStyles<typeof styl
                         <Dropdown
                             className={classes.formControl}
                             label="Account Name"
-                            value={accountName}
+                            value={selectedAccountName}
                             dropdownClassName={classes.selectMenu}
                             onChange={handleAccountSelected}
                             onBlurValidation={validateAccount}
