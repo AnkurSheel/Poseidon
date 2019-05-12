@@ -136,10 +136,9 @@ export class Database {
     public async clearTable(): Promise<void> {
         await this.client.table("networth").del();
     }
-
     public async getAccountNames(): Promise<string[]> {
         return await this.client
-            .select("name")
+            .select("name", "type")
             .from("accounts")
             .orderBy(["type", "name"]);
     }

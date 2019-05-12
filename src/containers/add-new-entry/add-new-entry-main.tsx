@@ -11,7 +11,6 @@ import { Header } from "../../components/material-ui-wrappers/header";
 import { Button, CurrencyTextField, Dropdown, MonthYearDatePicker } from "../../components/material-ui-wrappers/index";
 import Navigation from "../../components/navigation";
 import { Detail, Type } from "../../types/details";
-import { typeOptions } from "../../types/typeOptions";
 import { isEmptyString } from "../../utils";
 
 const styles = ({ spacing }: Theme) =>
@@ -43,7 +42,7 @@ const styles = ({ spacing }: Theme) =>
 const AddNewEntryMainForm = (props: RouteComponentProps & WithStyles<typeof styles>) => {
     const { location, classes } = props;
     const [accountName, setAccountName] = useState("");
-    const [type, setType] = useState("");
+    const [selectedAccountType, setSelectedAccountType] = useState("");
     const [amount, setAmount] = useState<number>(0);
     const [date, setDate] = useState<moment.Moment>(moment());
     const [submitSuccess, setSubmitSuccess] = useState(false);
@@ -53,6 +52,7 @@ const AddNewEntryMainForm = (props: RouteComponentProps & WithStyles<typeof styl
     const [formErrorText, setFormErrorText] = useState("");
     const [submittingText, setSubmittingText] = useState("");
     const [accountNames, setAccountNames] = useState<string[]>(["Loading"]);
+    const [accountTypes, setAccountTypes] = useState<string[]>(["Loading"]);
     useEffect(() => {
         ipcRenderer.send("get-account-names");
         return () => {
@@ -63,7 +63,16 @@ const AddNewEntryMainForm = (props: RouteComponentProps & WithStyles<typeof styl
 
     ipcRenderer.on("account-names", (event: any, data: any) => {
         const accounts = data.map((d: any) => d.name);
+        const types: string[] = [];
+        const map = new Map();
+        for (const item of data) {
+            if (!map.has(item.type)) {
+                map.set(item.type, true); // set any value to Map
+                types.push(item.type);
+            }
+        }
         setAccountNames(accounts);
+        setAccountTypes(types);
     });
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
@@ -73,7 +82,7 @@ const AddNewEntryMainForm = (props: RouteComponentProps & WithStyles<typeof styl
         if (validateForm()) {
             const record: Detail = new Detail();
             record.name = accountName;
-            record.type = type as Type;
+            record.type = selectedAccountType as Type;
             record.amount = record.type === Type.Asset ? amount : -amount;
             record.date = date.format("YYYY-MM-01");
 
@@ -101,7 +110,7 @@ const AddNewEntryMainForm = (props: RouteComponentProps & WithStyles<typeof styl
         setAccountName("");
         setDate(moment());
         setAmount(0);
-        setType("");
+        setSelectedAccountType("");
         clearText();
     };
 
@@ -140,7 +149,7 @@ const AddNewEntryMainForm = (props: RouteComponentProps & WithStyles<typeof styl
     };
 
     const validateType = (): boolean => {
-        if (isEmptyString(type)) {
+        if (isEmptyString(selectedAccountType)) {
             setTypeErrorText("Type is required");
             return true;
         }
@@ -150,7 +159,7 @@ const AddNewEntryMainForm = (props: RouteComponentProps & WithStyles<typeof styl
 
     const handleAccountSelected = (e: React.ChangeEvent<HTMLSelectElement>) => setAccountName(e.target.value);
 
-    const handleTypeSelected = (e: React.ChangeEvent<HTMLSelectElement>) => setType(e.target.value);
+    const handleTypeSelected = (e: React.ChangeEvent<HTMLSelectElement>) => setSelectedAccountType(e.target.value);
 
     const handleAmountChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
@@ -199,13 +208,13 @@ const AddNewEntryMainForm = (props: RouteComponentProps & WithStyles<typeof styl
                         <Dropdown
                             className={classes.formControl}
                             label="Account Type"
-                            value={type}
+                            value={selectedAccountType}
                             dropdownClassName={classes.selectMenu}
                             onChange={handleTypeSelected}
                             onBlurValidation={validateType}
                             errorText={typeErrorText}
                             placeholder="Select Type"
-                            items={typeOptions}
+                            items={accountTypes}
                         />
 
                         <CurrencyTextField
