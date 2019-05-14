@@ -28,4 +28,8 @@ export function setupIpcMessages(mainWindow: BrowserWindow, db: Database) {
             }
         }
     });
+    ipcMain.on("get-account-names", async () => {
+        const results = await db.getAccountNames();
+        mainWindow.webContents.send("account-names", results);
+    });
 }
