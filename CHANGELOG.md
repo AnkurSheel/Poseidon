@@ -1,3 +1,10 @@
+## [1.3.4](https://github.com/AnkurSheel/Poseidon/compare/v1.3.3...v1.3.4) (2019-05-18)
+
+
+### Bug Fixes
+
+* 🚑 fix for not being able to enter decimal values ([7284361](https://github.com/AnkurSheel/Poseidon/commit/7284361))
+
 ## [1.3.3](https://github.com/AnkurSheel/Poseidon/compare/v1.3.2...v1.3.3) (2019-05-18)
 
 
