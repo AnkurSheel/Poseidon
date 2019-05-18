@@ -163,7 +163,7 @@ const AddNewEntryMainForm = (props: RouteComponentProps & WithStyles<typeof styl
 
     const handleAmountChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
-        value ? setAmount(parseInt(value)) : null;
+        value ? setAmount(parseFloat(value)) : null;
     };
 
     return (
