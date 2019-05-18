@@ -1,3 +1,12 @@
+## [1.3.3](https://github.com/AnkurSheel/Poseidon/compare/v1.3.2...v1.3.3) (2019-05-18)
+
+
+### Bug Fixes
+
+* 🚑 amount and type show in correct columns for individual details ([10ab1a9](https://github.com/AnkurSheel/Poseidon/commit/10ab1a9))
+* 🚑 Amount field retains focus after character press ([7e9369d](https://github.com/AnkurSheel/Poseidon/commit/7e9369d))
+* 🚑 don not allow labels to be selected ([d508a84](https://github.com/AnkurSheel/Poseidon/commit/d508a84))
+
 ## [1.3.2](https://github.com/AnkurSheel/Poseidon/compare/v1.3.1...v1.3.2) (2019-05-11)
 
 
