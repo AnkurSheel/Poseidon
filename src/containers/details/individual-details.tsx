@@ -1,4 +1,3 @@
-import { createStyles, Theme } from "@material-ui/core";
 import { ipcRenderer } from "electron";
 import React, { useEffect, useState } from "react";
 import { RouteComponentProps } from "react-router-dom";
@@ -30,8 +29,8 @@ export const IndividualDetails = (props: RouteComponentProps) => {
         return {
             date: d.date,
             name: d.name,
-            type: d.type,
             amount: d.amount,
+            type: d.type,
         };
     });
 

@@ -1,5 +1,6 @@
-import { createStyles, WithStyles, withStyles } from "@material-ui/core";
+import { createStyles, WithStyles } from "@material-ui/core";
 import React, { ReactNode } from "react";
+import { createStyled } from "./createStyled";
 
 const styles = (theme: any) =>
     createStyles({
@@ -8,14 +9,18 @@ const styles = (theme: any) =>
         },
     });
 
+const Styled = createStyled(styles);
+
 interface IFlexContainerProps {
     children: ReactNode;
 }
 
 const FlexContainer = (props: IFlexContainerProps) => {
-    const div = ({ classes }: WithStyles<typeof styles>) => <main className={classes.root}>{props.children}</main>;
-    const Styled = withStyles(styles)(div);
-    return <Styled>{props.children}</Styled>;
+    return (
+        <Styled>
+            {({ classes }: WithStyles<typeof styles>) => <main className={classes.root}>{props.children}</main>}
+        </Styled>
+    );
 };
 
 export default FlexContainer;

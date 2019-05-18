@@ -1,8 +1,8 @@
 trigger:
     branches:
         include:
+            - stable
             - master
-            - dev
     tags:
         include:
             - "v*"
@@ -98,7 +98,7 @@ jobs:
                 title: "$(Build.SourceBranchName)"
                 releaseNotesSource: "input" # Optional. Options: file, input
                 # releaseNotesFile: $(System.DefaultWorkingDirectory)/CHANGELOG.md
-                releaseNotes: "See the [Changelog](https://github.com/AnkurSheel/Newt/blob/master/CHANGELOG.md) to see all the updates in this release."
+                releaseNotes: "See the [Changelog](https://github.com/AnkurSheel/Newt/blob/stable/CHANGELOG.md) to see all the updates in this release."
                 assets: $(System.ArtifactsDirectory)\**
                 #assetUploadMode: 'delete' # Optional. Options: delete, replace
                 #isDraft: false # Optional
