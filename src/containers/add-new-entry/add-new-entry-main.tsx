@@ -43,7 +43,7 @@ const AddNewEntryMainForm = (props: RouteComponentProps & WithStyles<typeof styl
     const { location, classes } = props;
     const [selectedAccountName, setSelectedAccountName] = useState("");
     const [selectedAccountType, setSelectedAccountType] = useState("");
-    const [amount, setAmount] = useState<number>(0);
+    const [amount, setAmount] = useState("");
     const [date, setDate] = useState<moment.Moment>(moment());
     const [submitSuccess, setSubmitSuccess] = useState(false);
     const [amountErrorText, setAmountErrorText] = useState("");
@@ -83,7 +83,7 @@ const AddNewEntryMainForm = (props: RouteComponentProps & WithStyles<typeof styl
             const record: Detail = new Detail();
             record.name = selectedAccountName;
             record.type = selectedAccountType as Type;
-            record.amount = record.type === Type.Asset ? amount : -amount;
+            record.amount = record.type === Type.Asset ? parseFloat(amount) : -parseFloat(amount);
             record.date = date.format("YYYY-MM-01");
 
             setSubmittingText("Submitting...");
@@ -109,7 +109,7 @@ const AddNewEntryMainForm = (props: RouteComponentProps & WithStyles<typeof styl
     const clearForm = () => {
         setSelectedAccountName("");
         setDate(moment());
-        setAmount(0);
+        setAmount("");
         setSelectedAccountType("");
         clearText();
     };
@@ -131,7 +131,7 @@ const AddNewEntryMainForm = (props: RouteComponentProps & WithStyles<typeof styl
     };
 
     const validateAmount = (): boolean => {
-        if (amount <= 0) {
+        if (parseFloat(amount) <= 0) {
             setAmountErrorText("Amount should be a positive number");
             return true;
         }
@@ -163,7 +163,8 @@ const AddNewEntryMainForm = (props: RouteComponentProps & WithStyles<typeof styl
 
     const handleAmountChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
-        value ? setAmount(parseFloat(value)) : null;
+        // const number = Number(value);
+        value ? setAmount(value) : null;
     };
 
     return (
