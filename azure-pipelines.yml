@@ -27,6 +27,8 @@ jobs:
 
           - script: npm run build
             displayName: Build application
+            env:
+                GOOGLE_ANALYTICS: $(google.analytics)
 
           # - script: npm install --save-dev @semantic-release/changelog @semantic-release/git semantic-release
           #   displayName: Install dependencies
