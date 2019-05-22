@@ -3,3 +3,5 @@ dist/
 build/
 
 yarn-error.log
+*.env
+*.env.*
