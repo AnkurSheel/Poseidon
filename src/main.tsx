@@ -3,6 +3,7 @@ import * as log from "electron-log";
 import * as path from "path";
 import { performance, PerformanceObserver } from "perf_hooks";
 import * as url from "url";
+import { Analytics } from "./analytics";
 import { setupAutoUpdater } from "./auto-updater";
 import { setupIpcMessages } from "./ipc-messages";
 import { Database } from "./shared/database";
@@ -10,16 +11,18 @@ import { isDevelopment, isProduction } from "./utils";
 
 performance.mark("Start");
 
+export let mainWindow: Electron.BrowserWindow;
+const db = new Database(app.getPath("userData"));
+const analytics = new Analytics();
+
 const obs = new PerformanceObserver((items, observer) => {
     items.getEntries().forEach(item => {
         log.info(`${item.name}: ${item.duration}`);
+        analytics.timing("Application Start", item.name, item.duration);
     });
 });
 
-obs.observe({ entryTypes: ["measure"] });
-
-export let mainWindow: Electron.BrowserWindow;
-const db = new Database(app.getPath("userData"));
+obs.observe({ entryTypes: ["measure"], buffered: true });
 
 function createWindow(): void {
     const title = `Newt-v${app.getVersion()}`;
@@ -43,7 +46,7 @@ function createWindow(): void {
             pathname: path.join(__dirname, "./index.html"),
             protocol: "file:",
             slashes: true,
-        })
+        }),
     );
 
     mainWindow.on("page-title-updated", evt => {
