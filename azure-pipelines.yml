@@ -35,6 +35,8 @@ jobs:
 
           - script: npm run semantic-release
             displayName: Version and Tag
+            env:
+                GH_TOKEN: $(gh.token)
 
     - job: Build
       condition: contains(variables['Build.SourceBranch'], 'tag')
