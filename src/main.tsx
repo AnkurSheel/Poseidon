@@ -1,16 +1,25 @@
 import { app, BrowserWindow, screen } from "electron";
 import * as log from "electron-log";
 import * as path from "path";
+import { performance, PerformanceObserver } from "perf_hooks";
 import * as url from "url";
 import { setupAutoUpdater } from "./auto-updater";
 import { setupIpcMessages } from "./ipc-messages";
 import { Database } from "./shared/database";
 import { isDevelopment, isProduction } from "./utils";
 
+performance.mark("Start");
+
+const obs = new PerformanceObserver((items, observer) => {
+    items.getEntries().forEach(item => {
+        log.warn(`${item.name}: ${item.duration}`);
+    });
+});
+
+obs.observe({ entryTypes: ["measure"] });
+
 export let mainWindow: Electron.BrowserWindow;
 const db = new Database(app.getPath("userData"));
-
-log.info("App starting...");
 
 function createWindow(): void {
     const title = `Newt-v${app.getVersion()}`;
@@ -34,7 +43,7 @@ function createWindow(): void {
             pathname: path.join(__dirname, "./index.html"),
             protocol: "file:",
             slashes: true,
-        }),
+        })
     );
 
     mainWindow.on("page-title-updated", evt => {
@@ -47,10 +56,16 @@ function createWindow(): void {
 
     mainWindow.once("ready-to-show", () => {
         mainWindow.show();
+        performance.mark("Ready to show");
+        performance.measure("Ready to show", "Application Ready", "Ready to show");
+        performance.measure("Start to show", "Start", "Ready to show");
     });
 }
 
 app.on("ready", async () => {
+    performance.mark("Application Ready");
+    performance.measure("Start to ready", "Start", "Application Ready");
+
     if (isProduction) {
         app.setAppUserModelId("com.ankursheel.Newt");
         setupAutoUpdater();
@@ -72,6 +87,7 @@ app.on("window-all-closed", () => {
     // On OS X it is common for applications and their menu bar
     // to stay active until the user quits explicitly with Cmd + Q
     if (process.platform !== "darwin") {
+        obs.disconnect();
         app.quit();
     }
 });
