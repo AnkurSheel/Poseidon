@@ -12,7 +12,7 @@ performance.mark("Start");
 
 const obs = new PerformanceObserver((items, observer) => {
     items.getEntries().forEach(item => {
-        log.warn(`${item.name}: ${item.duration}`);
+        log.info(`${item.name}: ${item.duration}`);
     });
 });
 
@@ -59,17 +59,17 @@ function createWindow(): void {
         performance.mark("Ready to show");
         performance.measure("Ready to show", "Application Ready", "Ready to show");
         performance.measure("Start to show", "Start", "Ready to show");
+
+        if (isProduction) {
+            app.setAppUserModelId("com.ankursheel.Newt");
+            setupAutoUpdater();
+        }
     });
 }
 
 app.on("ready", async () => {
     performance.mark("Application Ready");
     performance.measure("Start to ready", "Start", "Application Ready");
-
-    if (isProduction) {
-        app.setAppUserModelId("com.ankursheel.Newt");
-        setupAutoUpdater();
-    }
 
     db.migrateDatabase();
 
