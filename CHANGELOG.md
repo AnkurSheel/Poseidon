@@ -1,3 +1,41 @@
+## [1.3.5](https://github.com/AnkurSheel/Poseidon/compare/v1.3.4...v1.3.5) (2019-05-19)
+
+
+### Bug Fixes
+
+* 🚑 decimals not working sometimes ([7988989](https://github.com/AnkurSheel/Poseidon/commit/7988989))
+
+## [1.3.4](https://github.com/AnkurSheel/Poseidon/compare/v1.3.3...v1.3.4) (2019-05-18)
+
+
+### Bug Fixes
+
+* 🚑 fix for not being able to enter decimal values ([7284361](https://github.com/AnkurSheel/Poseidon/commit/7284361))
+
+## [1.3.3](https://github.com/AnkurSheel/Poseidon/compare/v1.3.2...v1.3.3) (2019-05-18)
+
+
+### Bug Fixes
+
+* 🚑 amount and type show in correct columns for individual details ([10ab1a9](https://github.com/AnkurSheel/Poseidon/commit/10ab1a9))
+* 🚑 Amount field retains focus after character press ([7e9369d](https://github.com/AnkurSheel/Poseidon/commit/7e9369d))
+* 🚑 don not allow labels to be selected ([d508a84](https://github.com/AnkurSheel/Poseidon/commit/d508a84))
+
+## [1.3.2](https://github.com/AnkurSheel/Poseidon/compare/v1.3.1...v1.3.2) (2019-05-11)
+
+
+### Bug Fixes
+
+* 🚑 fix update notifications not working ([224b76d](https://github.com/AnkurSheel/Poseidon/commit/224b76d))
+
+## [1.3.1](https://github.com/AnkurSheel/Poseidon/compare/v1.3.0...v1.3.1) (2019-05-11)
+
+
+### Bug Fixes
+
+* 🚑 change default size to screen size ([6d7c4be](https://github.com/AnkurSheel/Poseidon/commit/6d7c4be))
+* 🚑 replace icon image ([16bbe01](https://github.com/AnkurSheel/Poseidon/commit/16bbe01))
+
 # [1.3.0](https://github.com/AnkurSheel/Poseidon/compare/v1.2.0...v1.3.0) (2019-05-08)
 
 

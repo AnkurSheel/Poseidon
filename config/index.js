@@ -1,4 +1,8 @@
-console.log("Environment: " + process.env.ENVIRONMENT);
+const dotenv = require("dotenv");
+
+dotenv.config();
+
+console.log("Environment: ", process.env.ENVIRONMENT);
 if (process.env.ENVIRONMENT === "production") {
     module.exports = require("./webpack.prod.js");
 } else {

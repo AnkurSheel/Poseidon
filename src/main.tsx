@@ -1,16 +1,28 @@
 import { app, BrowserWindow, screen } from "electron";
 import * as log from "electron-log";
 import * as path from "path";
+import { performance, PerformanceObserver } from "perf_hooks";
 import * as url from "url";
+import { Analytics } from "./analytics";
 import { setupAutoUpdater } from "./auto-updater";
 import { setupIpcMessages } from "./ipc-messages";
 import { Database } from "./shared/database";
 import { isDevelopment, isProduction } from "./utils";
 
+performance.mark("Start");
+
 export let mainWindow: Electron.BrowserWindow;
 const db = new Database(app.getPath("userData"));
+const analytics = new Analytics();
 
-log.info("App starting...");
+const obs = new PerformanceObserver((items, observer) => {
+    items.getEntries().forEach(item => {
+        log.info(`${item.name}: ${item.duration}`);
+        analytics.timing("Application Start", item.name, item.duration);
+    });
+});
+
+obs.observe({ entryTypes: ["measure"], buffered: true });
 
 function createWindow(): void {
     const title = `Newt-v${app.getVersion()}`;
@@ -47,14 +59,20 @@ function createWindow(): void {
 
     mainWindow.once("ready-to-show", () => {
         mainWindow.show();
+        performance.mark("Ready to show");
+        performance.measure("Ready to show", "Application Ready", "Ready to show");
+        performance.measure("Start to show", "Start", "Ready to show");
+
+        if (isProduction) {
+            app.setAppUserModelId("com.ankursheel.Newt");
+            setupAutoUpdater();
+        }
     });
 }
 
 app.on("ready", async () => {
-    if (isProduction) {
-        app.setAppUserModelId("com.ankursheel.Newt");
-        setupAutoUpdater();
-    }
+    performance.mark("Application Ready");
+    performance.measure("Start to ready", "Start", "Application Ready");
 
     db.migrateDatabase();
 
@@ -72,6 +90,7 @@ app.on("window-all-closed", () => {
     // On OS X it is common for applications and their menu bar
     // to stay active until the user quits explicitly with Cmd + Q
     if (process.platform !== "darwin") {
+        obs.disconnect();
         app.quit();
     }
 });
