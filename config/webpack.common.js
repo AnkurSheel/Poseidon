@@ -17,6 +17,7 @@ let rootFolder = path.resolve(__dirname, "../");
 
 const envVars = {
     ENVIRONMENT: JSON.stringify(process.env.ENVIRONMENT),
+    GOOGLE_ANALYTICS: JSON.stringify(process.env.GOOGLE_ANALYTICS),
 };
 
 let baseMainConfig = {
