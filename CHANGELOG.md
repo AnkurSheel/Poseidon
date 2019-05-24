@@ -1,3 +1,15 @@
+# [1.4.0](https://github.com/AnkurSheel/Poseidon/compare/v1.3.5...v1.4.0) (2019-05-24)
+
+
+### Bug Fixes
+
+* 🚑 check for updates after window is shown ([4ffe1d5](https://github.com/AnkurSheel/Poseidon/commit/4ffe1d5))
+
+
+### Features
+
+* ✨ add analytics for initial load timings ([47abd5d](https://github.com/AnkurSheel/Poseidon/commit/47abd5d))
+
 ## [1.3.5](https://github.com/AnkurSheel/Poseidon/compare/v1.3.4...v1.3.5) (2019-05-19)
 
 
