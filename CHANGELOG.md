@@ -1,3 +1,10 @@
+## [1.4.2](https://github.com/AnkurSheel/Poseidon/compare/v1.4.1...v1.4.2) (2019-05-25)
+
+
+### Bug Fixes
+
+* 🚑 try to track some application start events ([08ba54e](https://github.com/AnkurSheel/Poseidon/commit/08ba54e))
+
 ## [1.4.1](https://github.com/AnkurSheel/Poseidon/compare/v1.4.0...v1.4.1) (2019-05-25)
 
 
