@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/AnkurSheel/Poseidon/compare/v1.4.0...v1.4.1) (2019-05-25)
+
+
+### Bug Fixes
+
+* 🚑 try to track dummy event ([e4fd354](https://github.com/AnkurSheel/Poseidon/commit/e4fd354))
+
 # [1.4.0](https://github.com/AnkurSheel/Poseidon/compare/v1.3.5...v1.4.0) (2019-05-24)
 
 
