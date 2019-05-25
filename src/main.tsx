@@ -14,6 +14,9 @@ performance.mark("Start");
 export let mainWindow: Electron.BrowserWindow;
 const db = new Database(app.getPath("userData"));
 const analytics = new Analytics();
+analytics.reportEvent("app", "started");
+analytics.reportEvent("app version", app.getVersion());
+analytics.reportEvent("target", process.platform);
 
 const obs = new PerformanceObserver((items, observer) => {
     items.getEntries().forEach(item => {
@@ -89,6 +92,7 @@ app.on("ready", async () => {
 app.on("window-all-closed", () => {
     // On OS X it is common for applications and their menu bar
     // to stay active until the user quits explicitly with Cmd + Q
+    analytics.reportEvent("app", "stopped");
     if (process.platform !== "darwin") {
         obs.disconnect();
         app.quit();
