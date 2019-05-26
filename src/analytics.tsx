@@ -1,4 +1,5 @@
 import { app } from "electron";
+import * as log from "electron-log";
 import { JSONStorage } from "node-localstorage";
 import { Visitor, VisitorOptions } from "universal-analytics";
 import uuid from "uuid";
@@ -25,16 +26,24 @@ export class Analytics {
     public timing = (category: string, action: string, duration: number) => {
         this.user.timing(category, action, parseInt(duration.toString()), (err: Error, count: number) => {
             if (err) {
-                console.log(err, count);
+                log.error("timing error", err, count);
             }
         });
     }
 
     public reportEvent = (category: string, action: string) => {
-        this.user.event(category, action).send();
+        this.user.event(category, action, (err: Error, count: number) => {
+            if (err) {
+                log.error("reportEvent Error", err, count);
+            }
+        });
     }
 
     public reportEventWithValue = (category: string, action: string, label: string, value: number) => {
-        this.user.event(category, action, label, parseInt(value.toString())).send();
+        this.user.event(category, action, label, parseInt(value.toString()), (err: Error, count: number) => {
+            if (err) {
+                log.error("reportEventWithValue Error", err, count);
+            }
+        });
     }
 }
