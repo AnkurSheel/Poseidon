@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/AnkurSheel/Poseidon/compare/v1.4.0...v1.4.1) (2019-05-26)
+
+
+### Bug Fixes
+
+* 🚑 try to track some events on release ([de3bdf2](https://github.com/AnkurSheel/Poseidon/commit/de3bdf2))
+
 # [1.4.0](https://github.com/AnkurSheel/Poseidon/compare/v1.3.5...v1.4.0) (2019-05-24)
 
 
