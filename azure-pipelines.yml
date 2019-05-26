@@ -69,6 +69,8 @@ jobs:
 
           - script: npm run build
             displayName: Build application
+            env:
+                GOOGLE_ANALYTICS: $(google.analytics)
 
           - task: CopyFiles@2
             inputs:

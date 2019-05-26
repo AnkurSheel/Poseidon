@@ -14,11 +14,15 @@ performance.mark("Start");
 export let mainWindow: Electron.BrowserWindow;
 const db = new Database(app.getPath("userData"));
 const analytics = new Analytics();
+analytics.reportEvent("app", "started");
+analytics.reportEventWithValue("app", "version", app.getVersion(), 0);
+analytics.reportEventWithValue("app", "target", process.platform, 0);
 
 const obs = new PerformanceObserver((items, observer) => {
     items.getEntries().forEach(item => {
         log.info(`${item.name}: ${item.duration}`);
         analytics.timing("Application Start", item.name, item.duration);
+        analytics.reportEventWithValue("app", "timing", item.name, item.duration);
     });
 });
 
@@ -60,6 +64,7 @@ function createWindow(): void {
     mainWindow.once("ready-to-show", () => {
         mainWindow.show();
         performance.mark("Ready to show");
+        performance.measure("Start to ready", "Start", "Application Ready");
         performance.measure("Ready to show", "Application Ready", "Ready to show");
         performance.measure("Start to show", "Start", "Ready to show");
 
@@ -72,7 +77,6 @@ function createWindow(): void {
 
 app.on("ready", async () => {
     performance.mark("Application Ready");
-    performance.measure("Start to ready", "Start", "Application Ready");
 
     db.migrateDatabase();
 
@@ -89,6 +93,7 @@ app.on("ready", async () => {
 app.on("window-all-closed", () => {
     // On OS X it is common for applications and their menu bar
     // to stay active until the user quits explicitly with Cmd + Q
+    analytics.reportEvent("app", "stopped");
     if (process.platform !== "darwin") {
         obs.disconnect();
         app.quit();
