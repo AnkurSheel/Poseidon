@@ -1,22 +1,22 @@
-import { createStyles, withStyles } from "@material-ui/core";
-import React from "react";
-import { HashRouter as Router } from "react-router-dom";
-import { Routes } from "../routes";
+import { createStyles, withStyles } from '@material-ui/core';
+import React from 'react';
+import { HashRouter as Router } from 'react-router-dom';
+import { Routes } from '../routes';
 
 const styles = () =>
     createStyles({
-        "@global": {
-            ".root":{
-            WebkitUserSelect: "none",
-        }
-    }
+        '@global': {
+            '.root': {
+                WebkitUserSelect: 'none',
+            },
+        },
     });
 
 const App = (props: any) => {
     const { classes } = props;
 
     return (
-        <div className = "root">
+        <div className="root">
             <Router>
                 <Routes />
             </Router>

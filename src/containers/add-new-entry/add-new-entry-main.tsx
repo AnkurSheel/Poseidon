@@ -1,17 +1,17 @@
-import { createStyles, Paper, Theme, withStyles, WithStyles } from "@material-ui/core";
-import { blue, green, red } from "@material-ui/core/colors";
-import { ipcRenderer } from "electron";
-import { MaterialUiPickersDate } from "material-ui-pickers";
-import moment from "moment";
-import React, { useEffect, useState } from "react";
-import { RouteComponentProps } from "react-router";
-import Content from "../../Components/content";
-import FlexContainer from "../../Components/flex-container";
-import { Header } from "../../components/material-ui-wrappers/header";
-import { Button, CurrencyTextField, Dropdown, MonthYearDatePicker } from "../../components/material-ui-wrappers/index";
-import Navigation from "../../components/navigation";
-import { Detail, Type } from "../../types/details";
-import { isEmptyString } from "../../utils";
+import { createStyles, Paper, Theme, withStyles, WithStyles } from '@material-ui/core';
+import { blue, green, red } from '@material-ui/core/colors';
+import { ipcRenderer } from 'electron';
+import { MaterialUiPickersDate } from 'material-ui-pickers';
+import moment from 'moment';
+import React, { useEffect, useState } from 'react';
+import { RouteComponentProps } from 'react-router';
+import Content from '../../Components/content';
+import FlexContainer from '../../Components/flex-container';
+import { Header } from '../../components/material-ui-wrappers/header';
+import { Button, CurrencyTextField, Dropdown, MonthYearDatePicker } from '../../components/material-ui-wrappers/index';
+import Navigation from '../../components/navigation';
+import { Detail, Type } from '../../types/details';
+import { isEmptyString } from '../../utils';
 
 const styles = ({ spacing }: Theme) =>
     createStyles({
@@ -29,10 +29,10 @@ const styles = ({ spacing }: Theme) =>
         },
         selectMenu: {
             padding: spacing.unit * 2,
-            maxHeight: "50%",
+            maxHeight: '50%',
         },
         header: {
-            textAlign: "center",
+            textAlign: 'center',
         },
         errorHeader: { background: red[400] },
         successHeader: { background: green[400] },
@@ -41,27 +41,27 @@ const styles = ({ spacing }: Theme) =>
 
 const AddNewEntryMainForm = (props: RouteComponentProps & WithStyles<typeof styles>) => {
     const { location, classes } = props;
-    const [selectedAccountName, setSelectedAccountName] = useState("");
-    const [selectedAccountType, setSelectedAccountType] = useState("");
-    const [amount, setAmount] = useState("");
+    const [selectedAccountName, setSelectedAccountName] = useState('');
+    const [selectedAccountType, setSelectedAccountType] = useState('');
+    const [amount, setAmount] = useState('');
     const [date, setDate] = useState<moment.Moment>(moment());
     const [submitSuccess, setSubmitSuccess] = useState(false);
-    const [amountErrorText, setAmountErrorText] = useState("");
-    const [accountErrorText, setAccountErrorText] = useState("");
-    const [typeErrorText, setTypeErrorText] = useState("");
-    const [formErrorText, setFormErrorText] = useState("");
-    const [submittingText, setSubmittingText] = useState("");
-    const [accountNames, setAccountNames] = useState<string[]>(["Loading"]);
-    const [accountTypes, setAccountTypes] = useState<string[]>(["Loading"]);
+    const [amountErrorText, setAmountErrorText] = useState('');
+    const [accountErrorText, setAccountErrorText] = useState('');
+    const [typeErrorText, setTypeErrorText] = useState('');
+    const [formErrorText, setFormErrorText] = useState('');
+    const [submittingText, setSubmittingText] = useState('');
+    const [accountNames, setAccountNames] = useState<string[]>(['Loading']);
+    const [accountTypes, setAccountTypes] = useState<string[]>(['Loading']);
     useEffect(() => {
-        ipcRenderer.send("get-account-names");
+        ipcRenderer.send('get-account-names');
         return () => {
-            ipcRenderer.removeAllListeners("insert-record-result");
-            ipcRenderer.removeAllListeners("account-names");
+            ipcRenderer.removeAllListeners('insert-record-result');
+            ipcRenderer.removeAllListeners('account-names');
         };
     }, []);
 
-    ipcRenderer.on("account-names", (event: any, data: any) => {
+    ipcRenderer.on('account-names', (event: any, data: any) => {
         const accounts = data.map((d: any) => d.name);
         const types: string[] = [];
         const map = new Map();
@@ -84,43 +84,43 @@ const AddNewEntryMainForm = (props: RouteComponentProps & WithStyles<typeof styl
             record.name = selectedAccountName;
             record.type = selectedAccountType as Type;
             record.amount = record.type === Type.Asset ? parseFloat(amount) : -parseFloat(amount);
-            record.date = date.format("YYYY-MM-01");
+            record.date = date.format('YYYY-MM-01');
 
-            setSubmittingText("Submitting...");
+            setSubmittingText('Submitting...');
 
-            ipcRenderer.send("insert-record", record);
+            ipcRenderer.send('insert-record', record);
         } else {
-            setFormErrorText("Please fix the highlighted errors!");
+            setFormErrorText('Please fix the highlighted errors!');
         }
     };
 
-    ipcRenderer.on("insert-record-result", (event: any, msg: string) => {
+    ipcRenderer.on('insert-record-result', (event: any, msg: string) => {
         clearText();
-        if (msg === "Success") {
+        if (msg === 'Success') {
             clearForm();
             setSubmitSuccess(true);
-        } else if (msg === "UniqueConstraintError") {
-            setFormErrorText(`A record with "${selectedAccountName}" already exists for "${date.format("MMMM YYYY")}"`);
+        } else if (msg === 'UniqueConstraintError') {
+            setFormErrorText(`A record with "${selectedAccountName}" already exists for "${date.format('MMMM YYYY')}"`);
         } else {
             setFormErrorText(`Something went wrong. Please try again later`);
         }
     });
 
     const clearForm = () => {
-        setSelectedAccountName("");
+        setSelectedAccountName('');
         setDate(moment());
-        setAmount("");
-        setSelectedAccountType("");
+        setAmount('');
+        setSelectedAccountType('');
         clearText();
     };
 
     const clearText = () => {
         setSubmitSuccess(false);
-        setAmountErrorText("");
-        setAccountErrorText("");
-        setTypeErrorText("");
-        setFormErrorText("");
-        setSubmittingText("");
+        setAmountErrorText('');
+        setAccountErrorText('');
+        setTypeErrorText('');
+        setFormErrorText('');
+        setSubmittingText('');
     };
 
     const validateForm = (): boolean => {
@@ -132,28 +132,28 @@ const AddNewEntryMainForm = (props: RouteComponentProps & WithStyles<typeof styl
 
     const validateAmount = (): boolean => {
         if (parseFloat(amount) <= 0) {
-            setAmountErrorText("Amount should be a positive number");
+            setAmountErrorText('Amount should be a positive number');
             return true;
         }
-        setAmountErrorText("");
+        setAmountErrorText('');
         return false;
     };
 
     const validateAccount = (): boolean => {
         if (isEmptyString(selectedAccountName)) {
-            setAccountErrorText("Account is required");
+            setAccountErrorText('Account is required');
             return true;
         }
-        setAccountErrorText("");
+        setAccountErrorText('');
         return false;
     };
 
     const validateType = (): boolean => {
         if (isEmptyString(selectedAccountType)) {
-            setTypeErrorText("Type is required");
+            setTypeErrorText('Type is required');
             return true;
         }
-        setTypeErrorText("");
+        setTypeErrorText('');
         return false;
     };
 
@@ -191,7 +191,7 @@ const AddNewEntryMainForm = (props: RouteComponentProps & WithStyles<typeof styl
                             className={classes.formControl}
                             value={date}
                             label="Select Date"
-                            onChange={(d: MaterialUiPickersDate) => setDate(moment(d).startOf("month"))}
+                            onChange={(d: MaterialUiPickersDate) => setDate(moment(d).startOf('month'))}
                         />
 
                         <Dropdown

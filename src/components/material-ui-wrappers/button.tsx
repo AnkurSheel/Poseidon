@@ -1,12 +1,12 @@
-import React, { ReactNode } from "react";
-import { Button as MaterialUiButton, PropTypes } from "@material-ui/core";
+import React, { ReactNode } from 'react';
+import { Button as MaterialUiButton, PropTypes } from '@material-ui/core';
 
 interface IButtonProps {
     className: string;
     color: PropTypes.Color;
     onClick?: (event: React.MouseEvent<HTMLElement, MouseEvent>) => void;
     children: ReactNode;
-    type?: "submit";
+    type?: 'submit';
 }
 
 export const Button = (props: IButtonProps) => {

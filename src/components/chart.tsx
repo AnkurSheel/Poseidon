@@ -1,6 +1,6 @@
-import * as React from "react";
-import { Bar, CartesianGrid, ComposedChart, Legend, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { withLoadingIndicator } from "../higher-order-components/loading-hoc";
+import * as React from 'react';
+import { Bar, CartesianGrid, ComposedChart, Legend, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { withLoadingIndicator } from '../higher-order-components/loading-hoc';
 
 export const Charts = (props: any) => {
     const data = props.data.reverse();
@@ -12,23 +12,23 @@ export const Charts = (props: any) => {
                     stroke="#fff"
                     label={{
                         value: props.XAxisLabel,
-                        position: "insideBottom",
+                        position: 'insideBottom',
                         offset: -10,
-                        fill: "#fff",
+                        fill: '#fff',
                     }}
                 />
                 <YAxis
                     stroke="#fff"
                     label={{
                         value: props.YAxisLabel,
-                        position: "insideLeft",
+                        position: 'insideLeft',
                         offset: -10,
                         angle: -90,
-                        fill: "#fff",
+                        fill: '#fff',
                     }}
                 />
                 <Tooltip />
-                <Legend wrapperStyle={{ color: "#fff", margin: "0 0 -20px 0" }} />
+                <Legend wrapperStyle={{ color: '#fff', margin: '0 0 -20px 0' }} />
                 <CartesianGrid strokeDasharray="3 3" stroke="#fff" strokeOpacity={0.5} vertical={false} />
                 <Bar dataKey="debt" fill="#ff0000" barSize={20} />
                 <Bar dataKey="asset" fill="#82ca9d" barSize={10} />

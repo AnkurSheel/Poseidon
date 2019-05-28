@@ -1,6 +1,6 @@
-import { ListItem, ListItemText } from "@material-ui/core";
-import React from "react";
-import { Link } from "react-router-dom";
+import { ListItem, ListItemText } from '@material-ui/core';
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 interface IListItemLinkProps {
     to: string;

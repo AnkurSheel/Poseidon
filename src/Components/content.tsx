@@ -1,5 +1,5 @@
-import React, { ReactNode } from "react";
-import { createStyled } from "./createStyled";
+import React, { ReactNode } from 'react';
+import { createStyled } from './createStyled';
 
 interface IMainContentProps {
     children: ReactNode;

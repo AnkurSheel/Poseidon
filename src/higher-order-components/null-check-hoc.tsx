@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react';
 
 export const withNullCheck = <P extends object>(conditionalRenderingFn: (props: P) => boolean) => {
     return (Component: React.ComponentType<P>) => {

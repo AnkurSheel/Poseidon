@@ -1,15 +1,15 @@
-import { createStyles, Divider, Drawer, List, withStyles, WithStyles } from "@material-ui/core";
-import React from "react";
-import { ListItemLink } from "./list-item-link";
+import { createStyles, Divider, Drawer, List, withStyles, WithStyles } from '@material-ui/core';
+import React from 'react';
+import { ListItemLink } from './list-item-link';
 
 const styles = () =>
     createStyles({
         drawer: {
-            width: "15em",
+            width: '15em',
             flexShrink: 0,
         },
         drawerPaper: {
-            width: "15em",
+            width: '15em',
         },
     });
 
@@ -35,13 +35,13 @@ const Navigation = (props: INavigationProps & WithStyles<typeof styles>) => {
                         to="/charts/yearly"
                         text="Yearly Chart"
                         inset
-                        selected={currentPath === "/charts/yearly"}
+                        selected={currentPath === '/charts/yearly'}
                     />
                     <ListItemLink
                         to="/charts/monthly"
                         text="Monthly Chart"
                         inset
-                        selected={currentPath === "/charts/monthly"}
+                        selected={currentPath === '/charts/monthly'}
                     />
                 </List>
                 <Divider />
@@ -51,23 +51,23 @@ const Navigation = (props: INavigationProps & WithStyles<typeof styles>) => {
                         to="/tables/yearly"
                         text="Yearly Details"
                         inset
-                        selected={currentPath === "/tables/yearly"}
+                        selected={currentPath === '/tables/yearly'}
                     />
                     <ListItemLink
                         to="/tables/monthly"
                         text="Monthly Details"
                         inset
-                        selected={currentPath === "/tables/monthly"}
+                        selected={currentPath === '/tables/monthly'}
                     />
                     <ListItemLink
                         to="/tables/details"
                         text="Individual Details"
                         inset
-                        selected={currentPath === "/tables/details"}
+                        selected={currentPath === '/tables/details'}
                     />
                 </List>
                 <Divider />
-                <ListItemLink to="/new-entry" text="Add New Record" selected={currentPath === "/new-entry"} />
+                <ListItemLink to="/new-entry" text="Add New Record" selected={currentPath === '/new-entry'} />
             </List>
         </Drawer>
     );
