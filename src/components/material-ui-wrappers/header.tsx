@@ -1,5 +1,5 @@
-import { AppBar, Typography } from "@material-ui/core";
-import React, { ReactNode } from "react";
+import { AppBar, Typography } from '@material-ui/core';
+import React, { ReactNode } from 'react';
 
 interface IHeaderProps {
     className: string;

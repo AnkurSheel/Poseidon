@@ -1,11 +1,11 @@
-import { ipcRenderer } from "electron";
-import React, { useEffect, useState } from "react";
-import { RouteComponentProps } from "react-router-dom";
-import Content from "../../Components/content";
-import { DetailsWithConditionalRenderings } from "../../components/details";
-import FlexContainer from "../../Components/flex-container";
-import Navigation from "../../components/navigation";
-import { Detail } from "../../types/details";
+import { ipcRenderer } from 'electron';
+import React, { useEffect, useState } from 'react';
+import { RouteComponentProps } from 'react-router-dom';
+import Content from '../../Components/content';
+import { DetailsWithConditionalRenderings } from '../../components/details';
+import FlexContainer from '../../Components/flex-container';
+import Navigation from '../../components/navigation';
+import { Detail } from '../../types/details';
 
 export const IndividualDetails = (props: RouteComponentProps) => {
     const { location } = props;
@@ -14,13 +14,13 @@ export const IndividualDetails = (props: RouteComponentProps) => {
 
     useEffect(() => {
         setIsLoading(true);
-        ipcRenderer.send("get-individual-details");
+        ipcRenderer.send('get-individual-details');
         return () => {
-            ipcRenderer.removeAllListeners("individual-details");
+            ipcRenderer.removeAllListeners('individual-details');
         };
     }, []);
 
-    ipcRenderer.on("individual-details", (event: any, data: Detail[]) => {
+    ipcRenderer.on('individual-details', (event: any, data: Detail[]) => {
         setDetails(data);
         setIsLoading(false);
     });
@@ -36,16 +36,16 @@ export const IndividualDetails = (props: RouteComponentProps) => {
 
     const columns = [
         {
-            name: "Date",
+            name: 'Date',
         },
         {
-            name: "Name",
+            name: 'Name',
         },
         {
-            name: "Amount",
+            name: 'Amount',
         },
         {
-            name: "Type",
+            name: 'Type',
         },
     ];
 

@@ -1,7 +1,7 @@
 export enum Type {
-    Unknown = "unknown",
-    Asset = "Asset",
-    Debt = "Debt",
+    Unknown = 'unknown',
+    Asset = 'Asset',
+    Debt = 'Debt',
 }
 
 export class Detail {

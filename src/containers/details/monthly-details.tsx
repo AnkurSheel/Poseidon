@@ -1,11 +1,11 @@
-import React from "react";
-import Content from "../../Components/content";
-import { DetailsWithConditionalRenderings } from "../../components/details";
-import FlexContainer from "../../Components/flex-container";
-import Navigation from "../../components/navigation";
-import withTotalsLoader from "../../higher-order-components/totals-loader";
-import { ITotalsProps } from "../../types/props";
-import { RouteComponentProps } from "react-router-dom";
+import React from 'react';
+import Content from '../../Components/content';
+import { DetailsWithConditionalRenderings } from '../../components/details';
+import FlexContainer from '../../Components/flex-container';
+import Navigation from '../../components/navigation';
+import withTotalsLoader from '../../higher-order-components/totals-loader';
+import { ITotalsProps } from '../../types/props';
+import { RouteComponentProps } from 'react-router-dom';
 
 const MonthlyDetails = (props: ITotalsProps & RouteComponentProps) => {
     const { location, totals, isLoading } = props;
@@ -21,16 +21,16 @@ const MonthlyDetails = (props: ITotalsProps & RouteComponentProps) => {
 
     const columns = [
         {
-            name: "Date",
+            name: 'Date',
         },
         {
-            name: "Asset",
+            name: 'Asset',
         },
         {
-            name: "Debt",
+            name: 'Debt',
         },
         {
-            name: "Net Worth",
+            name: 'Net Worth',
         },
     ];
     return (
@@ -43,6 +43,6 @@ const MonthlyDetails = (props: ITotalsProps & RouteComponentProps) => {
     );
 };
 
-export default withTotalsLoader({ sendMessage: "get-monthly-totals", recieveMessage: "monthly-totals" })(
+export default withTotalsLoader({ sendMessage: 'get-monthly-totals', recieveMessage: 'monthly-totals' })(
     MonthlyDetails
 );

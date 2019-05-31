@@ -1,11 +1,11 @@
-import React from "react";
-import { RouteComponentProps } from "react-router-dom";
-import Content from "../../Components/content";
-import { DetailsWithConditionalRenderings } from "../../components/details";
-import FlexContainer from "../../Components/flex-container";
-import Navigation from "../../components/navigation";
-import withTotalsLoader from "../../higher-order-components/totals-loader";
-import { ITotalsProps } from "../../types/props";
+import React from 'react';
+import { RouteComponentProps } from 'react-router-dom';
+import Content from '../../Components/content';
+import { DetailsWithConditionalRenderings } from '../../components/details';
+import FlexContainer from '../../Components/flex-container';
+import Navigation from '../../components/navigation';
+import withTotalsLoader from '../../higher-order-components/totals-loader';
+import { ITotalsProps } from '../../types/props';
 
 const YearlyDetails = (props: ITotalsProps & RouteComponentProps) => {
     const { location, totals, isLoading } = props;
@@ -20,16 +20,16 @@ const YearlyDetails = (props: ITotalsProps & RouteComponentProps) => {
 
     const columns = [
         {
-            name: "Date",
+            name: 'Date',
         },
         {
-            name: "Asset",
+            name: 'Asset',
         },
         {
-            name: "Debt",
+            name: 'Debt',
         },
         {
-            name: "Net Worth",
+            name: 'Net Worth',
         },
     ];
     return (
@@ -42,4 +42,4 @@ const YearlyDetails = (props: ITotalsProps & RouteComponentProps) => {
     );
 };
 
-export default withTotalsLoader({ sendMessage: "get-yearly-totals", recieveMessage: "yearly-totals" })(YearlyDetails);
+export default withTotalsLoader({ sendMessage: 'get-yearly-totals', recieveMessage: 'yearly-totals' })(YearlyDetails);
