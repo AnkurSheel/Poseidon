@@ -1,4 +1,5 @@
 import { BrowserWindow, ipcMain } from 'electron';
+import analytics from './analytics';
 import { Database } from './shared/database';
 import { UniqueConstraintError } from './shared/unique-contraint-error';
 import { Detail } from './types/details';
@@ -31,5 +32,8 @@ export function setupIpcMessages(mainWindow: BrowserWindow, db: Database) {
     ipcMain.on('get-account-names', async () => {
         const results = await db.getAccountNames();
         mainWindow.webContents.send('account-names', results);
+    });
+    ipcMain.on('track-page-view', async (event: any, page: string) => {
+        analytics.screenView(page);
     });
 }
