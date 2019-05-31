@@ -4,46 +4,50 @@ import { JSONStorage } from 'node-localstorage';
 import { Visitor, VisitorOptions } from 'universal-analytics';
 import uuid from 'uuid';
 
-export class Analytics {
-    private user: Visitor;
+const nodeStorage = new JSONStorage(app.getPath('userData'));
+const userId = nodeStorage.getItem('userid') || uuid();
+nodeStorage.setItem('userid', userId);
+const trackingID = process.env.GOOGLE_ANALYTICS;
+const options: VisitorOptions = {
+    tid: trackingID,
+    cid: userId,
+    uid: userId,
+};
+const user = new Visitor(options);
+user.set('ds', 'app');
 
-    constructor() {
-        const nodeStorage = new JSONStorage(app.getPath('userData'));
-        const userId = nodeStorage.getItem('userid') || uuid();
-        nodeStorage.setItem('userid', userId);
-        const trackingID = process.env.GOOGLE_ANALYTICS;
-        const options: VisitorOptions = {
-            tid: trackingID,
-            cid: userId,
-            uid: userId,
-        };
+const timing = (category: string, action: string, duration: number) => {
+    user.timing(category, action, parseInt(duration.toString()), (err: Error, count: number) => {
+        if (err) {
+            log.error('timing error', err, count);
+        }
+    });
+};
 
-        this.user = new Visitor(options);
-        this.user.set('ds', 'app');
-        this.user.screenview('Before Show', 'Newt').send();
-    }
+const reportEvent = (category: string, action: string) => {
+    user.event(category, action, (err: Error, count: number) => {
+        if (err) {
+            log.error('reportEvent Error', err, count);
+        }
+    });
+};
 
-    public timing = (category: string, action: string, duration: number) => {
-        this.user.timing(category, action, parseInt(duration.toString()), (err: Error, count: number) => {
-            if (err) {
-                log.error('timing error', err, count);
-            }
-        });
-    };
+const reportEventWithValue = (category: string, action: string, label: string, value: number) => {
+    user.event(category, action, label, parseInt(value.toString()), (err: Error, count: number) => {
+        if (err) {
+            log.error('reportEventWithValue Error', err, count);
+        }
+    });
+};
 
-    public reportEvent = (category: string, action: string) => {
-        this.user.event(category, action, (err: Error, count: number) => {
-            if (err) {
-                log.error('reportEvent Error', err, count);
-            }
-        });
-    };
+const screenView = (screenName: string) => {
+    user.screenview(screenName, 'Newt', app.getVersion()).send();
+};
 
-    public reportEventWithValue = (category: string, action: string, label: string, value: number) => {
-        this.user.event(category, action, label, parseInt(value.toString()), (err: Error, count: number) => {
-            if (err) {
-                log.error('reportEventWithValue Error', err, count);
-            }
-        });
-    };
-}
+const analytics = {};
+export default Object.assign(analytics, {
+    timing: timing,
+    reportEvent: reportEvent,
+    reportEventWithValue: reportEventWithValue,
+    screenView: screenView,
+});

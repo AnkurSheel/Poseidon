@@ -3,7 +3,7 @@ import * as log from 'electron-log';
 import * as path from 'path';
 import { performance, PerformanceObserver } from 'perf_hooks';
 import * as url from 'url';
-import { Analytics } from './analytics';
+import analytics from './analytics';
 import { setupAutoUpdater } from './auto-updater';
 import { setupIpcMessages } from './ipc-messages';
 import { Database } from './shared/database';
@@ -13,10 +13,11 @@ performance.mark('Start');
 
 export let mainWindow: Electron.BrowserWindow;
 const db = new Database(app.getPath('userData'));
-const analytics = new Analytics();
+
 analytics.reportEvent('app', 'started');
 analytics.reportEventWithValue('app', 'version', app.getVersion(), 0);
 analytics.reportEventWithValue('app', 'target', process.platform, 0);
+analytics.screenView('Before Start');
 
 const obs = new PerformanceObserver((items, observer) => {
     items.getEntries().forEach(item => {
