@@ -106,9 +106,13 @@ const AddNewEntryMainForm = (props: RouteComponentProps & WithStyles<typeof styl
         }
     });
 
+    const resetForm = () => {
+        clearForm();
+        setDate(moment());
+    };
+
     const clearForm = () => {
         setSelectedAccountName('');
-        setDate(moment());
         setAmount('');
         setSelectedAccountType('');
         clearText();
@@ -229,7 +233,7 @@ const AddNewEntryMainForm = (props: RouteComponentProps & WithStyles<typeof styl
                             value={amount}
                         />
 
-                        <Button className={classes.button} color="secondary" onClick={clearForm}>
+                        <Button className={classes.button} color="secondary" onClick={resetForm}>
                             Reset
                         </Button>
 
