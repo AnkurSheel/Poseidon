@@ -1,8 +1,8 @@
-import * as React from "react";
-import { ComponentEnhancer, compose } from "recompose";
-import { withLoadingIndicator } from "../higher-order-components/loading-hoc";
-import { withNullCheck } from "../higher-order-components/null-check-hoc";
-import { Paper, Table, TableHead, TableRow, TableCell, TableBody } from "@material-ui/core";
+import * as React from 'react';
+import { ComponentEnhancer, compose } from 'recompose';
+import { withLoadingIndicator } from '../higher-order-components/loading-hoc';
+import { withNullCheck } from '../higher-order-components/null-check-hoc';
+import { Paper, Table, TableHead, TableRow, TableCell, TableBody } from '@material-ui/core';
 
 const nullCheckFn = (props: any) => !props.data || props.data.length == 0;
 

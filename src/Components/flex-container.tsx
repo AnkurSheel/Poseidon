@@ -1,11 +1,11 @@
-import { createStyles, WithStyles } from "@material-ui/core";
-import React, { ReactNode } from "react";
-import { createStyled } from "./createStyled";
+import { createStyles, WithStyles } from '@material-ui/core';
+import React, { ReactNode } from 'react';
+import { createStyled } from './createStyled';
 
 const styles = (theme: any) =>
     createStyles({
         root: {
-            display: "flex",
+            display: 'flex',
         },
     });
 

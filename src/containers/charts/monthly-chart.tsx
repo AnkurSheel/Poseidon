@@ -1,11 +1,11 @@
-import React from "react";
-import { RouteComponentProps } from "react-router-dom";
-import { ChartsWithLoadingIndicator } from "../../components/chart";
-import Content from "../../Components/content";
-import FlexContainer from "../../Components/flex-container";
-import Navigation from "../../components/navigation";
-import withTotalsLoader from "../../higher-order-components/totals-loader";
-import { ITotalsProps } from "../../types/props";
+import React from 'react';
+import { RouteComponentProps } from 'react-router-dom';
+import { ChartsWithLoadingIndicator } from '../../components/chart';
+import Content from '../../Components/content';
+import FlexContainer from '../../Components/flex-container';
+import Navigation from '../../components/navigation';
+import withTotalsLoader from '../../higher-order-components/totals-loader';
+import { ITotalsProps } from '../../types/props';
 
 const MonthlyChart = (props: ITotalsProps & RouteComponentProps) => {
     const { location, totals, isLoading } = props;
@@ -19,4 +19,4 @@ const MonthlyChart = (props: ITotalsProps & RouteComponentProps) => {
     );
 };
 
-export default withTotalsLoader({ sendMessage: "get-monthly-totals", recieveMessage: "monthly-totals" })(MonthlyChart);
+export default withTotalsLoader({ sendMessage: 'get-monthly-totals', recieveMessage: 'monthly-totals' })(MonthlyChart);
