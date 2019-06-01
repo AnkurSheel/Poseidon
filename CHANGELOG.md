@@ -1,3 +1,16 @@
+# [1.5.0](https://github.com/AnkurSheel/Poseidon/compare/v1.4.1...v1.5.0) (2019-06-01)
+
+
+### Bug Fixes
+
+* 🚑 content is compressed ([06d7297](https://github.com/AnkurSheel/Poseidon/commit/06d7297))
+* 🚑 do not reset date after form is submitted ([8ac2556](https://github.com/AnkurSheel/Poseidon/commit/8ac2556))
+
+
+### Features
+
+* ✨ track screen views ([7e19e17](https://github.com/AnkurSheel/Poseidon/commit/7e19e17))
+
 ## [1.4.1](https://github.com/AnkurSheel/Poseidon/compare/v1.4.0...v1.4.1) (2019-05-26)
 
 
