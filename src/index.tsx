@@ -1,5 +1,6 @@
-import { createMuiTheme, CssBaseline, MuiThemeProvider } from '@material-ui/core';
+import { createMuiTheme, CssBaseline } from '@material-ui/core';
 import { amber, green } from '@material-ui/core/colors';
+import { MuiThemeProvider } from '@material-ui/core/styles';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import App from './Components/app';
@@ -9,9 +10,6 @@ const theme = createMuiTheme({
         type: 'dark',
         primary: green,
         secondary: amber,
-    },
-    typography: {
-        useNextVariants: true,
     },
 });
 const ThemedApp = (

@@ -1,7 +1,7 @@
 import { createStyles, Paper, Theme, withStyles, WithStyles } from '@material-ui/core';
 import { blue, green, red } from '@material-ui/core/colors';
+import { MaterialUiPickersDate } from '@material-ui/pickers';
 import { ipcRenderer } from 'electron';
-import { MaterialUiPickersDate } from 'material-ui-pickers';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { RouteComponentProps } from 'react-router';
@@ -16,19 +16,19 @@ import { isEmptyString } from '../../utils';
 const styles = ({ spacing }: Theme) =>
     createStyles({
         root: {
-            margin: spacing.unit,
+            margin: spacing(1),
         },
         formControl: {
-            marginTop: spacing.unit * 2,
-            marginRight: spacing.unit * 3,
+            marginTop: spacing(2),
+            marginRight: spacing(3),
         },
         button: {
-            marginTop: spacing.unit * 3,
-            marginRight: spacing.unit * 3,
-            marginBottom: spacing.unit * 3,
+            marginTop: spacing(3),
+            marginRight: spacing(3),
+            marginBottom: spacing(3),
         },
         selectMenu: {
-            padding: spacing.unit * 2,
+            padding: spacing(2),
             maxHeight: '50%',
         },
         header: {
