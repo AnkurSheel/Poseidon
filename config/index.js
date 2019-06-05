@@ -1,10 +1,10 @@
-const dotenv = require("dotenv");
+const dotenv = require('dotenv');
 
 dotenv.config();
 
-console.log("Environment: ", process.env.ENVIRONMENT);
-if (process.env.ENVIRONMENT === "production") {
-    module.exports = require("./webpack.prod.js");
+console.log('Environment: ', process.env.ENVIRONMENT);
+if (process.env.ENVIRONMENT === 'production') {
+    module.exports = require('./webpack.prod.js');
 } else {
-    module.exports = require("./webpack.dev.js");
+    module.exports = require('./webpack.dev.js');
 }
