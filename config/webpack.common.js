@@ -95,6 +95,7 @@ let baseRendererConfig = {
         new webpack.DefinePlugin({
             'process.env': envVars,
         }),
+        new WebpackNotifierPlugin({ title: 'Poseidon' }),
     ],
     devtool: 'inline-source-map',
     externals: [nodeModules],
