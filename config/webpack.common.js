@@ -49,7 +49,6 @@ let baseMainConfig = {
     },
     devtool: 'source-map',
     plugins: [
-        new WebpackNotifierPlugin({ title: 'Poseidon' }),
         new webpack.DefinePlugin({
             'process.env': envVars,
         }),
