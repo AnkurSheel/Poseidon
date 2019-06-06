@@ -21,7 +21,7 @@ const envVars = {
 };
 
 let baseMainConfig = {
-    entry: path.resolve(rootFolder, 'src/main.tsx'),
+    entry: path.resolve(rootFolder, 'src/main/index.tsx'),
     target: 'electron-main',
     output: {
         filename: 'main.bundle.js',
@@ -58,7 +58,7 @@ let baseMainConfig = {
 };
 
 let baseRendererConfig = {
-    entry: path.resolve(rootFolder, 'src/index.tsx'),
+    entry: path.resolve(rootFolder, 'src/renderer/index.tsx'),
     target: 'electron-renderer',
     output: {
         filename: 'renderer.bundle.js',
@@ -90,7 +90,7 @@ let baseRendererConfig = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: path.resolve(rootFolder, 'src/index.html'),
+            template: path.resolve(rootFolder, 'src/renderer/index.html'),
         }),
         new webpack.DefinePlugin({
             'process.env': envVars,

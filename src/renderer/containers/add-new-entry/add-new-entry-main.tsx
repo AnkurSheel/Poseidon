@@ -5,13 +5,13 @@ import { ipcRenderer } from 'electron';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { RouteComponentProps } from 'react-router';
+import { Detail, Type } from '../../../types/details';
+import { isEmptyString } from '../../../utils';
 import Content from '../../Components/content';
 import FlexContainer from '../../Components/flex-container';
 import { Header } from '../../components/material-ui-wrappers/header';
 import { Button, CurrencyTextField, Dropdown, MonthYearDatePicker } from '../../components/material-ui-wrappers/index';
 import Navigation from '../../components/navigation';
-import { Detail, Type } from '../../types/details';
-import { isEmptyString } from '../../utils';
 
 const styles = ({ spacing }: Theme) =>
     createStyles({

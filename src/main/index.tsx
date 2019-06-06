@@ -3,11 +3,11 @@ import * as log from 'electron-log';
 import * as path from 'path';
 import { performance, PerformanceObserver } from 'perf_hooks';
 import * as url from 'url';
+import { isDevelopment, isProduction } from '../utils';
 import analytics from './analytics';
 import { setupAutoUpdater } from './auto-updater';
 import { setupIpcMessages } from './ipc-messages';
 import { Database } from './shared/database';
-import { isDevelopment, isProduction } from './utils';
 
 performance.mark('Start');
 
