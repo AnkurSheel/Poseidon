@@ -1,6 +1,7 @@
-import { createStyles, Paper, Theme, withStyles, WithStyles } from '@material-ui/core';
+import { createStyles, Paper, Theme } from '@material-ui/core';
 import { blue, green, red } from '@material-ui/core/colors';
 import { MaterialUiPickersDate } from '@material-ui/pickers';
+import { makeStyles } from '@material-ui/styles';
 import { ipcRenderer } from 'electron';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
@@ -11,7 +12,7 @@ import { Header } from '../02-components/material-ui-wrappers/header';
 import { Button, CurrencyTextField, Dropdown, MonthYearDatePicker } from '../02-components/material-ui-wrappers/index';
 import Layout from '../04-layout';
 
-const styles = ({ spacing }: Theme) =>
+const useStyles = makeStyles(({ spacing }: Theme) =>
     createStyles({
         root: {
             margin: spacing(1),
@@ -35,10 +36,12 @@ const styles = ({ spacing }: Theme) =>
         errorHeader: { background: red[400] },
         successHeader: { background: green[400] },
         submittingHeader: { background: blue[400] },
-    });
+    })
+);
 
-const AddNewEntryMainForm = (props: RouteComponentProps & WithStyles<typeof styles>) => {
-    const { location, classes } = props;
+const AddNewEntryMainForm = (props: RouteComponentProps) => {
+    const { location } = props;
+    const classes = useStyles(props);
     const [selectedAccountName, setSelectedAccountName] = useState('');
     const [selectedAccountType, setSelectedAccountType] = useState('');
     const [amount, setAmount] = useState('');
@@ -242,4 +245,4 @@ const AddNewEntryMainForm = (props: RouteComponentProps & WithStyles<typeof styl
     );
 };
 
-export const AddNewEntryMain = withStyles(styles)(AddNewEntryMainForm);
+export default AddNewEntryMainForm;

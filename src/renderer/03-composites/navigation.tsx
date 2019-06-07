@@ -1,8 +1,9 @@
-import { createStyles, Divider, Drawer, List, withStyles, WithStyles } from '@material-ui/core';
+import { createStyles, Divider, Drawer, List, Theme } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
 import React from 'react';
 import { ListItemLink } from '../02-components/list-item-link';
 
-const styles = () =>
+const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         drawer: {
             width: '15em',
@@ -11,14 +12,17 @@ const styles = () =>
         drawerPaper: {
             width: '15em',
         },
-    });
+    })
+);
 
 interface INavigationProps {
     currentPath: string;
 }
 
-const Navigation = (props: INavigationProps & WithStyles<typeof styles>) => {
-    const { classes, currentPath, ...rest } = props;
+const Navigation = (props: INavigationProps) => {
+    const { currentPath } = props;
+    const classes = useStyles(props);
+
     return (
         <Drawer
             className={classes.drawer}
@@ -73,4 +77,4 @@ const Navigation = (props: INavigationProps & WithStyles<typeof styles>) => {
     );
 };
 
-export default withStyles(styles)(Navigation);
+export default Navigation;

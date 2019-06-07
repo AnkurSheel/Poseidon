@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import { AddNewEntryMain } from '../../05-pages/add-new-entry-main';
+import AddNewEntryMain from '../../05-pages/add-new-entry-main';
 import { IndividualDetails } from '../../05-pages/individual-details';
 import MonthlyChart from '../../05-pages/monthly-chart';
 import MonthlyDetails from '../../05-pages/monthly-details';
