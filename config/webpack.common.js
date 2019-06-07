@@ -1,19 +1,19 @@
-var HtmlWebpackPlugin = require("html-webpack-plugin");
-const path = require("path");
-var WebpackNotifierPlugin = require("webpack-notifier");
-var fs = require("fs");
-const webpack = require("webpack");
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require('path');
+var WebpackNotifierPlugin = require('webpack-notifier');
+var fs = require('fs');
+const webpack = require('webpack');
 
 const nodeModules = {};
-fs.readdirSync("node_modules")
+fs.readdirSync('node_modules')
     .filter(x => {
-        return [".bin"].indexOf(x) === -1;
+        return ['.bin'].indexOf(x) === -1;
     })
     .forEach(mod => {
         nodeModules[mod] = `commonjs ${mod}`;
     });
 
-let rootFolder = path.resolve(__dirname, "../");
+let rootFolder = path.resolve(__dirname, '../');
 
 const envVars = {
     ENVIRONMENT: JSON.stringify(process.env.ENVIRONMENT),
@@ -21,82 +21,82 @@ const envVars = {
 };
 
 let baseMainConfig = {
-    entry: path.resolve(rootFolder, "src/main.tsx"),
-    target: "electron-main",
+    entry: path.resolve(rootFolder, 'src/main/index.tsx'),
+    target: 'electron-main',
     output: {
-        filename: "main.bundle.js",
-        path: path.resolve(rootFolder, "dist"),
+        filename: 'main.bundle.js',
+        path: path.resolve(rootFolder, 'dist'),
     },
     node: {
         __dirname: false,
         __filename: false,
     },
     resolve: {
-        extensions: [".js", ".ts", ".tsx"],
+        extensions: ['.js', '.ts', '.tsx'],
     },
     module: {
         rules: [
             {
                 test: /\.js$/,
-                loader: "source-map-loader",
-                enforce: "pre",
+                loader: 'source-map-loader',
+                enforce: 'pre',
             },
             {
                 test: /\.(tsx?)$/,
-                loader: "ts-loader",
+                loader: 'ts-loader',
             },
         ],
     },
-    devtool: "source-map",
+    devtool: 'source-map',
     plugins: [
-        new WebpackNotifierPlugin({ title: "Poseidon" }),
         new webpack.DefinePlugin({
-            "process.env": envVars,
+            'process.env': envVars,
         }),
     ],
     externals: [nodeModules],
 };
 
 let baseRendererConfig = {
-    entry: path.resolve(rootFolder, "src/index.tsx"),
-    target: "electron-renderer",
+    entry: path.resolve(rootFolder, 'src/renderer/index.tsx'),
+    target: 'electron-renderer',
     output: {
-        filename: "renderer.bundle.js",
-        path: path.resolve(rootFolder, "dist"),
+        filename: 'renderer.bundle.js',
+        path: path.resolve(rootFolder, 'dist'),
     },
     node: {
         __dirname: false,
         __filename: false,
     },
     resolve: {
-        extensions: [".js", ".ts", ".tsx"],
+        extensions: ['.js', '.ts', '.tsx'],
     },
     module: {
         rules: [
             {
-                enforce: "pre",
+                enforce: 'pre',
                 test: /\.js$/,
-                loader: "source-map-loader",
+                loader: 'source-map-loader',
             },
             {
                 test: /\.(tsx?)$/,
-                loader: "ts-loader",
+                loader: 'ts-loader',
             },
             {
                 test: /\.(sa|sc|c)ss$/,
-                use: ["css-loader", "sass-loader"],
+                use: ['css-loader', 'sass-loader'],
             },
         ],
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: path.resolve(rootFolder, "src/index.html"),
+            template: path.resolve(rootFolder, 'src/renderer/index.html'),
         }),
         new webpack.DefinePlugin({
-            "process.env": envVars,
+            'process.env': envVars,
         }),
+        new WebpackNotifierPlugin({ title: 'Poseidon' }),
     ],
-    devtool: "inline-source-map",
+    devtool: 'inline-source-map',
     externals: [nodeModules],
 };
 

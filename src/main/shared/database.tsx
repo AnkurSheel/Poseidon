@@ -1,9 +1,9 @@
-const config = require('../../knexfile.js');
+const config = require('../../../knexfile.js');
 
 import knex from 'knex';
 import moment from 'moment';
-import { Detail, Type } from '../types/details';
-import { Totals } from '../types/totals';
+import { Detail, Type } from '../../types/details';
+import { Totals } from '../../types/totals';
 import { DatabaseHelpers } from './database-helpers';
 import { UniqueConstraintError } from './unique-contraint-error';
 

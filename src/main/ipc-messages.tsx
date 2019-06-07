@@ -1,8 +1,8 @@
 import { BrowserWindow, ipcMain } from 'electron';
+import { Detail } from '../types/details';
 import analytics from './analytics';
 import { Database } from './shared/database';
 import { UniqueConstraintError } from './shared/unique-contraint-error';
-import { Detail } from './types/details';
 
 export function setupIpcMessages(mainWindow: BrowserWindow, db: Database) {
     ipcMain.on('get-monthly-totals', async () => {

@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from 'react';
-
 import { ipcRenderer } from 'electron';
-
-import { ITotalsProps } from '../types/props';
-import { Totals } from '../types/totals';
-import { getDisplayName } from '../utils';
+import React, { useEffect, useState } from 'react';
+import { ITotalsProps } from '../../types/props';
+import { Totals } from '../../types/totals';
+import { getDisplayName } from '../../utils';
 
 export interface ITotalsLoader {
     sendMessage: string;

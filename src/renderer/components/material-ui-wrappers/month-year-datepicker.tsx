@@ -1,6 +1,6 @@
 import DateFnsUtils from '@date-io/moment';
 import { FormControl } from '@material-ui/core';
-import { DatePicker, MaterialUiPickersDate, MuiPickersUtilsProvider } from 'material-ui-pickers';
+import { DatePicker, MaterialUiPickersDate, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import moment from 'moment';
 import React from 'react';
 
@@ -17,7 +17,7 @@ export const MonthYearDatePicker = (props: IMonthYearDatePickerProps) => {
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <DatePicker
                     label={props.label}
-                    views={['year', 'month']}
+                    views={['month', 'year']}
                     value={props.value}
                     onChange={props.onChange}
                     showTodayButton={true}
