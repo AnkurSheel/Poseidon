@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import { AddNewEntryMain } from '../containers/add-new-entry/add-new-entry-main';
-import MonthlyChart from '../containers/charts/monthly-chart';
-import YearlyChart from '../containers/charts/yearly-chart';
-import { IndividualDetails } from '../containers/details/individual-details';
-import MonthlyDetails from '../containers/details/monthly-details';
-import YearlyDetails from '../containers/details/yearly-details';
+import { AddNewEntryMain } from '../../05-pages/add-new-entry-main';
+import { IndividualDetails } from '../../05-pages/individual-details';
+import MonthlyChart from '../../05-pages/monthly-chart';
+import MonthlyDetails from '../../05-pages/monthly-details';
+import YearlyChart from '../../05-pages/yearly-chart';
+import YearlyDetails from '../../05-pages/yearly-details';
 
 export class Routes extends React.Component {
     public render() {

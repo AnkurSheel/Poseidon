@@ -5,13 +5,11 @@ import { ipcRenderer } from 'electron';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { RouteComponentProps } from 'react-router';
-import { Detail, Type } from '../../../types/details';
-import { isEmptyString } from '../../../utils';
-import Content from '../../Components/content';
-import FlexContainer from '../../Components/flex-container';
-import { Header } from '../../components/material-ui-wrappers/header';
-import { Button, CurrencyTextField, Dropdown, MonthYearDatePicker } from '../../components/material-ui-wrappers/index';
-import Navigation from '../../components/navigation';
+import { Detail, Type } from '../../types/details';
+import { isEmptyString } from '../../utils';
+import { Header } from '../02-components/material-ui-wrappers/header';
+import { Button, CurrencyTextField, Dropdown, MonthYearDatePicker } from '../02-components/material-ui-wrappers/index';
+import Layout from '../04-layout';
 
 const styles = ({ spacing }: Theme) =>
     createStyles({
@@ -172,78 +170,75 @@ const AddNewEntryMainForm = (props: RouteComponentProps & WithStyles<typeof styl
     };
 
     return (
-        <FlexContainer>
-            <Navigation currentPath={location.pathname} />
-            <Content>
-                <Paper className={classes.root}>
-                    {!isEmptyString(formErrorText) && (
-                        <Header className={`${classes.errorHeader} ${classes.header}`}>{formErrorText}</Header>
-                    )}
+        <Layout currentPath={location.pathname}>
+            <Paper className={classes.root}>
+                {!isEmptyString(formErrorText) && (
+                    <Header className={`${classes.errorHeader} ${classes.header}`}>{formErrorText}</Header>
+                )}
 
-                    {!isEmptyString(submittingText) && (
-                        <Header className={`${classes.submittingHeader} ${classes.header}`}>{submittingText}</Header>
-                    )}
+                {!isEmptyString(submittingText) && (
+                    <Header className={`${classes.submittingHeader} ${classes.header}`}>{submittingText}</Header>
+                )}
 
-                    {submitSuccess && (
-                        <Header className={`${classes.successHeader} ${classes.header}`}>
-                            The form was successfully submitted!
-                        </Header>
-                    )}
+                {submitSuccess && (
+                    <Header className={`${classes.successHeader} ${classes.header}`}>
+                        The form was successfully submitted!
+                    </Header>
+                )}
 
-                    <form onSubmit={handleSubmit} noValidate={true} autoComplete="off" className={classes.root}>
-                        <MonthYearDatePicker
-                            className={classes.formControl}
-                            value={date}
-                            label="Select Date"
-                            onChange={(d: MaterialUiPickersDate) => setDate(moment(d).startOf('month'))}
-                        />
+                <form onSubmit={handleSubmit} noValidate={true} autoComplete="off" className={classes.root}>
+                    <MonthYearDatePicker
+                        className={classes.formControl}
+                        value={date}
+                        label="Select Date"
+                        onChange={(d: MaterialUiPickersDate) => setDate(moment(d).startOf('month'))}
+                    />
 
-                        <Dropdown
-                            className={classes.formControl}
-                            label="Account Name"
-                            value={selectedAccountName}
-                            dropdownClassName={classes.selectMenu}
-                            onChange={handleAccountSelected}
-                            onBlurValidation={validateAccount}
-                            errorText={accountErrorText}
-                            placeholder="Select Account Name"
-                            items={accountNames}
-                        />
+                    <Dropdown
+                        className={classes.formControl}
+                        label="Account Name"
+                        value={selectedAccountName}
+                        dropdownClassName={classes.selectMenu}
+                        onChange={handleAccountSelected}
+                        onBlurValidation={validateAccount}
+                        errorText={accountErrorText}
+                        placeholder="Select Account Name"
+                        items={accountNames}
+                    />
 
-                        <Dropdown
-                            className={classes.formControl}
-                            label="Account Type"
-                            value={selectedAccountType}
-                            dropdownClassName={classes.selectMenu}
-                            onChange={handleTypeSelected}
-                            onBlurValidation={validateType}
-                            errorText={typeErrorText}
-                            placeholder="Select Type"
-                            items={accountTypes}
-                        />
+                    <Dropdown
+                        className={classes.formControl}
+                        label="Account Type"
+                        value={selectedAccountType}
+                        dropdownClassName={classes.selectMenu}
+                        onChange={handleTypeSelected}
+                        onBlurValidation={validateType}
+                        errorText={typeErrorText}
+                        placeholder="Select Type"
+                        items={accountTypes}
+                    />
 
-                        <CurrencyTextField
-                            className={classes.formControl}
-                            onChange={handleAmountChanged}
-                            onBlurValidation={validateAmount}
-                            errorText={amountErrorText}
-                            label="Amount"
-                            placeholder="Please enter the amount"
-                            symbol="NZD"
-                            value={amount}
-                        />
+                    <CurrencyTextField
+                        className={classes.formControl}
+                        onChange={handleAmountChanged}
+                        onBlurValidation={validateAmount}
+                        errorText={amountErrorText}
+                        label="Amount"
+                        placeholder="Please enter the amount"
+                        symbol="NZD"
+                        value={amount}
+                    />
 
-                        <Button className={classes.button} color="secondary" onClick={resetForm}>
-                            Reset
-                        </Button>
+                    <Button className={classes.button} color="secondary" onClick={resetForm}>
+                        Reset
+                    </Button>
 
-                        <Button className={classes.button} color="primary" type="submit">
-                            Submit
-                        </Button>
-                    </form>
-                </Paper>
-            </Content>
-        </FlexContainer>
+                    <Button className={classes.button} color="primary" type="submit">
+                        Submit
+                    </Button>
+                </form>
+            </Paper>
+        </Layout>
     );
 };
 

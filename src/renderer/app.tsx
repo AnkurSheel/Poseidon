@@ -1,8 +1,8 @@
 import { createStyles, withStyles } from '@material-ui/core';
 import React from 'react';
 import { HashRouter as Router, Route } from 'react-router-dom';
-import { Routes } from '../routes';
-import GoogleAnalyticsRouteTracker from './google-analytics-route-tracker';
+import GoogleAnalyticsRouteTracker from './01-elements/google-analytics-route-tracker';
+import { Routes } from './03-composites/routes';
 
 const styles = () =>
     createStyles({

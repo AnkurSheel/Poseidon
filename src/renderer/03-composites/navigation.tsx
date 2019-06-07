@@ -1,6 +1,6 @@
 import { createStyles, Divider, Drawer, List, withStyles, WithStyles } from '@material-ui/core';
 import React from 'react';
-import { ListItemLink } from './list-item-link';
+import { ListItemLink } from '../02-components/list-item-link';
 
 const styles = () =>
     createStyles({

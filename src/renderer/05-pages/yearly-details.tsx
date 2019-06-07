@@ -1,11 +1,9 @@
 import React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { ITotalsProps } from '../../../types/props';
-import Content from '../../Components/content';
-import { DetailsWithConditionalRenderings } from '../../components/details';
-import FlexContainer from '../../Components/flex-container';
-import Navigation from '../../components/navigation';
-import withTotalsLoader from '../../higher-order-components/totals-loader';
+import { ITotalsProps } from '../../types/props';
+import { DetailsWithConditionalRenderings } from '../01-elements/details';
+import Layout from '../04-layout';
+import withTotalsLoader from '../higher-order-components/totals-loader';
 
 const YearlyDetails = (props: ITotalsProps & RouteComponentProps) => {
     const { location, totals, isLoading } = props;
@@ -33,12 +31,9 @@ const YearlyDetails = (props: ITotalsProps & RouteComponentProps) => {
         },
     ];
     return (
-        <FlexContainer>
-            <Navigation currentPath={location.pathname} />
-            <Content>
-                <DetailsWithConditionalRenderings data={data} columns={columns} loading={isLoading} />
-            </Content>
-        </FlexContainer>
+        <Layout currentPath={location.pathname}>
+            <DetailsWithConditionalRenderings data={data} columns={columns} loading={isLoading} />
+        </Layout>
     );
 };
 

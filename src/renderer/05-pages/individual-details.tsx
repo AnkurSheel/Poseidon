@@ -1,11 +1,9 @@
 import { ipcRenderer } from 'electron';
 import React, { useEffect, useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { Detail } from '../../../types/details';
-import Content from '../../Components/content';
-import { DetailsWithConditionalRenderings } from '../../components/details';
-import FlexContainer from '../../Components/flex-container';
-import Navigation from '../../components/navigation';
+import { Detail } from '../../types/details';
+import { DetailsWithConditionalRenderings } from '../01-elements/details';
+import Layout from '../04-layout';
 
 export const IndividualDetails = (props: RouteComponentProps) => {
     const { location } = props;
@@ -50,11 +48,8 @@ export const IndividualDetails = (props: RouteComponentProps) => {
     ];
 
     return (
-        <FlexContainer>
-            <Navigation currentPath={location.pathname} />
-            <Content>
-                <DetailsWithConditionalRenderings data={data} columns={columns} loading={isLoading} />;
-            </Content>
-        </FlexContainer>
+        <Layout currentPath={location.pathname}>
+            <DetailsWithConditionalRenderings data={data} columns={columns} loading={isLoading} />
+        </Layout>
     );
 };
