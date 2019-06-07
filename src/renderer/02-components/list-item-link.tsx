@@ -11,7 +11,9 @@ interface IListItemLinkProps {
     onClick?: (event: React.MouseEvent<HTMLElement, MouseEvent>) => void;
 }
 export const ListItemLink = (props: IListItemLinkProps) => {
-    const renderLink = (itemProps: any) => <Link to={props.to} {...itemProps} />;
+    const renderLink = React.forwardRef((itemProps: any, ref: React.Ref<HTMLAnchorElement>) => (
+        <Link to={props.to} {...itemProps} innerRef={ref} />
+    ));
     const { text, inset }: IListItemLinkProps = props;
     return (
         <li>
