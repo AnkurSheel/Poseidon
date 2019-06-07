@@ -1,26 +1,22 @@
-import { createStyles, WithStyles } from '@material-ui/core';
+import { Theme } from '@material-ui/core';
+import { createStyles, makeStyles } from '@material-ui/styles';
 import React, { ReactNode } from 'react';
-import { createStyled } from './createStyled';
 
-const styles = (theme: any) =>
+const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
             display: 'flex',
         },
-    });
-
-const Styled = createStyled(styles);
+    })
+);
 
 interface IFlexContainerProps {
     children: ReactNode;
 }
 
 const FlexContainer = (props: IFlexContainerProps) => {
-    return (
-        <Styled>
-            {({ classes }: WithStyles<typeof styles>) => <main className={classes.root}>{props.children}</main>}
-        </Styled>
-    );
+    const classes = useStyles(props);
+    return <main className={classes.root}>{props.children}</main>;
 };
 
 export default FlexContainer;
