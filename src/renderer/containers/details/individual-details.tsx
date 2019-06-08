@@ -1,11 +1,11 @@
 import { ipcRenderer } from 'electron';
 import React, { useEffect, useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
+import { Detail } from '../../../types/details';
 import Content from '../../Components/content';
 import { DetailsWithConditionalRenderings } from '../../components/details';
 import FlexContainer from '../../Components/flex-container';
 import Navigation from '../../components/navigation';
-import { Detail } from '../../types/details';
 
 export const IndividualDetails = (props: RouteComponentProps) => {
     const { location } = props;
