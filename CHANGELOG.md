@@ -1,3 +1,10 @@
+## [1.5.1](https://github.com/AnkurSheel/Poseidon/compare/v1.5.0...v1.5.1) (2019-06-08)
+
+
+### Bug Fixes
+
+* 🚑 add a content security policy ([490eb7a](https://github.com/AnkurSheel/Poseidon/commit/490eb7a))
+
 # [1.5.0](https://github.com/AnkurSheel/Poseidon/compare/v1.4.1...v1.5.0) (2019-06-01)
 
 
