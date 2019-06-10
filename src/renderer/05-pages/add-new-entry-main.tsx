@@ -198,7 +198,7 @@ const AddNewEntryMainForm = (props: RouteComponentProps) => {
                     />
 
                     <Dropdown
-                        className={classes.formControl}
+                        textfieldClassName={classes.formControl}
                         label="Account Name"
                         value={selectedAccountName}
                         dropdownClassName={classes.selectMenu}
@@ -210,7 +210,7 @@ const AddNewEntryMainForm = (props: RouteComponentProps) => {
                     />
 
                     <Dropdown
-                        className={classes.formControl}
+                        textfieldClassName={classes.formControl}
                         label="Account Type"
                         value={selectedAccountType}
                         dropdownClassName={classes.selectMenu}
