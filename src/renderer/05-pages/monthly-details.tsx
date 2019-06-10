@@ -1,12 +1,15 @@
 import React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { ITotalsProps } from '../../types/props';
 import { DetailsWithConditionalRenderings } from '../01-elements/details';
 import Layout from '../04-layout';
-import withTotalsLoader from '../higher-order-components/totals-loader';
+import useTotalsLoader from '../hooks/use-totals-loader';
 
-const MonthlyDetails = (props: ITotalsProps & RouteComponentProps) => {
-    const { location, totals, isLoading } = props;
+const MonthlyDetails = (props: RouteComponentProps) => {
+    const { location } = props;
+    const { totals, isLoading } = useTotalsLoader({
+        sendMessage: 'get-monthly-totals',
+        recieveMessage: 'monthly-totals',
+    });
 
     const data = totals.map((t: any) => {
         return {
@@ -38,6 +41,4 @@ const MonthlyDetails = (props: ITotalsProps & RouteComponentProps) => {
     );
 };
 
-export default withTotalsLoader({ sendMessage: 'get-monthly-totals', recieveMessage: 'monthly-totals' })(
-    MonthlyDetails
-);
+export default MonthlyDetails;

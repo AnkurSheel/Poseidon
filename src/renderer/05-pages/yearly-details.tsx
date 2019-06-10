@@ -1,12 +1,16 @@
 import React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { ITotalsProps } from '../../types/props';
 import { DetailsWithConditionalRenderings } from '../01-elements/details';
 import Layout from '../04-layout';
-import withTotalsLoader from '../higher-order-components/totals-loader';
+import useTotalsLoader from '../hooks/use-totals-loader';
 
-const YearlyDetails = (props: ITotalsProps & RouteComponentProps) => {
-    const { location, totals, isLoading } = props;
+const YearlyDetails = (props: RouteComponentProps) => {
+    const { location } = props;
+    const { totals, isLoading } = useTotalsLoader({
+        sendMessage: 'get-yearly-totals',
+        recieveMessage: 'yearly-totals',
+    });
+
     const data = totals.map(t => {
         return {
             date: t.date,
@@ -37,4 +41,4 @@ const YearlyDetails = (props: ITotalsProps & RouteComponentProps) => {
     );
 };
 
-export default withTotalsLoader({ sendMessage: 'get-yearly-totals', recieveMessage: 'yearly-totals' })(YearlyDetails);
+export default YearlyDetails;
