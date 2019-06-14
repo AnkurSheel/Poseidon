@@ -3,7 +3,7 @@ import { amber, green } from '@material-ui/core/colors';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import App from './Components/app';
+import App from './app';
 
 const theme = createMuiTheme({
     palette: {
@@ -22,7 +22,7 @@ const ThemedApp = (
 ReactDOM.render(ThemedApp, document.getElementById('app'));
 
 if ((module as any).hot) {
-    (module as any).hot.accept('./Components/app', () => {
+    (module as any).hot.accept('./app', () => {
         ReactDOM.render(ThemedApp, document.getElementById('app'));
     });
 }
