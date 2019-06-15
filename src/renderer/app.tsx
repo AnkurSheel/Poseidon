@@ -1,21 +1,22 @@
-import { createStyles, withStyles } from '@material-ui/core';
+import { createStyles, Theme } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
 import React from 'react';
 import { HashRouter as Router, Route } from 'react-router-dom';
-import { Routes } from '../routes';
-import GoogleAnalyticsRouteTracker from './google-analytics-route-tracker';
+import GoogleAnalyticsRouteTracker from './01-elements/google-analytics-route-tracker';
+import { Routes } from './03-composites/routes';
 
-const styles = () =>
+const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         '@global': {
             '.root': {
                 WebkitUserSelect: 'none',
             },
         },
-    });
+    })
+);
 
-const App = (props: any) => {
-    const { classes } = props;
-
+const App = () => {
+    useStyles(undefined);
     return (
         <div className="root">
             <Router>
@@ -26,4 +27,4 @@ const App = (props: any) => {
     );
 };
 
-export default withStyles(styles)(App);
+export default App;

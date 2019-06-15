@@ -1,18 +1,25 @@
 import { MenuItem, TextField } from '@material-ui/core';
 import React, { ReactNode } from 'react';
 import { isEmptyString } from '../../../../utils';
-import { ITextFieldProps } from './textfield';
 
-interface IDropdownProps extends ITextFieldProps {
+interface IDropdownProps {
     dropdownClassName: string;
     items?: string[];
     children?: ReactNode;
+
+    textfieldClassName: string;
+    onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+    onBlurValidation: () => boolean;
+    errorText: string;
+    label: string;
+    placeholder?: string;
+    value: string | number;
 }
 
 export const Dropdown = (props: IDropdownProps) => {
     return (
         <TextField
-            className={props.className}
+            className={props.textfieldClassName}
             id="type"
             fullWidth
             select

@@ -1,10 +1,16 @@
 import { InputAdornment, TextField } from '@material-ui/core';
 import React from 'react';
 import { isEmptyString } from '../../../../utils';
-import { ITextFieldProps } from './textfield';
 
-interface ICurrencyTextFieldProps extends ITextFieldProps {
+interface ICurrencyTextFieldProps {
     symbol?: string;
+    className: string;
+    onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+    onBlurValidation: () => boolean;
+    errorText: string;
+    label: string;
+    placeholder?: string;
+    value: string | number;
 }
 
 export const CurrencyTextField = (props: ICurrencyTextFieldProps) => {

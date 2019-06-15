@@ -1,8 +1,8 @@
+import { Paper, Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core';
 import * as React from 'react';
 import { ComponentEnhancer, compose } from 'recompose';
 import { withLoadingIndicator } from '../higher-order-components/loading-hoc';
 import { withNullCheck } from '../higher-order-components/null-check-hoc';
-import { Paper, Table, TableHead, TableRow, TableCell, TableBody } from '@material-ui/core';
 
 const nullCheckFn = (props: any) => !props.data || props.data.length == 0;
 
@@ -10,8 +10,8 @@ export const Details = (props: any) => {
     const renderRow = (_row: any) => {
         return (
             <TableRow key={_row.id}>
-                {Object.keys(_row).map((key: any) => {
-                    return <TableCell>{_row[key]}</TableCell>;
+                {Object.keys(_row).map((key: any, idx: number) => {
+                    return <TableCell key={`${_row[key]}-${idx}`}>{_row[key]}</TableCell>;
                 })}
             </TableRow>
         );
@@ -22,8 +22,8 @@ export const Details = (props: any) => {
             <Table>
                 <TableHead>
                     <TableRow>
-                        {props.columns.map((c: any) => (
-                            <TableCell>{c.name}</TableCell>
+                        {props.columns.map((c: any, idx: number) => (
+                            <TableCell key={`${c.name}-${idx}`}>{c.name}</TableCell>
                         ))}
                     </TableRow>
                 </TableHead>
