@@ -1,3 +1,10 @@
+## [1.5.2](https://github.com/AnkurSheel/Poseidon/compare/v1.5.1...v1.5.2) (2019-06-15)
+
+
+### Bug Fixes
+
+* 🚑 fix console errors ([700d226](https://github.com/AnkurSheel/Poseidon/commit/700d226))
+
 ## [1.5.1](https://github.com/AnkurSheel/Poseidon/compare/v1.5.0...v1.5.1) (2019-06-08)
 
 
