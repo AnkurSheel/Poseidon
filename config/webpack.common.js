@@ -47,7 +47,6 @@ let baseMainConfig = {
             },
         ],
     },
-    devtool: 'source-map',
     plugins: [
         new webpack.DefinePlugin({
             'process.env': envVars,
@@ -92,7 +91,6 @@ let baseRendererConfig = {
         }),
         new WebpackNotifierPlugin({ title: 'Poseidon' }),
     ],
-    devtool: 'inline-source-map',
     externals: [nodeModules],
 };
 

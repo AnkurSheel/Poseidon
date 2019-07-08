@@ -4,10 +4,12 @@ const CspHtmlWebpackPlugin = require('csp-html-webpack-plugin');
 
 let mainConfig = {
     mode: 'production',
+    devtool: 'cheap-module-source-map',
 };
 
 let rendererConfig = {
     mode: 'production',
+    devtool: 'cheap-module-source-map',
     plugins: [
         new CspHtmlWebpackPlugin(
             {

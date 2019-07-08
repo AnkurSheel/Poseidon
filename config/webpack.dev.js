@@ -6,10 +6,12 @@ const CspHtmlWebpackPlugin = require('csp-html-webpack-plugin');
 
 let mainConfig = {
     mode: 'development',
+    devtool: 'inline-cheap-module-source-map',
 };
 
 let rendererConfig = {
     mode: 'development',
+    devtool: 'inline-cheap-module-source-map',
     module: {
         rules: [
             {
