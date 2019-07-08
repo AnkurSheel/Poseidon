@@ -81,10 +81,6 @@ let baseRendererConfig = {
                 test: /\.(tsx?)$/,
                 loader: 'ts-loader',
             },
-            {
-                test: /\.(sa|sc|c)ss$/,
-                use: ['css-loader', 'sass-loader'],
-            },
         ],
     },
     plugins: [

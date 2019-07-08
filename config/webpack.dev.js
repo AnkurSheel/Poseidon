@@ -13,10 +13,6 @@ let rendererConfig = {
     module: {
         rules: [
             {
-                test: /\.(sa|sc|c)ss$/,
-                use: ['style-loader'],
-            },
-            {
                 test: /\.(tsx?)$/,
                 use: [{ loader: 'react-hot/webpack' }, { loader: 'ts-loader' }],
             },
