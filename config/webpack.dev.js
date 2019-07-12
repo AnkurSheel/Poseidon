@@ -12,14 +12,6 @@ let mainConfig = {
 let rendererConfig = {
     mode: 'development',
     devtool: 'inline-cheap-module-source-map',
-    module: {
-        rules: [
-            {
-                test: /\.(tsx?)$/,
-                use: [{ loader: 'react-hot/webpack' }, { loader: 'ts-loader' }],
-            },
-        ],
-    },
     output: {
         path: path.resolve(__dirname, '../', 'dist'),
         filename: '[name].js',

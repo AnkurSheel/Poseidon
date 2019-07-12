@@ -20,9 +20,3 @@ const ThemedApp = (
 );
 
 ReactDOM.render(ThemedApp, document.getElementById('app'));
-
-if ((module as any).hot) {
-    (module as any).hot.accept('./app', () => {
-        ReactDOM.render(ThemedApp, document.getElementById('app'));
-    });
-}
