@@ -1,3 +1,10 @@
+## [1.5.3](https://github.com/AnkurSheel/Poseidon/compare/v1.5.2...v1.5.3) (2019-07-13)
+
+
+### Performance Improvements
+
+* 🚀 change source map generation ([6d03be7](https://github.com/AnkurSheel/Poseidon/commit/6d03be7))
+
 ## [1.5.2](https://github.com/AnkurSheel/Poseidon/compare/v1.5.1...v1.5.2) (2019-06-15)
 
 
