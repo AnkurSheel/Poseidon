@@ -47,7 +47,6 @@ let baseMainConfig = {
             },
         ],
     },
-    devtool: 'source-map',
     plugins: [
         new webpack.DefinePlugin({
             'process.env': envVars,
@@ -81,10 +80,6 @@ let baseRendererConfig = {
                 test: /\.(tsx?)$/,
                 loader: 'ts-loader',
             },
-            {
-                test: /\.(sa|sc|c)ss$/,
-                use: ['css-loader', 'sass-loader'],
-            },
         ],
     },
     plugins: [
@@ -96,7 +91,6 @@ let baseRendererConfig = {
         }),
         new WebpackNotifierPlugin({ title: 'Poseidon' }),
     ],
-    devtool: 'inline-source-map',
     externals: [nodeModules],
 };
 
