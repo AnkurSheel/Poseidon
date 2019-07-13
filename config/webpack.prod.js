@@ -1,31 +1,16 @@
 const merge = require('webpack-merge');
 const { baseMainConfig, baseRendererConfig } = require('./webpack.common.js');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CspHtmlWebpackPlugin = require('csp-html-webpack-plugin');
 
 let mainConfig = {
     mode: 'production',
+    devtool: 'cheap-module-source-map',
 };
 
 let rendererConfig = {
     mode: 'production',
-    optimization: {
-        minimizer: [new OptimizeCSSAssetsPlugin()],
-    },
-    module: {
-        rules: [
-            {
-                test: /\.(sa|sc|c)ss$/,
-                use: [{ loader: MiniCssExtractPlugin.loader }],
-            },
-        ],
-    },
+    devtool: 'cheap-module-source-map',
     plugins: [
-        new MiniCssExtractPlugin({
-            filename: '[name].css',
-            chunkFileName: '[id].css',
-        }),
         new CspHtmlWebpackPlugin(
             {
                 // 'base-uri': "'self'",

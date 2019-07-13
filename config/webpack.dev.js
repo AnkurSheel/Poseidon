@@ -6,16 +6,14 @@ const CspHtmlWebpackPlugin = require('csp-html-webpack-plugin');
 
 let mainConfig = {
     mode: 'development',
+    devtool: 'inline-cheap-module-source-map',
 };
 
 let rendererConfig = {
     mode: 'development',
+    devtool: 'inline-cheap-module-source-map',
     module: {
         rules: [
-            {
-                test: /\.(sa|sc|c)ss$/,
-                use: ['style-loader'],
-            },
             {
                 test: /\.(tsx?)$/,
                 use: [{ loader: 'react-hot/webpack' }, { loader: 'ts-loader' }],
