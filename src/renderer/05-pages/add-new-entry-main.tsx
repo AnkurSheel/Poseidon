@@ -1,4 +1,4 @@
-import { createStyles, Paper, Theme } from '@material-ui/core';
+import { createStyles, Paper, TextField, Theme } from '@material-ui/core';
 import { blue, green, red } from '@material-ui/core/colors';
 import { MaterialUiPickersDate } from '@material-ui/pickers';
 import { makeStyles } from '@material-ui/styles';
@@ -39,11 +39,15 @@ const useStyles = makeStyles(({ spacing }: Theme) =>
     })
 );
 
+type AccountData = {
+    name: string;
+    type: string;
+};
+
 const AddNewEntryMainForm = (props: RouteComponentProps) => {
     const { location } = props;
     const classes = useStyles(props);
-    const [selectedAccountName, setSelectedAccountName] = useState('');
-    const [selectedAccountType, setSelectedAccountType] = useState('');
+    const [selectedAccount, setSelectedAccount] = useState<AccountData>({ name: '', type: '' });
     const [amount, setAmount] = useState('');
     const [date, setDate] = useState<moment.Moment>(moment());
     const [submitSuccess, setSubmitSuccess] = useState(false);
@@ -52,8 +56,8 @@ const AddNewEntryMainForm = (props: RouteComponentProps) => {
     const [typeErrorText, setTypeErrorText] = useState('');
     const [formErrorText, setFormErrorText] = useState('');
     const [submittingText, setSubmittingText] = useState('');
-    const [accountNames, setAccountNames] = useState<string[]>(['Loading']);
-    const [accountTypes, setAccountTypes] = useState<string[]>(['Loading']);
+    const [accounts, setAccounts] = useState<AccountData[]>([{ name: 'Loading', type: 'Loading' }]);
+
     useEffect(() => {
         ipcRenderer.send('get-account-names');
         return () => {
@@ -63,17 +67,13 @@ const AddNewEntryMainForm = (props: RouteComponentProps) => {
     }, []);
 
     ipcRenderer.on('account-names', (event: any, data: any) => {
-        const accounts = data.map((d: any) => d.name);
-        const types: string[] = [];
-        const map = new Map();
-        for (const item of data) {
-            if (!map.has(item.type)) {
-                map.set(item.type, true); // set any value to Map
-                types.push(item.type);
-            }
-        }
-        setAccountNames(accounts);
-        setAccountTypes(types);
+        const accounts: AccountData[] = data.map((d: any) => {
+            return {
+                name: d.name,
+                type: d.type,
+            };
+        });
+        setAccounts(accounts);
     });
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
@@ -82,8 +82,8 @@ const AddNewEntryMainForm = (props: RouteComponentProps) => {
 
         if (validateForm()) {
             const record: Detail = new Detail();
-            record.name = selectedAccountName;
-            record.type = selectedAccountType as Type;
+            record.name = selectedAccount.name;
+            record.type = selectedAccount.type as Type;
             record.amount = record.type === Type.Asset ? parseFloat(amount) : -parseFloat(amount);
             record.date = date.format('YYYY-MM-01');
 
@@ -101,7 +101,9 @@ const AddNewEntryMainForm = (props: RouteComponentProps) => {
             clearForm();
             setSubmitSuccess(true);
         } else if (msg === 'UniqueConstraintError') {
-            setFormErrorText(`A record with "${selectedAccountName}" already exists for "${date.format('MMMM YYYY')}"`);
+            setFormErrorText(
+                `A record with "${selectedAccount.name}" already exists for "${date.format('MMMM YYYY')}"`
+            );
         } else {
             setFormErrorText(`Something went wrong. Please try again later`);
         }
@@ -113,9 +115,8 @@ const AddNewEntryMainForm = (props: RouteComponentProps) => {
     };
 
     const clearForm = () => {
-        setSelectedAccountName('');
+        setSelectedAccount({ name: '', type: '' });
         setAmount('');
-        setSelectedAccountType('');
         clearText();
     };
 
@@ -145,7 +146,7 @@ const AddNewEntryMainForm = (props: RouteComponentProps) => {
     };
 
     const validateAccount = (): boolean => {
-        if (isEmptyString(selectedAccountName)) {
+        if (isEmptyString(selectedAccount.name)) {
             setAccountErrorText('Account is required');
             return true;
         }
@@ -154,7 +155,7 @@ const AddNewEntryMainForm = (props: RouteComponentProps) => {
     };
 
     const validateType = (): boolean => {
-        if (isEmptyString(selectedAccountType)) {
+        if (isEmptyString(selectedAccount.type)) {
             setTypeErrorText('Type is required');
             return true;
         }
@@ -162,9 +163,11 @@ const AddNewEntryMainForm = (props: RouteComponentProps) => {
         return false;
     };
 
-    const handleAccountSelected = (e: React.ChangeEvent<HTMLSelectElement>) => setSelectedAccountName(e.target.value);
-
-    const handleTypeSelected = (e: React.ChangeEvent<HTMLSelectElement>) => setSelectedAccountType(e.target.value);
+    const handleAccountSelected = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const name = e.target.value;
+        const account = accounts.find(a => a.name === name);
+        setSelectedAccount(account || { name: '', type: '' });
+    };
 
     const handleAmountChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
@@ -199,26 +202,22 @@ const AddNewEntryMainForm = (props: RouteComponentProps) => {
 
                     <Dropdown
                         textfieldClassName={classes.formControl}
-                        label="Account Name"
-                        value={selectedAccountName}
+                        label="Account"
+                        value={selectedAccount.name}
                         dropdownClassName={classes.selectMenu}
                         onChange={handleAccountSelected}
                         onBlurValidation={validateAccount}
                         errorText={accountErrorText}
-                        placeholder="Select Account Name"
-                        items={accountNames}
+                        placeholder="Select Account"
+                        items={accounts.map(a => a.name)}
                     />
 
-                    <Dropdown
-                        textfieldClassName={classes.formControl}
+                    <TextField
+                        disabled
                         label="Account Type"
-                        value={selectedAccountType}
-                        dropdownClassName={classes.selectMenu}
-                        onChange={handleTypeSelected}
-                        onBlurValidation={validateType}
-                        errorText={typeErrorText}
-                        placeholder="Select Type"
-                        items={accountTypes}
+                        className={classes.formControl}
+                        fullWidth
+                        value={selectedAccount.type !== '' ? selectedAccount.type : 'Select Account'}
                     />
 
                     <CurrencyTextField
