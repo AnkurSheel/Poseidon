@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/AnkurSheel/Poseidon/compare/v1.5.3...v1.6.0) (2019-08-10)
+
+
+### Features
+
+* ✨ auto populate account type when account is selected ([bdd5ead](https://github.com/AnkurSheel/Poseidon/commit/bdd5ead))
+
 ## [1.5.3](https://github.com/AnkurSheel/Poseidon/compare/v1.5.2...v1.5.3) (2019-07-13)
 
 
