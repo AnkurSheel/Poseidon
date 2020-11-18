@@ -85,7 +85,7 @@
         "prop-types": "^15.7.2",
         "react-hot-loader": "^4.8.4",
         "rimraf": "^2.6.3",
-        "semantic-release": "^15.13.3",
+        "semantic-release": "^17.2.3",
         "source-map-loader": "^0.2.4",
         "ts-loader": "^6.0.2",
         "tslint": "^5.16.0",
