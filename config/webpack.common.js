@@ -37,13 +37,11 @@ let baseMainConfig = {
     module: {
         rules: [
             {
-                test: /\.js$/,
-                loader: 'source-map-loader',
-                enforce: 'pre',
-            },
-            {
-                test: /\.(tsx?)$/,
-                loader: 'ts-loader',
+                test: /\.(ts|tsx)$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader',
+                },
             },
         ],
     },
@@ -77,8 +75,11 @@ let baseRendererConfig = {
                 loader: 'source-map-loader',
             },
             {
-                test: /\.(tsx?)$/,
-                loader: 'ts-loader',
+                test: /\.(ts|tsx)$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader',
+                },
             },
         ],
     },
